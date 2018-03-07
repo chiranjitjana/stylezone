@@ -19,6 +19,5 @@
 			<jsp:include page="content.jsp"></jsp:include>
 		</div>
 	</div>
-	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
