@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/mvc
+                http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<context:component-scan base-package="com.project.stylezone.security.*" />
+	<security:http auto-config="true">
+		<security:access-denied-handler ref="customAccessDeniedHandler"/>
+		<security:intercept-url pattern="/adminpanel**" access="ROLE_Admin" />
+		<security:form-login login-processing-url="/login"
+			login-page="/userlogin" default-target-url="/"
+			authentication-failure-handler-ref="authenticationFailureHandler"
+			authentication-success-handler-ref="authenticationSuccessHandler"
+			username-parameter="username"
+			password-parameter="password" />
+		<security:logout logout-success-url="/logout" />
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			ref="authenticationProvider">
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
