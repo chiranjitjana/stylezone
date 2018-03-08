@@ -18,14 +18,14 @@
 				</div>
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
-						<ul class="nav navbar-nav">
+						<ul class="nav navbar-nav" id="header">
 							<!--<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
-							<li><a href="#" style="background: none;font-weight: bold;">Welcome ,Chiranjit Jana
+							<li><a href="#" style="background: none; font-weight: bold;">Welcome ,<span class="userName"></span>
+
 							</a></li>
-							<li><a href="#" style="background: none">Last
-									Login : 23/05/2018 12:05:30</a></li>
-							<li><a href="/Stylezone-ui/logout"
-								style="background: none"><i
+							<li><a href="#" style="background: none">Last Login :<span class="lastLogin"></span>
+							</a></li>
+							<li><a href="/Stylezone-ui/logout" style="background: none"><i
 									class="fa fa-lock"></i> Logout</a></li>
 						</ul>
 					</div>

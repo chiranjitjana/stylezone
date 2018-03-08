@@ -17,7 +17,7 @@ public class AdminBackendServiceController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value = "/getAdminDetailsByEmail", method = RequestMethod.POST)
+	@RequestMapping(value = "/adminpanel/getAdminDetailsByEmail", method = RequestMethod.POST)
 	public @ResponseBody UserDetails getUserByEmail(@RequestParam(name="email") String email) {
 		UserDetails userDetails = userService.findUserDetailsByEmail(email);
 		return userDetails;

@@ -51,11 +51,52 @@ UIcontroller.profileUpdateButtonClickValidator=function(object)
 			{
 				$("#"+id).removeClass("error");
 			}
-			/*console.log("id "+$(this).attr("id"));
-			console.log("value "+);*/
+			/*
+			 * console.log("id "+$(this).attr("id")); console.log("value "+);
+			 */
 		});
 	});
 	
 	
 	return false;
 }
+
+
+
+// load header details
+
+UIcontroller.loadHeader=function(email)
+{
+	console.log(email);
+	var object={};
+	var email={email};
+	object.url=adminPanel.root+adminPanel.adminpanel+adminPanel.fetchAdminDetails;
+	object.methodtype=methodType.POST;
+	object.data=email;
+	object.datatype=datatype.json;
+	object.contenttype=contenttype.url_encoding;
+	object.callbackFunction=UIcontroller.HeaderLoader;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+UIcontroller.HeaderLoader=function(response)
+{
+	UIcontroller.bindReponseToUi(response,"#header");
+}
+
+
+UIcontroller.bindReponseToUi=function(response,uiRoot)
+{
+	console.log(response);
+	
+	for (var key in response) {
+	    if (response.hasOwnProperty(key)) {
+	    	console.log("key "+key+" value "+response[key]);
+	    	$(uiRoot+" ."+key).text(response[key]);
+	       
+	    }
+	}
+	
+}
+

@@ -10,5 +10,5 @@ import com.project.stylezone.models.UserDetails;
 
 public interface UsersDetailsRepo extends CrudRepository<UserDetails, Integer> {
 	@Query("select user from UserDetails user where user.userEmail =:email")
-	UserDetails findUserDetialsByEmail( @Param("email") String email);
+	UserDetails findUserDetialsByEmail(@Param("email") String email);
 }

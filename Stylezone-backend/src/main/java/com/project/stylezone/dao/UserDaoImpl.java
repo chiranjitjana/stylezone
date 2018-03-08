@@ -17,6 +17,7 @@ public class UserDaoImpl implements UserDao {
 
 		System.out.println("email " + email);
 		return userDetailsRepo.findUserDetialsByEmail(email);
+
 	}
 
 }
