@@ -1,8 +1,9 @@
 var adminPanel={
 	"root":"/Stylezone-ui",
-	"adminpanel":"/adminpanel",
-	"fetchAdminDetails":"/getAdminDetailsByEmail"
+	"adminpanel":"/adminpanel"
 }
+
+var baseUrlAdmin=adminPanel.root+adminPanel.adminpanel;
 
 var methodType={
 		"POST":"POST",
@@ -15,5 +16,22 @@ var datatype={
 }
 
 var contenttype={
-		"url_encoding":"application/x-www-form-urlencoded; charset=UTF-8"
+		"url_encoding":"application/x-www-form-urlencoded; charset=UTF-8",
+		"application_json":"application/json"
+}
+
+
+var  adminPanelSideBarUrl={
+	"myprofile":baseUrlAdmin+"/getAdminDetails",
+	"orders":baseUrlAdmin+"/orders",
+	"stock":baseUrlAdmin+"/stocks",
+	"report":baseUrlAdmin+"/report",
+	"notification":baseUrlAdmin+"/notification",
+	"createstaff":baseUrlAdmin+"/createstaff",
+	
+}
+
+var adminPanelButtonAction={
+		"saveAdmin":baseUrlAdmin+"/saveAdminuser",
+		"saveBrand":baseUrlAdmin+"/brand/save"
 }

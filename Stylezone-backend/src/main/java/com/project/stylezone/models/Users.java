@@ -8,9 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +31,7 @@ public class Users {
 	@Column(name="user_mobile_no")
 	private String userMobileNo;
 	
-	@OneToOne(cascade= {CascadeType.REFRESH, CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade= {CascadeType.REFRESH},fetch=FetchType.EAGER)
 	@JoinColumn(name="user_role")
 	private UserRole userRole;
 	

@@ -6,6 +6,14 @@
 <link href="resources/css/main.css" rel="stylesheet">
 <link href="resources/css/responsive.css" rel="stylesheet">
 <link href="resources/css/custom_style.css" rel="stylesheet">
+<link rel="stylesheet" href="resources/css/jquery.dataTables.min.css">
+<script src="resources/js/jquery.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="resources/js/jquery.dataTables.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
+
 <div class="row">
 	<div class="header_top">
 		<div class="container">
@@ -20,10 +28,12 @@
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav" id="header">
 							<!--<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
-							<li><a href="#" style="background: none; font-weight: bold;">Welcome ,<span class="userName"></span>
+							<li><a href="#" style="background: none; font-weight: bold;">Welcome
+									,<span class="userName"></span>
 
 							</a></li>
-							<li><a href="#" style="background: none">Last Login :<span class="lastLogin"></span>
+							<li><a href="#" style="background: none">Last Login :<span
+									class="lastLogin"></span>
 							</a></li>
 							<li><a href="/Stylezone-ui/logout" style="background: none"><i
 									class="fa fa-lock"></i> Logout</a></li>

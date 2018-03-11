@@ -1,6 +1,8 @@
 package com.project.stylezone.security;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.Filter;
@@ -24,7 +26,6 @@ public class CacheControlFilter implements Filter {
 		// TODO Auto-generated method stub
 		HttpServletResponse resp = (HttpServletResponse) response;
 		resp.setHeader("Expires", "Tue, 03 Jul 2001 06:00:00 GMT");
-		resp.setHeader("Last-Modified", new Date().toString());
 		resp.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
 		resp.setHeader("Pragma", "no-cache");
 

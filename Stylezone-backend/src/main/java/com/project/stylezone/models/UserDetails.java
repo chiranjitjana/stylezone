@@ -20,20 +20,25 @@ public class UserDetails {
 	private String userEmail;
 
 	@Column(name = "user_mobile_no")
-	private String userMobile;
+	private String userMobileNo;
 
 	@Column(name = "password")
 	private String password;
 
+	
+	@Column(name = "user_role")
+	private int roleId;
+
+	
 	@Column(name = "role_name")
 	private String roleName;
 
 	@Column(name = "last_login")
 	private String lastLogin;
 
-	@Column(name = "address")
+	/*@Column(name = "address")
 	private String address;
-
+*/
 	public int getUserId() {
 		return userId;
 	}
@@ -58,12 +63,15 @@ public class UserDetails {
 		this.userEmail = userEmail;
 	}
 
-	public String getUserMobile() {
-		return userMobile;
+	
+	
+	
+	public String getUserMobileNo() {
+		return userMobileNo;
 	}
 
-	public void setUserMobile(String userMobile) {
-		this.userMobile = userMobile;
+	public void setUserMobileNo(String userMobileNo) {
+		this.userMobileNo = userMobileNo;
 	}
 
 	public String getPassword() {
@@ -90,13 +98,21 @@ public class UserDetails {
 		this.lastLogin = lastLogin;
 	}
 
-	public String getAddress() {
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
+	/*public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
+	}*/
 
 	
 	

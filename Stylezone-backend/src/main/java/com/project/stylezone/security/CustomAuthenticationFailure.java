@@ -34,11 +34,11 @@ public class CustomAuthenticationFailure extends SimpleUrlAuthenticationFailureH
 	private String getTargetUrl(AuthenticationException exception) {
 		// TODO Auto-generated method stub
 		if (exception.getClass().isAssignableFrom(UsernameNotFoundException.class)) {
-			return "/userlogin?error";
+			return "/loginprocess?error";
 		} else if (exception.getClass().isAssignableFrom(DisabledException.class)) {
-			return "/userlogin?notApproved";
+			return "/loginprocess?notApproved";
 		} else if (exception.getClass().isAssignableFrom(SessionAuthenticationException.class)) {
-			return "/userlogin?duplicateSessionObject";
+			return "/loginprocess?duplicateSessionObject";
 		} else {
 			throw new IllegalStateException();
 		}

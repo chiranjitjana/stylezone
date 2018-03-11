@@ -7,8 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
 @Entity
 @Table(name="users_role")
+@DynamicUpdate
+@SelectBeforeUpdate
 public class UserRole {
 	@Id
 	@Column(name="role_id", length=18)

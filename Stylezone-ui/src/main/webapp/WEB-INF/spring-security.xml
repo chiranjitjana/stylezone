@@ -12,6 +12,16 @@
                 http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<context:component-scan base-package="com.project.stylezone.security.*" />
+	
+	
+<!-- 	<security:http security="none" pattern="/adminpanel/saveAdminuser" />
+	<security:http security="none" pattern="/adminpanel/getAdminDetails" /> -->
+	
+	<security:http security="none" pattern="/adminpanel/brand/all" /> 
+	
+	<security:http security="none" pattern="/adminpanel/brand/save" /> 
+
+
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler"/>
 		<security:intercept-url pattern="/adminpanel/**" access="ROLE_Admin" />

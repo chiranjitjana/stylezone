@@ -13,12 +13,22 @@ AjaxHandler.makeAjaxCall=function(requestObject)
 	  contentType:requestObject.contenttype
 	});
 
-	request.done(function(msg) {
-		requestObject.callbackFunction(msg);
+	request.done(function(data,textStatus,jqXHR) {
+		var responseData={};
+		responseData.message=jqXHR.getResponseHeader("message");
+		responseData.container=requestObject.container;
+		responseData.data=data;
+		requestObject.callbackFunction(responseData);
+		
 	});
 
-	request.fail(function(jqXHR, textStatus) {
-	  alert( "Request failed: " + textStatus );
+	request.fail(function(jqXHR, textStatus,error) {
+		var responseData={};
+		responseData.message=jqXHR.getResponseHeader("message");
+		responseData.container=requestObject.container;
+		responseData.data=null;
+		requestObject.callbackFunction(responseData);
+		
 	});
 	
 }
