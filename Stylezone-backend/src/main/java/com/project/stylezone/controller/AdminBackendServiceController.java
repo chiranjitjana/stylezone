@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.stylezone.AppConstant;
 import com.project.stylezone.models.Brand;
+import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.service.StocksService;
@@ -60,10 +61,10 @@ public class AdminBackendServiceController {
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/adminpanel/brand/all")
-	public @ResponseBody ResponseEntity<List<Brand>> getAllBrand() {
+	@RequestMapping(value = "/adminpanel/brand/all",method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<BrandView>> getAllBrand() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
-		List<Brand> allBrands = stockService.getAllBrands();
+		List<BrandView> allBrands = stockService.getAllBrandwithCreatorName();
 
 		if (allBrands.size() > 0) {
 			responseHeaders.add(AppConstant.message, "No Brands Available");
@@ -71,7 +72,8 @@ public class AdminBackendServiceController {
 			responseHeaders.add(AppConstant.message, allBrands.size() + " available in stock");
 		}
 
-		return new ResponseEntity<List<Brand>>(allBrands, responseHeaders, HttpStatus.OK);
+		
+		return new ResponseEntity<List<BrandView>>(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/adminpanel/brand/save")

@@ -33,5 +33,6 @@ var  adminPanelSideBarUrl={
 
 var adminPanelButtonAction={
 		"saveAdmin":baseUrlAdmin+"/saveAdminuser",
-		"saveBrand":baseUrlAdmin+"/brand/save"
+		"saveBrand":baseUrlAdmin+"/brand/save",
+		"fecthAllBrands":baseUrlAdmin+"/brand/all"
 }

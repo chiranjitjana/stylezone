@@ -28,23 +28,23 @@
 					class="row">
 					<thead>
 						<tr>
+							<!-- <th>Brand Id</th> -->
+							 <th></th>
 							<th>Brand Name</th>
 							<th>Created Date</th>
 							<th>Created By</th>
-							<th></th>
-							<th></th>
+						 <th></th>
+						 <th></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>BURBERRY</td>
-							<td>21/05/2018</td>
-							<td>Rohan Tiwari</td>
-							<td><button class="btn btn-success" class="btn btn-info"
-									data-toggle="modal" data-target="#update">Update</button></td>
-							<td><button class="btn btn-danger" class="btn btn-info "
-									data-toggle="modal" data-target="#view">Delete</button></td>
-						</tr>
+					<tbody class="brandList">
+						<!-- <tr>
+							<td><span class="brandId hide controle"></span><span class="brandName controle"></span></td>
+							<td><span class="createdDate controle"></span></td>
+							<td><span class="createdBy controle"></span></td>
+							<td><button class="btn btn-success" class="btn btn-info">Update</button></td>
+							<td><button class="btn btn-danger" class="btn btn-info">Delete</button></td>
+						</tr> -->
 				</table>
 			</div>
 		</div>
@@ -206,8 +206,8 @@
 							<td><input class="jscolor" value="ffffff"></td> -->
 							<td>Shadi</td>
 
-							<td><button class="btn btn-info"
-									data-toggle="modal" data-target="#update">View Details</button></td>
+							<td><button class="btn btn-info" data-toggle="modal"
+									data-target="#update">View Details</button></td>
 							<td><button class="btn btn-success" class="btn btn-info"
 									data-toggle="modal" data-target="#update">Update</button></td>
 							<td><button class="btn btn-danger" class="btn btn-info "
@@ -231,27 +231,32 @@
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<form id="brandform" class="brandform">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Create Brand</h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-				
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Create Brand</h4>
+				</div>
+				<div class="modal-body">
+					<div class="message  hide alert alert-dismissible col-sm-12"
+						role="alert">
+						<span class="text"></span>
+					</div>
+
+					<div class="form-group">
+
 						<div class="form-group">
 							<label for="brand_name">Brand Name:</label> <input type="text"
 								class="form-control brandName controle" id="brandName"
-								placeholder="Enter brand Name">
-								 <input type="text"
+								placeholder="Enter brand Name"> <input type="text"
 								class="form-control brandId hide controle" id="brandId"
 								placeholder="Enter brand Name">
 						</div>
-				
+
+					</div>
+					<input type="button" class="btn btn-success brandaddbtn"
+						value="Add Brand">
 				</div>
-				<input type="button" class="btn btn-success brandaddbtn" value="Add Brand">
 			</div>
-		</div>
 		</form>
 	</div>
 </div>
@@ -416,16 +421,11 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Gender Type:</label>
-								<br/>
-								<input class="gender" type="radio" name="gender"
-									checkType="men"> Men
-									
-									&nbsp;&nbsp;
-									
-									 <input
-									class="gender" type="radio" name="gender" checkType="women"> Women
-					
+							<label class="control-label">Gender Type:</label> <br /> <input
+								class="gender" type="radio" name="gender" checkType="men">
+							Men &nbsp;&nbsp; <input class="gender" type="radio" name="gender"
+								checkType="women"> Women
+
 						</div>
 
 
@@ -475,14 +475,13 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Duration:</label>
-							<br/>
-								<label class="checkbox-inline"><input type="checkbox"
-									value="">4 days</label> <label class="checkbox-inline"><input
-									type="checkbox" value="">6 days</label> <label
-									class="checkbox-inline"><input type="checkbox" value="">8
-									days</label>
-							
+							<label class="control-label">Duration:</label> <br /> <label
+								class="checkbox-inline"><input type="checkbox" value="">4
+								days</label> <label class="checkbox-inline"><input
+								type="checkbox" value="">6 days</label> <label
+								class="checkbox-inline"><input type="checkbox" value="">8
+								days</label>
+
 						</div>
 
 
@@ -607,10 +606,43 @@
 <%-- <jsp:include page="../footer.jsp"></jsp:include>	 --%>
 <script>
          $(document).ready(function() {
-         	$('#brands').DataTable( {
-         		"pagingType": "full_numbers"
+        	/*  UIcontroller.fetchAllBrands(); */
+        	 
+        	 
+         	var brand=$('#brands').DataTable({
+         		"ajax":{"url":adminPanelButtonAction.fecthAllBrands,"dataSrc": ""} ,
+               	"columns": [
+               		
+               	  	{ "data": "brandId"},
+                    { "data": "brandName" },
+                    { "data": "createdBy" },
+                    { "data": "createdDate" },
+                    {
+                        "targets": -1,
+                        "data": null,
+                        "defaultContent": "<button class='btn btn-info'>Update </button>"
+                   	},
+                    {
+                        "targets": -1,
+                        "data": null,
+                        "defaultContent": "<button class='btn btn-danger'>Delete </button>"
+                   	}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false
+                    }
+                ]
+                
          	} );
-			
+        	
+         	  $("#brands tbody").on( 'click', 'button', function () {
+                  var data = brand.row( $(this).parents('tr') ).data();
+                  alert( data.brandId +"'s salary is: "+ data.brandName );
+              } );
+         	
+         	
 			$('#occasions').DataTable( {
          		"pagingType": "full_numbers"
          	} );
@@ -677,6 +709,9 @@
         	 if(UIutiles.rquiredValidator($("#brandform")))
         		 UIcontroller.addBrand();
          });
+         
+         
+       
       </script>
 </body>
 </html>

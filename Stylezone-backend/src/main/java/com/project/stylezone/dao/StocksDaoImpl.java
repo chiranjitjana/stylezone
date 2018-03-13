@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.project.stylezone.models.Brand;
+import com.project.stylezone.models.BrandView;
 import com.project.stylezone.repository.BrandRepo;
+import com.project.stylezone.repository.BrandViewRepo;
 
 @Component
 public class StocksDaoImpl implements StocksDao {
@@ -14,9 +16,14 @@ public class StocksDaoImpl implements StocksDao {
 	@Autowired
 	BrandRepo brandRepo;
 	
+	@Autowired
+	BrandViewRepo brandViewRepo;
+	
 	public List<Brand> getAllBrands() {
 		// TODO Auto-generated method stub
-		return (List<Brand>) brandRepo.findAll();
+		//return (List<Brand>) brandRepo.findAll();
+		
+		return (List<Brand>)brandRepo.findAllBrandByLatestCreatedDate();
 	}
 
 	public Brand saveOrUpdateBrand(Brand brand) {
@@ -33,6 +40,11 @@ public class StocksDaoImpl implements StocksDao {
 	public Brand fetchBrandByName(String brandName) {
 		// TODO Auto-generated method stub
 		return brandRepo.findByBrandName(brandName);
+	}
+
+	public List<BrandView> getAllBrandwithCreatorName() {
+		// TODO Auto-generated method stub
+		return (List<BrandView>) brandViewRepo.findAll();
 	}
 
 }
