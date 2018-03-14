@@ -24,7 +24,7 @@ UIutiles.rquiredValidator = function(object) {
 			var id = $(this).attr("id");
 			var value = $("#" + id).val();
 
-			if (new RegExp(UIutiles.getRegex("emptystring")).test(value)) {
+			if (new RegExp(UIutiles.getRegex("emptystring")).test(value) && !$("#" + id).hasClass("hide")) {
 				$("#" + id).addClass("error");
 				$("#" + id).attr("placeholder", "Please provide " + id);
 					ret=false;
@@ -43,7 +43,9 @@ UIutiles.makeJsonObject = function(rootClass) {
 	$(rootClass).find(".controle").each(function(index) {
 
 		var id = $(this).attr("id");
-
+		
+		console.log("makejson object "+id );
+		
 		if (UIutiles.hasAttr(id, "child")) {
 			var child = new Object();
 			var value = $("#" + id).attr("child");
@@ -54,6 +56,7 @@ UIutiles.makeJsonObject = function(rootClass) {
 
 			data[$(this).attr("child")] = child;
 		} else {
+
 			data[id] = $("#" + id).val();
 		}
 	});

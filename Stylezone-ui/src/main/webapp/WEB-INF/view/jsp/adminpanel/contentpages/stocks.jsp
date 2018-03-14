@@ -15,13 +15,12 @@
 		<div class="brands">
 			<div class="list_container">
 				<div class="table_info row">
-					<div class="col-sm-6 ">
-						<h4 class="pull-left">All Brands</h4>
+					<div class="col-sm-6">
+						<h4 class="pull-left">All Brands <span class="brandlistcount"></span> </h4>
 					</div>
 					<div class="col-sm-6">
-						<a class="btn btn-primary pull-right" data-toggle="modal"
-							data-target="#brandCreate"><span
-							class="glyphicon glyphicon-edit" /> Create Brand</a>
+						<a class="btn btn-primary pull-right createBrandButton"><span
+							class="glyphicon glyphicon-edit" />Create Brand</a>
 					</div>
 				</div>
 				<table id="brands" class="display" cellspacing="0" width="100%"
@@ -248,8 +247,7 @@
 							<label for="brand_name">Brand Name:</label> <input type="text"
 								class="form-control brandName controle" id="brandName"
 								placeholder="Enter brand Name"> <input type="text"
-								class="form-control brandId hide controle" id="brandId"
-								placeholder="Enter brand Name">
+								class="form-control brandId hide controle" id="brandId">
 						</div>
 
 					</div>
@@ -607,41 +605,33 @@
 <script>
          $(document).ready(function() {
         	/*  UIcontroller.fetchAllBrands(); */
-        	 
-        	 
-         	var brand=$('#brands').DataTable({
-         		"ajax":{"url":adminPanelButtonAction.fecthAllBrands,"dataSrc": ""} ,
-               	"columns": [
-               		
-               	  	{ "data": "brandId"},
-                    { "data": "brandName" },
-                    { "data": "createdBy" },
-                    { "data": "createdDate" },
-                    {
-                        "targets": -1,
-                        "data": null,
-                        "defaultContent": "<button class='btn btn-info'>Update </button>"
-                   	},
-                    {
-                        "targets": -1,
-                        "data": null,
-                        "defaultContent": "<button class='btn btn-danger'>Delete </button>"
-                   	}
-                ],
-                "columnDefs": [
-                    {
-                        "targets": [ 0 ],
-                        "visible": false
-                    }
-                ]
-                
-         	} );
+        	 var brandlist=UIcontroller.loadBrandList.getInstance();
+        	 $(".brands .brandlistcount").val(brandlist.column( 0 ).data().length);
         	
-         	  $("#brands tbody").on( 'click', 'button', function () {
-                  var data = brand.row( $(this).parents('tr') ).data();
-                  alert( data.brandId +"'s salary is: "+ data.brandName );
+        	
+         	  $(".brands #brands tbody").on( 'click', 'button', function () {
+                  var data = brandlist.row( $(this).parents('tr') ).data();
+                  if($(this).hasClass("update-btn"))
+                	{
+                	  $('#brandCreate .modal-title').text("Update Brand");
+                	  $('#brandCreate .brandaddbtn').val("Update Brand");
+                	  $('#brandCreate .brandName').val(data.brandName);
+                	  $('#brandCreate .brandId').val(data.brandId);
+                	  $('#brandCreate').modal('show');
+                	}
+                  
+                  
               } );
          	
+         	  
+         	  $(".brands .createBrandButton").click(function(){
+	         	$('#brandCreate .modal-title').text("Create Brand");
+	           	  $('#brandCreate .brandaddbtn').val("Create Brand");
+	           	  $('#brandCreate .brandName').val("");
+	           	  $('#brandCreate .brandId').val("");
+	           	  $('#brandCreate').modal('show');
+         	  });
+         	  
          	
 			$('#occasions').DataTable( {
          		"pagingType": "full_numbers"
@@ -705,7 +695,6 @@
          } );
          
          $(".brandaddbtn").click(function(){
-        	 $("#brandform .brandId").remove();
         	 if(UIutiles.rquiredValidator($("#brandform")))
         		 UIcontroller.addBrand();
          });

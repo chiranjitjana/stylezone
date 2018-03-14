@@ -48,7 +48,7 @@ public class AdminBackendServiceController {
 	}
 
 	@RequestMapping(value = "/adminpanel/saveAdminuser", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object>  saveAdmin(@RequestBody Users user) {
+	public @ResponseBody ResponseEntity<Object> saveAdmin(@RequestBody Users user) {
 		Users saveUser = userService.saveUser(user);
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		UserDetails userDetails = userService.findUserDetailsByEmail(saveUser.getUserEmail());
@@ -57,11 +57,11 @@ public class AdminBackendServiceController {
 		} else {
 			responseHeaders.add(AppConstant.message, "User Updated");
 		}
-		
+
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/adminpanel/brand/all",method=RequestMethod.GET)
+	@RequestMapping(value = "/adminpanel/brand/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<BrandView>> getAllBrand() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<BrandView> allBrands = stockService.getAllBrandwithCreatorName();
@@ -72,12 +72,13 @@ public class AdminBackendServiceController {
 			responseHeaders.add(AppConstant.message, allBrands.size() + " available in stock");
 		}
 
-		
 		return new ResponseEntity<List<BrandView>>(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/adminpanel/brand/save")
 	public @ResponseBody ResponseEntity<Object> saveOrupdateBrand(@RequestBody Brand brand) {
+		final Integer brandId=brand.getBrandId();
+		
 		UserDetails userDetails = getLoggedInUserDetails();
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		Brand saveOrUpdateBrand = null;
@@ -88,11 +89,19 @@ public class AdminBackendServiceController {
 			brand.setCreatedDate(AppConstant.getCurrentDateTime());
 			saveOrUpdateBrand = stockService.saveOrUpdateBrand(brand);
 			if (saveOrUpdateBrand == null)
-				responseHeaders.set(AppConstant.message, "Data Base not available");
-			else
-				responseHeaders.set(AppConstant.message, "Brand created");
-		}
 
+				responseHeaders.set(AppConstant.message, "Data Base not available");
+
+			else {
+				if ((brandId != null) && brandId == saveOrUpdateBrand.getBrandId()) {
+					responseHeaders.set(AppConstant.message, "Brand updated");
+
+				} else {
+					responseHeaders.set(AppConstant.message, "Brand created");
+				}
+			}
+
+		}
 		return AppConstant.convertToReponseEntity(saveOrUpdateBrand, responseHeaders, HttpStatus.OK);
 	}
 

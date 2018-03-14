@@ -76,6 +76,9 @@ UIcontroller.addBrandCallBack = function(responseData) {
 	$("." + responseData.container + "  .message .text").text(
 			responseData.message);
 	$("." + responseData.container + "  .message").show().delay(5000).fadeOut();
+	
+	UIcontroller.loadBrandList.getInstance().ajax.reload();
+	 $(".brands .brandlistcount").val(brandlist.column( 0 ).data().length);
 }
 
 // load header details calling from footer loader
@@ -93,40 +96,88 @@ UIcontroller.callBackHeaderInfo = function(responseData) {
 	UIutiles.bindReponseToUi(responseData.data, "." + responseData.container);
 }
 
-// fetchBrandList
-UIcontroller.fetchAllBrands = function() {
-	var requestObject = {};
-	requestObject.container = "brandList";
-	ServiceController.loadBrandsList(requestObject);
 
-}
 
-//
-UIcontroller.fetchBrandListCallback = function(responseData) {
-	var data = responseData.data;
-	var container = "." + responseData.container;
-	
+//loadDataTableUsing ajax call
 
-	
-	
-	for (var i = 0; i < data.length; i++) {
-		var tr = $("<tr></tr>");
+UIcontroller.loadBrandList = (function () {
+    var instance;
+ 
+    function createInstance() {
+        var object = $('.brands #brands').DataTable({
+    		"ajax":{"url":adminPanelButtonAction.fecthAllBrands,"dataSrc": ""} ,
+    		"columns": [
+       	  	{ "data": "brandId"},
+            { "data": "brandName" },
+            { "data": "createdBy" },
+            { "data": "createdDate" },
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-info update-btn'>Update </button>"
+           	},
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-danger delete-btn' >Delete </button>"
+           	}
+        ],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "visible": false
+            }
+        ]
+        
+    	} );
+        return object;
+    }
+ 
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+})();
 
-		var response = data[i];
-		for ( var key in response) {
-			var td = $("<td></td>");
 
-			if (response.hasOwnProperty(key)) {
-				var span = $("<span></span>");
-				span.addClass(key)
-				span.text(response[key]);
-				td.append(span);
-			}
-			tr.append(td);
-		}
-		$(container).append(tr);
-	}
-	
-	
 
-}
+/*UIcontroller.loadBrandList=function()
+{	
+
+	var cj=$('.brands #brands').DataTable({
+		"ajax":{"url":adminPanelButtonAction.fecthAllBrands,"dataSrc": ""} ,
+		"columns": [
+   	  	{ "data": "brandId"},
+        { "data": "brandName" },
+        { "data": "createdBy" },
+        { "data": "createdDate" },
+        {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button class='btn btn-info update-btn'>Update </button>"
+       	},
+        {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button class='btn btn-danger delete-btn' >Delete </button>"
+       	}
+    ],
+    "columnDefs": [
+        {
+            "targets": [0],
+            "visible": false
+        }
+    ]
+    
+	} );
+
+	return cj;
+}*/
+
+
+
+
