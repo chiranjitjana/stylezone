@@ -78,8 +78,48 @@ UIcontroller.addBrandCallBack = function(responseData) {
 	$("." + responseData.container + "  .message").show().delay(5000).fadeOut();
 	
 	UIcontroller.loadBrandList.getInstance().ajax.reload();
-	 $(".brands .brandlistcount").val(brandlist.column( 0 ).data().length);
+
 }
+
+
+
+UIcontroller.deleteBrand=function()
+{
+	var data = UIutiles.makeJsonObject("#deleteBrand");
+	var requestObject = {};
+	requestObject.container = "deleteBrand";
+	requestObject.data = data;
+	ServiceController.deleteBrand(requestObject);
+}
+
+
+UIcontroller.deleteBrandCallBack=function(responseData)
+{
+	UIcontroller.loadBrandList.getInstance().ajax.reload();
+	if (responseData.data != null) {
+		UIutiles.bindReponseToUi(responseData.data, "."
+				+ responseData.container);
+		$("." + responseData.container + " .message").removeClass("hide");
+		$("." + responseData.container + " .message").removeClass(
+				"alert-danger");
+		$("." + responseData.container + "  .message")
+				.addClass("alert-success");
+
+	}  else {
+		$("." + responseData.container + "  .message").removeClass("hide");
+		$("." + responseData.container + "  .message").removeClass(
+				"alert-success");
+		$("." + responseData.container + "  .message").addClass("alert-danger");
+
+	}
+	$("." + responseData.container + "  .message .text").text(
+			responseData.message);
+	$("." + responseData.container + "  .message").show().delay(5000).fadeOut();
+	$('#brandCreate').modal('hide');
+}
+
+
+
 
 // load header details calling from footer loader
 UIcontroller.updateUi = function(rootContainer) {
@@ -127,7 +167,11 @@ UIcontroller.loadBrandList = (function () {
                 "targets": [0],
                 "visible": false
             }
-        ]
+        ],
+        'info': true,
+        "fnDrawCallback": function () {
+       	 	$(".brands .brandlistcount").text("("+this.fnSettings().fnRecordsTotal()+")");
+        	}
         
     	} );
         return object;

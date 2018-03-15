@@ -11,6 +11,6 @@ public interface StocksService {
 	Brand saveOrUpdateBrand(Brand brand);
 	List<Brand> removeBrand(Brand brand);
 	Brand fetchBrandByName(String brandName);
-	
+	Brand fetchBrandById(Brand brand);
 	List<BrandView> getAllBrandwithCreatorName();
 }

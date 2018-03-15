@@ -75,10 +75,10 @@ public class AdminBackendServiceController {
 		return new ResponseEntity<List<BrandView>>(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/adminpanel/brand/save")
+	@RequestMapping(value = "/adminpanel/brand/save", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> saveOrupdateBrand(@RequestBody Brand brand) {
-		final Integer brandId=brand.getBrandId();
-		
+		final Integer brandId = brand.getBrandId();
+
 		UserDetails userDetails = getLoggedInUserDetails();
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		Brand saveOrUpdateBrand = null;
@@ -103,6 +103,25 @@ public class AdminBackendServiceController {
 
 		}
 		return AppConstant.convertToReponseEntity(saveOrUpdateBrand, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/brand/delete", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteBrand(@RequestBody Brand brand) {
+
+		UserDetails userDetails = getLoggedInUserDetails();
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Brand> allBrands = null;
+		
+		if (stockService.fetchBrandById(brand) != null) {
+			allBrands = stockService.removeBrand(brand);
+			responseHeaders.set(AppConstant.message, "Brand Deleted");
+		}else
+		{
+			responseHeaders.set(AppConstant.message, "No Brand Found");
+		}
+		
+
+		return AppConstant.convertToReponseEntity(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
 	private UserDetails getLoggedInUserDetails() {

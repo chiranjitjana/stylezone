@@ -13,4 +13,6 @@ public interface BrandRepo extends CrudRepository<Brand, Integer> {
 	
 	@Query("select brand from Brand brand order by brandId desc")
 	List<Brand> findAllBrandByLatestCreatedDate();
+
+	Brand findByBrandId(int brandId);
 }

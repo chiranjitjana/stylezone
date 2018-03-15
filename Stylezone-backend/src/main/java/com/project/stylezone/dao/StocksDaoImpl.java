@@ -47,4 +47,9 @@ public class StocksDaoImpl implements StocksDao {
 		return (List<BrandView>) brandViewRepo.findAll();
 	}
 
+	public Brand fetchBrandById(Brand brand) {
+		// TODO Auto-generated method stub
+		return brandRepo.findByBrandId(brand.getBrandId());
+	}
+
 }

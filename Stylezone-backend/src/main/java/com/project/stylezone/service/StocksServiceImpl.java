@@ -40,4 +40,9 @@ public class StocksServiceImpl implements StocksService {
 		return stocksDao.getAllBrandwithCreatorName();
 	}
 
+	public Brand fetchBrandById(Brand brand) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchBrandById(brand);
+	}
+
 }

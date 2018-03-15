@@ -57,7 +57,7 @@ UIutiles.makeJsonObject = function(rootClass) {
 			data[$(this).attr("child")] = child;
 		} else {
 
-			data[id] = $("#" + id).val();
+			data[id] = $(rootClass+" #" + id).val();
 		}
 	});
 

@@ -12,4 +12,5 @@ public interface StocksDao {
 	List<Brand> removeBrand(Brand brand);
 	Brand fetchBrandByName(String brandName);
 	List<BrandView> getAllBrandwithCreatorName();
+	Brand fetchBrandById(Brand brand);
 }
