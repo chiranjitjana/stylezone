@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-sm-6">
 			<a class="btn btn-primary pull-right createBrandButton"><span
-				class="glyphicon glyphicon-edit" />Create Brand</a>
+				class="glyphicon glyphicon-edit" ></span>Create Brand</a>
 		</div>
 	</div>
 	<table id="brands" class="display" cellspacing="0" width="100%"

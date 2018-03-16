@@ -41,9 +41,6 @@
          		"pagingType": "full_numbers"
          	} );
 			
-			$('#colors').DataTable( {
-         		"pagingType": "full_numbers"
-         	} );
 			
 			$('#category').DataTable( {
          		"pagingType": "full_numbers"

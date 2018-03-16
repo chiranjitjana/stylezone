@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.project.stylezone.dao.StocksDao;
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Color;
+import com.project.stylezone.models.ColorView;
 
 @Service
 public class StocksServiceImpl implements StocksService {
@@ -43,6 +45,41 @@ public class StocksServiceImpl implements StocksService {
 	public Brand fetchBrandById(Brand brand) {
 		// TODO Auto-generated method stub
 		return stocksDao.fetchBrandById(brand);
+	}
+
+	public List<Color> getAllColors() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllColors();
+	}
+
+	public Color saveOrUpdateColor(Color color) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateColor(color);
+	}
+
+	public List<Color> removeBrand(Color color) {
+		// TODO Auto-generated method stub
+		return stocksDao.removeBrand(color);
+	}
+
+	public Color fetchColorByName(String color) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchColorByName(color);
+	}
+
+	public Color fetchColorByCode(String code) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchColorByCode(code);
+	}
+
+	public List<ColorView> getAllColorswithCreatorName() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllColorswithCreatorName();
+	}
+
+	public Color fetchColordById(Color color) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchColordById(color);
 	}
 
 }

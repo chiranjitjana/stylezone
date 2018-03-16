@@ -1,12 +1,10 @@
 package com.project.stylezone.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.stylezone.AppConstant;
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Color;
+import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.service.StocksService;
@@ -124,6 +124,74 @@ public class AdminBackendServiceController {
 		return AppConstant.convertToReponseEntity(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
+	
+	@RequestMapping(value = "/adminpanel/color/all", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<ColorView>> getAllColor() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<ColorView> allColors = stockService.getAllColorswithCreatorName();
+
+		if (allColors.size() > 0) {
+			responseHeaders.add(AppConstant.message, "No Brands Available");
+		} else {
+			responseHeaders.add(AppConstant.message, allColors.size() + " available in stock");
+		}
+
+		return new ResponseEntity<List<ColorView>>(allColors, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/color/save", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> saveOrupdateColor(@RequestBody Color color) {
+		final Integer colorId = color.getColorId();
+
+		UserDetails userDetails = getLoggedInUserDetails();
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Color saveOrUpdateColor = null;
+		if (stockService.fetchBrandByName(color.getColorName().toLowerCase()) != null) {
+			responseHeaders.set(AppConstant.message, "Color is already present");
+		} else {
+			color.setCreatedBy(userDetails.getUserId());
+			color.setCreatedDate(AppConstant.getCurrentDateTime());
+			saveOrUpdateColor = stockService.saveOrUpdateColor(color);
+			if (saveOrUpdateColor == null)
+
+				responseHeaders.set(AppConstant.message, "Data Base not available");
+
+			else {
+				if ((colorId != null) && colorId == saveOrUpdateColor.getColorId()) {
+					responseHeaders.set(AppConstant.message, "Color updated");
+
+				} else {
+					responseHeaders.set(AppConstant.message, "Color created");
+				}
+			}
+
+		}
+		return AppConstant.convertToReponseEntity(saveOrUpdateColor, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/color/delete", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteColor(@RequestBody Color color) {
+
+		UserDetails userDetails = getLoggedInUserDetails();
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Color> colors = null;
+		
+		if (stockService.fetchColordById(color) != null) {
+			colors = stockService.removeBrand(color);
+			responseHeaders.set(AppConstant.message, "Color Deleted");
+		}else
+		{
+			responseHeaders.set(AppConstant.message, "No Color Found");
+		}
+		
+
+		return AppConstant.convertToReponseEntity(colors, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+
+	
+	
 	private UserDetails getLoggedInUserDetails() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = userService.findUserDetailsByEmail("chiranjitjana@gmail.com");

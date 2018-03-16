@@ -7,8 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Color;
+import com.project.stylezone.models.ColorView;
 import com.project.stylezone.repository.BrandRepo;
 import com.project.stylezone.repository.BrandViewRepo;
+import com.project.stylezone.repository.ColorRepo;
+import com.project.stylezone.repository.ColorViewRepo;
 
 @Component
 public class StocksDaoImpl implements StocksDao {
@@ -18,6 +22,18 @@ public class StocksDaoImpl implements StocksDao {
 	
 	@Autowired
 	BrandViewRepo brandViewRepo;
+	
+	
+	
+	
+	@Autowired
+	ColorViewRepo colorViewRepo;
+	
+	
+	@Autowired
+	ColorRepo colorRepo;
+
+	
 	
 	public List<Brand> getAllBrands() {
 		// TODO Auto-generated method stub
@@ -50,6 +66,42 @@ public class StocksDaoImpl implements StocksDao {
 	public Brand fetchBrandById(Brand brand) {
 		// TODO Auto-generated method stub
 		return brandRepo.findByBrandId(brand.getBrandId());
+	}
+
+	public List<Color> getAllColors() {
+		// TODO Auto-generated method stub
+		return (List<Color>)colorRepo.findAllColorByLatestCreatedDate();
+	}
+
+	public Color saveOrUpdateColor(Color color) {
+		// TODO Auto-generated method stub
+		return colorRepo.save(color);
+	}
+
+	public List<Color> removeBrand(Color color) {
+		// TODO Auto-generated method stub
+		 colorRepo.delete(color);
+		 return (List<Color>) colorRepo.findAll();	
+	}
+
+	public Color fetchColorByName(String colorName) {
+		// TODO Auto-generated method stub
+		return colorRepo.findByColorName(colorName);
+	}
+
+	public Color fetchColorByCode(String colorCode) {
+		// TODO Auto-generated method stub
+		return colorRepo.findByColorCode(colorCode);
+	}
+
+	public List<ColorView> getAllColorswithCreatorName() {
+		// TODO Auto-generated method stub
+		return (List<ColorView>) colorViewRepo.findAll();
+	}
+
+	public Color fetchColordById(Color color) {
+		// TODO Auto-generated method stub
+		return colorRepo.findByColorId(color.getColorId());
 	}
 
 }

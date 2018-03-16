@@ -188,40 +188,62 @@ UIcontroller.loadBrandList = (function () {
 })();
 
 
-
-/*UIcontroller.loadBrandList=function()
-{	
-
-	var cj=$('.brands #brands').DataTable({
-		"ajax":{"url":adminPanelButtonAction.fecthAllBrands,"dataSrc": ""} ,
-		"columns": [
-   	  	{ "data": "brandId"},
-        { "data": "brandName" },
-        { "data": "createdBy" },
-        { "data": "createdDate" },
-        {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<button class='btn btn-info update-btn'>Update </button>"
-       	},
-        {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<button class='btn btn-danger delete-btn' >Delete </button>"
-       	}
-    ],
-    "columnDefs": [
-        {
-            "targets": [0],
-            "visible": false
+UIcontroller.loadColorList = (function () {
+    var instance;
+ 
+    function createInstance() {
+        var object = $('.colors  #colors').DataTable({
+    		"ajax":{"url":adminPanelButtonAction.fecthAllColors,"dataSrc": ""} ,
+    		"columns": [
+       	  	{ "data": "colorId"},
+            { "data": "colorCode" },
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "render": function ( data, type, row, meta ) {
+                    return "<div style='height:30px;width:30px;background-color:"+row.colorCode+"'></div>"
+                  }
+            },
+            { "data": "colorName" },
+            { "data": "createdDate" },
+            { "data": "createdBy" },
+           
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-info update-btn'>Update </button>"
+           	},
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-danger delete-btn' >Delete </button>"
+           	}
+        ],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "visible": false
+            }
+        ],
+        'info': true,
+        "fnDrawCallback": function () {
+       	 	$(".colors .colorlistcount").text("("+this.fnSettings().fnRecordsTotal()+")");
+        	}
+        
+    	} );
+        return object;
+    }
+ 
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
         }
-    ]
-    
-	} );
-
-	return cj;
-}*/
-
+    };
+})();
 
 
 

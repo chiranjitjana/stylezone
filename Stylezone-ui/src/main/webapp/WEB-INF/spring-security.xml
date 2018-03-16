@@ -21,6 +21,11 @@
 	
 	<security:http security="none" pattern="/adminpanel/brand/save" /> 
 
+	<security:http security="none" pattern="/adminpanel/color/all" /> 
+	
+	<security:http security="none" pattern="/adminpanel/color/save" /> 
+
+	<security:http security="none" pattern="/adminpanel/color/delete" /> 
 
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler"/>

@@ -35,5 +35,10 @@ var adminPanelButtonAction={
 		"saveAdmin":baseUrlAdmin+"/saveAdminuser",
 		"saveBrand":baseUrlAdmin+"/brand/save",
 		"fecthAllBrands":baseUrlAdmin+"/brand/all",
-		"deleteBrand":baseUrlAdmin+"/brand//delete"
+		"deleteBrand":baseUrlAdmin+"/brand//delete",
+		
+		"saveColor":baseUrlAdmin+"/color/save",
+		"fecthAllColors":baseUrlAdmin+"/color/all",
+		"deleteColor":baseUrlAdmin+"/color/delete"
+		
 }
