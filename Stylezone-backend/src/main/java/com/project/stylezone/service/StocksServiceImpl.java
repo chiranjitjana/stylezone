@@ -10,6 +10,8 @@ import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
+import com.project.stylezone.models.Occasion;
+import com.project.stylezone.models.OccasionView;
 
 @Service
 public class StocksServiceImpl implements StocksService {
@@ -80,6 +82,36 @@ public class StocksServiceImpl implements StocksService {
 	public Color fetchColordById(Color color) {
 		// TODO Auto-generated method stub
 		return stocksDao.fetchColordById(color);
+	}
+
+	public List<Occasion> getAllOccasion() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllOccasion();
+	}
+
+	public Occasion saveOrUpdateOccasion(Occasion occasion) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateOccasion(occasion);
+	}
+
+	public List<Occasion> removeOccasion(Occasion occasion) {
+		// TODO Auto-generated method stub
+		return stocksDao.removeOccasion(occasion);
+	}
+
+	public Occasion fetchOccasionByName(String occasion) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchOccasionByName(occasion);
+	}
+
+	public List<OccasionView> getAllOccasionswithCreatorName() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllOccasionswithCreatorName();
+	}
+
+	public Occasion fetchOccasiondById(Occasion Occasion) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchOccasiondById(Occasion);
 	}
 
 }

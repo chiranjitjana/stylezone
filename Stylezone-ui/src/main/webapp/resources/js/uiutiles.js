@@ -93,3 +93,29 @@ UIutiles.hasAttr = function(controler, attribute) {
 	return false;
 
 }
+
+
+
+UIutiles.handleReponse=function(responseData)
+{
+	if (responseData.data != null) {
+		UIutiles.bindReponseToUi(responseData.data, "."
+				+ responseData.container);
+		$("." + responseData.container + " .message").removeClass("hide");
+		$("." + responseData.container + " .message").removeClass(
+				"alert-danger");
+		$("." + responseData.container + "  .message")
+				.addClass("alert-success");
+
+	} else {
+		$("." + responseData.container + "  .message").removeClass("hide");
+		$("." + responseData.container + "  .message").removeClass(
+				"alert-success");
+		$("." + responseData.container + "  .message").addClass("alert-danger");
+
+	}
+	$("." + responseData.container + "  .message .text").text(
+			responseData.message);
+	$("." + responseData.container + "  .message").show().delay(5000).fadeOut();
+
+}

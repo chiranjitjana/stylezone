@@ -55,15 +55,57 @@ ServiceController.deleteBrand = function(requestObject) {
 	AjaxHandler.makeAjaxCall(object)
 }
 
-ServiceController.loadBrandsList = function(requestObject) {
+ServiceController.addColor=function(requestObject) {
 	var object = {};
-	object.url = adminPanelButtonAction.fecthAllBrands;
-	object.methodtype = methodType.GET;
-	object.data = null;
+	object.url = adminPanelButtonAction.saveColor;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
 	object.datatype = datatype.json;
 	object.container = requestObject.container;
-	object.contenttype = contenttype.url_encoding;
-	object.callbackFunction = UIcontroller.fetchBrandListCallback;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.addColorCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+ServiceController.deleteColor=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.deleteColor;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.deleteColorCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+ServiceController.addOccasion=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.saveOccasion;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.addOcassionCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+ServiceController.deleteOccasion=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.deleteOccasion;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.deleteOccasionCallBack;
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }

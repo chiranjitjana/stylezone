@@ -47,12 +47,12 @@
 
 					<div class="form-group">
 
-						<div class="form-group">
+						
 							<label for="brand_name">Brand Name:</label> <input type="text"
 								class="form-control brandName controle" id="brandName"
 								placeholder="Enter brand Name"> <input type="text"
 								class="form-control brandId hide controle" id="brandId">
-						</div>
+					
 
 					</div>
 					<input type="button" class="btn btn-success brandaddbtn"
@@ -84,7 +84,7 @@
 				<p>Do you want to proceed?</p>
 			</div>
 			<div class="modal-footer">
-				<a href="#" id="btnYes" class="btn danger">Yes</a> <a href="#"
+				<a href="#" id="btnYesBrand" class="btn danger">Yes</a> <a href="#"
 					data-dismiss="modal" aria-hidden="true" class="btn secondary">No</a>
 			</div>
 		</div>
@@ -123,7 +123,7 @@
 	});
 
 	
-	$("#btnYes").click(function(){
+	$("#btnYesBrand").click(function(){
 		UIcontroller.deleteBrand();
 	});
 	

@@ -35,12 +35,6 @@
 <%-- <jsp:include page="../footer.jsp"></jsp:include>	 --%>
 <script>
          $(document).ready(function() {
-         	
-         	
-			$('#occasions').DataTable( {
-         		"pagingType": "full_numbers"
-         	} );
-			
 			
 			$('#category').DataTable( {
          		"pagingType": "full_numbers"

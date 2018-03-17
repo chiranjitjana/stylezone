@@ -9,10 +9,14 @@ import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
+import com.project.stylezone.models.Occasion;
+import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.repository.BrandRepo;
 import com.project.stylezone.repository.BrandViewRepo;
 import com.project.stylezone.repository.ColorRepo;
 import com.project.stylezone.repository.ColorViewRepo;
+import com.project.stylezone.repository.OccasionRepo;
+import com.project.stylezone.repository.OccasionViewRepo;
 
 @Component
 public class StocksDaoImpl implements StocksDao {
@@ -32,6 +36,14 @@ public class StocksDaoImpl implements StocksDao {
 	
 	@Autowired
 	ColorRepo colorRepo;
+	
+	
+	@Autowired
+	OccasionViewRepo occasionViewRepo;
+	
+	
+	@Autowired
+	OccasionRepo occasionRepo;
 
 	
 	
@@ -39,7 +51,7 @@ public class StocksDaoImpl implements StocksDao {
 		// TODO Auto-generated method stub
 		//return (List<Brand>) brandRepo.findAll();
 		
-		return (List<Brand>)brandRepo.findAllBrandByLatestCreatedDate();
+		return brandRepo.findAllBrandByLatestCreatedDate();
 	}
 
 	public Brand saveOrUpdateBrand(Brand brand) {
@@ -50,7 +62,7 @@ public class StocksDaoImpl implements StocksDao {
 	public List<Brand> removeBrand(Brand brand) {
 		// TODO Auto-generated method stub
 		brandRepo.delete(brand);
-		return (List<Brand>) brandRepo.findAll();	
+		return  (List<Brand>) brandRepo.findAll();	
 	}
 
 	public Brand fetchBrandByName(String brandName) {
@@ -68,6 +80,15 @@ public class StocksDaoImpl implements StocksDao {
 		return brandRepo.findByBrandId(brand.getBrandId());
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public List<Color> getAllColors() {
 		// TODO Auto-generated method stub
 		return (List<Color>)colorRepo.findAllColorByLatestCreatedDate();
@@ -103,5 +124,44 @@ public class StocksDaoImpl implements StocksDao {
 		// TODO Auto-generated method stub
 		return colorRepo.findByColorId(color.getColorId());
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	public List<Occasion> getAllOccasion() {
+		// TODO Auto-generated method stub
+		return occasionRepo.findAllOccasionByLatestCreatedDate();
+	}
+
+	public Occasion saveOrUpdateOccasion(Occasion occasion) {
+		// TODO Auto-generated method stub
+		return occasionRepo.save(occasion);
+	}
+
+	public List<Occasion> removeOccasion(Occasion occasion) {
+		// TODO Auto-generated method stub
+		 occasionRepo.delete(occasion);
+		 return (List<Occasion>) occasionRepo.findAll();
+	}
+
+	public Occasion fetchOccasionByName(String occasion) {
+		// TODO Auto-generated method stub
+		return occasionRepo.findByOccasionName(occasion);
+	}
+
+	public List<OccasionView> getAllOccasionswithCreatorName() {
+		// TODO Auto-generated method stub
+		return (List<OccasionView>) occasionViewRepo.findAll();
+	}
+
+	public Occasion fetchOccasiondById(Occasion occasion) {
+		// TODO Auto-generated method stub
+		return occasionRepo.findByOccasionId(occasion.getOccasionId());
+	}
+
 
 }

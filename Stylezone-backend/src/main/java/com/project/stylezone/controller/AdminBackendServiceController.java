@@ -19,6 +19,8 @@ import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
+import com.project.stylezone.models.Occasion;
+import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.service.StocksService;
@@ -61,6 +63,12 @@ public class AdminBackendServiceController {
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
 
+	
+	/***
+	 * Brands start
+	 * @return
+	 */
+	
 	@RequestMapping(value = "/adminpanel/brand/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<BrandView>> getAllBrand() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -125,18 +133,32 @@ public class AdminBackendServiceController {
 	}
 
 	
-	@RequestMapping(value = "/adminpanel/color/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<ColorView>> getAllColor() {
-		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
-		List<ColorView> allColors = stockService.getAllColorswithCreatorName();
 
-		if (allColors.size() > 0) {
-			responseHeaders.add(AppConstant.message, "No Brands Available");
+	/***
+	 * Brands end
+	 * @return
+	 */
+	
+	
+	
+
+	/***
+	 * color start
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/adminpanel/color/all", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<ColorView>> getAllOccasions() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<ColorView> colorView = stockService.getAllColorswithCreatorName();
+
+		if (colorView.size() > 0) {
+			responseHeaders.add(AppConstant.message, "No Color Available");
 		} else {
-			responseHeaders.add(AppConstant.message, allColors.size() + " available in stock");
+			responseHeaders.add(AppConstant.message, colorView.size() + " available in stock");
 		}
 
-		return new ResponseEntity<List<ColorView>>(allColors, responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<List<ColorView>>(colorView, responseHeaders, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/adminpanel/color/save", method = RequestMethod.POST)
@@ -188,8 +210,90 @@ public class AdminBackendServiceController {
 		return AppConstant.convertToReponseEntity(colors, responseHeaders, HttpStatus.OK);
 	}
 	
+	/***
+	 * color end
+	 * @return
+	 */
 	
 
+	
+	/***
+	 * occasion start
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/adminpanel/occasion/all", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<OccasionView>> getAllColor() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<OccasionView> allOccasions = stockService.getAllOccasionswithCreatorName();
+
+		if (allOccasions.size() > 0) {
+			responseHeaders.add(AppConstant.message, "No Brands Available");
+		} else {
+			responseHeaders.add(AppConstant.message, allOccasions.size() + " available in stock");
+		}
+
+		return new ResponseEntity<List<OccasionView>>(allOccasions, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+
+	@RequestMapping(value = "/adminpanel/occasion/save", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> saveOrupdateOccasion(@RequestBody Occasion occasion) {
+		final Integer occasionId = occasion.getOccasionId();
+
+		UserDetails userDetails = getLoggedInUserDetails();
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Occasion saveOrUpdateOccasion = null;
+		if (stockService.fetchOccasionByName(occasion.getOccasionName().toLowerCase()) != null) {
+			responseHeaders.set(AppConstant.message, "Occasion is already present");
+		} else {
+			occasion.setCreatedBy(userDetails.getUserId());
+			occasion.setCreatedDate(AppConstant.getCurrentDateTime());
+			saveOrUpdateOccasion = stockService.saveOrUpdateOccasion(occasion);
+			if (saveOrUpdateOccasion == null)
+
+				responseHeaders.set(AppConstant.message, "Data Base not available");
+
+			else {
+				if ((occasionId != null) && occasionId == saveOrUpdateOccasion.getOccasionId()) {
+					responseHeaders.set(AppConstant.message, "Occasion updated");
+
+				} else {
+					responseHeaders.set(AppConstant.message, "Occasion created");
+				}
+			}
+
+		}
+		return AppConstant.convertToReponseEntity(saveOrUpdateOccasion, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/occasion/delete", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteOccasion(@RequestBody Occasion occasion) {
+
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Occasion> occasionList = null;
+		
+		if (stockService.fetchOccasiondById(occasion) != null) {
+			occasionList = stockService.removeOccasion(occasion);
+			responseHeaders.set(AppConstant.message, "Occasion Deleted");
+		}else
+		{
+			responseHeaders.set(AppConstant.message, "No Occasion Found");
+		}
+		
+
+		return AppConstant.convertToReponseEntity(occasionList, responseHeaders, HttpStatus.OK);
+	}
+	
+	/***
+	 * occasion end
+	 * @return
+	 */
+	
+	
+	
+	
 	
 	
 	private UserDetails getLoggedInUserDetails() {

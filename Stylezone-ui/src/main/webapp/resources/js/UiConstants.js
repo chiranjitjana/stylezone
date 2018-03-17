@@ -39,6 +39,11 @@ var adminPanelButtonAction={
 		
 		"saveColor":baseUrlAdmin+"/color/save",
 		"fecthAllColors":baseUrlAdmin+"/color/all",
-		"deleteColor":baseUrlAdmin+"/color/delete"
+		"deleteColor":baseUrlAdmin+"/color/delete",
+		
+		
+		"saveOccasion":baseUrlAdmin+"/occasion/save",
+		"fecthAllOccasion":baseUrlAdmin+"/occasion/all",
+		"deleteOccasion":baseUrlAdmin+"/occasion/delete"
 		
 }

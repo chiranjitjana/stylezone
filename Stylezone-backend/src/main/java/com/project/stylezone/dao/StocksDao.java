@@ -6,6 +6,8 @@ import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
+import com.project.stylezone.models.Occasion;
+import com.project.stylezone.models.OccasionView;
 
 public interface StocksDao {
 
@@ -29,5 +31,16 @@ public interface StocksDao {
 	Color fetchColorByCode(String code);
 	List<ColorView> getAllColorswithCreatorName();
 	Color fetchColordById(Color color);
+	
+	
+	
+	/***occasion
+	 */
+	List<Occasion> getAllOccasion();
+	Occasion saveOrUpdateOccasion(Occasion occasion);
+	List<Occasion> removeOccasion(Occasion occasion);
+	Occasion fetchOccasionByName(String occasion);
+	List<OccasionView> getAllOccasionswithCreatorName();
+	Occasion fetchOccasiondById(Occasion Occasion);
 	
 }
