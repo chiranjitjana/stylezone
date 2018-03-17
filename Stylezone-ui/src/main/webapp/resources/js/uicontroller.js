@@ -164,6 +164,48 @@ UIcontroller.deleteOccasionCallBack=function(responseData)
 
 
 
+UIcontroller.addCat=function()
+{
+	var data = UIutiles.makeJsonObject(".catform");
+	var requestObject = {};
+	requestObject.container = "catform";
+	requestObject.data = data;
+	ServiceController.addCat(requestObject);
+}
+
+
+UIcontroller.addCatCallBack=function(responseData)
+{
+	UIcontroller.loadCatList.getInstance().ajax.reload();
+	UIutiles.handleReponse(responseData);
+}
+
+
+
+
+
+
+
+
+
+UIcontroller.deleteCat=function()
+{
+	var data = UIutiles.makeJsonObject("#deleteCat");
+	var requestObject = {};
+	requestObject.container = "deleteCat";
+	requestObject.data = data;
+	ServiceController.deleteCat(requestObject);
+}
+
+UIcontroller.deleteCatCallBack=function(responseData)
+{
+	UIcontroller.loadCatList.getInstance().ajax.reload();
+	UIutiles.handleReponse(responseData);
+	$('#deleteCat').modal('hide');
+}
+
+
+
 
 // load header details calling from footer loader
 UIcontroller.updateUi = function(rootContainer) {
@@ -338,3 +380,53 @@ UIcontroller.loadOccasionList=(function () {
     };
 })();
 
+
+
+
+UIcontroller.loadCatList=(function () {
+    var instance;
+ 
+    function createInstance() {
+        var object = $('.category  #category').DataTable({
+    		"ajax":{"url":adminPanelButtonAction.fecthAllCat,"dataSrc": ""} ,
+    		"columns": [
+       	  	{ "data": "catId"},
+            { "data": "catName" },
+            { "data": "createdDate" },
+            { "data": "createdBy" },
+           
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-info update-btn'>Update </button>"
+           	},
+            {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-danger delete-btn' >Delete </button>"
+           	}
+        ],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "visible": false
+            }
+        ],
+        'info': true,
+        "fnDrawCallback": function () {
+       	 	$(".category .catlistcount").text("("+this.fnSettings().fnRecordsTotal()+")");
+        	}
+        
+    	} );
+        return object;
+    }
+ 
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+})();

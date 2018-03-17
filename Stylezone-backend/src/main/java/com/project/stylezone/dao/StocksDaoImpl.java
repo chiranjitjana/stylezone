@@ -7,12 +7,16 @@ import org.springframework.stereotype.Component;
 
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Category;
+import com.project.stylezone.models.CategoryView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.repository.BrandRepo;
 import com.project.stylezone.repository.BrandViewRepo;
+import com.project.stylezone.repository.CatRepo;
+import com.project.stylezone.repository.CatViewRepo;
 import com.project.stylezone.repository.ColorRepo;
 import com.project.stylezone.repository.ColorViewRepo;
 import com.project.stylezone.repository.OccasionRepo;
@@ -27,9 +31,6 @@ public class StocksDaoImpl implements StocksDao {
 	@Autowired
 	BrandViewRepo brandViewRepo;
 	
-	
-	
-	
 	@Autowired
 	ColorViewRepo colorViewRepo;
 	
@@ -37,15 +38,18 @@ public class StocksDaoImpl implements StocksDao {
 	@Autowired
 	ColorRepo colorRepo;
 	
-	
 	@Autowired
 	OccasionViewRepo occasionViewRepo;
 	
-	
 	@Autowired
 	OccasionRepo occasionRepo;
-
 	
+	@Autowired
+	CatRepo catRepo;
+	
+
+	@Autowired
+	CatViewRepo catViewRepo;
 	
 	public List<Brand> getAllBrands() {
 		// TODO Auto-generated method stub
@@ -161,6 +165,41 @@ public class StocksDaoImpl implements StocksDao {
 	public Occasion fetchOccasiondById(Occasion occasion) {
 		// TODO Auto-generated method stub
 		return occasionRepo.findByOccasionId(occasion.getOccasionId());
+	}
+
+	
+	
+	
+	
+	public List<Category> getAllCat() {
+		// TODO Auto-generated method stub
+		return catRepo.findAllCatByLatestCreatedDate();
+	}
+
+	public Category saveOrUpdateCat(Category cat) {
+		// TODO Auto-generated method stub
+		return catRepo.save(cat);
+	}
+
+	public List<Category> removeCat(Category cat) {
+		// TODO Auto-generated method stub
+		catRepo.delete(cat);
+		 return (List<Category>) catRepo.findAll();
+	}
+
+	public Category fetchCatByName(String cat) {
+		// TODO Auto-generated method stub
+		return catRepo.findByCatName(cat);
+	}
+
+	public List<CategoryView> getAllCatwithCreatorName() {
+		// TODO Auto-generated method stub
+		return (List<CategoryView>) catViewRepo.findAll();
+	}
+
+	public Category fetchCatById(Category cat) {
+		// TODO Auto-generated method stub
+		return catRepo.findByCatId(cat.getCatId());
 	}
 
 

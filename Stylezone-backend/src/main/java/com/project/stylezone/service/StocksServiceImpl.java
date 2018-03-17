@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.project.stylezone.dao.StocksDao;
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Category;
+import com.project.stylezone.models.CategoryView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
@@ -112,6 +114,36 @@ public class StocksServiceImpl implements StocksService {
 	public Occasion fetchOccasiondById(Occasion Occasion) {
 		// TODO Auto-generated method stub
 		return stocksDao.fetchOccasiondById(Occasion);
+	}
+
+	public List<Category> getAllCat() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllCat();
+	}
+
+	public Category saveOrUpdateCat(Category cat) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateCat(cat);
+	}
+
+	public List<Category> removeCat(Category cat) {
+		// TODO Auto-generated method stub
+		return stocksDao.removeCat(cat);
+	}
+
+	public Category fetchCatByName(String cat) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchCatByName(cat);
+	}
+
+	public List<CategoryView> getAllCatwithCreatorName() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllCatwithCreatorName();
+	}
+
+	public Category fetchCatById(Category cat) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchCatById(cat);
 	}
 
 }

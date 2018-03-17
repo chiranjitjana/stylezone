@@ -44,6 +44,13 @@ var adminPanelButtonAction={
 		
 		"saveOccasion":baseUrlAdmin+"/occasion/save",
 		"fecthAllOccasion":baseUrlAdmin+"/occasion/all",
-		"deleteOccasion":baseUrlAdmin+"/occasion/delete"
+		"deleteOccasion":baseUrlAdmin+"/occasion/delete",
+		
+		"saveCat":baseUrlAdmin+"/cat/save",
+		"fecthAllCat":baseUrlAdmin+"/cat/all",
+		"deleteCat":baseUrlAdmin+"/cat/delete"
+		
+		
+		
 		
 }

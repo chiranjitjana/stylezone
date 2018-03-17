@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Category;
+import com.project.stylezone.models.CategoryView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
@@ -43,4 +45,14 @@ public interface StocksDao {
 	List<OccasionView> getAllOccasionswithCreatorName();
 	Occasion fetchOccasiondById(Occasion Occasion);
 	
+	
+	/***category
+	 */
+	List<Category> getAllCat();
+	Category saveOrUpdateCat(Category cat);
+	List<Category> removeCat(Category cat);
+	Category fetchCatByName(String cat);
+	List<CategoryView> getAllCatwithCreatorName();
+	Category fetchCatById(Category Occasion);
+
 }

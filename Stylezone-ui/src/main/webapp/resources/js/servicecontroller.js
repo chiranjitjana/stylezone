@@ -109,3 +109,31 @@ ServiceController.deleteOccasion=function(requestObject) {
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+
+ServiceController.addCat=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.saveCat;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.addCatCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+ServiceController.deleteCat=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.deleteCat;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.deleteCatCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}

@@ -36,10 +36,6 @@
 <script>
          $(document).ready(function() {
 			
-			$('#category').DataTable( {
-         		"pagingType": "full_numbers"
-         	} );
-			
 			$('#products').DataTable( {
          		"pagingType": "full_numbers"
          	} );

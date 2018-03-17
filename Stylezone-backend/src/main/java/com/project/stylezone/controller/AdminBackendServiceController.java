@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.stylezone.AppConstant;
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.BrandView;
+import com.project.stylezone.models.Category;
+import com.project.stylezone.models.CategoryView;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
@@ -148,7 +150,7 @@ public class AdminBackendServiceController {
 	 */
 	
 	@RequestMapping(value = "/adminpanel/color/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<ColorView>> getAllOccasions() {
+	public @ResponseBody ResponseEntity<List<ColorView>> getAllColor() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<ColorView> colorView = stockService.getAllColorswithCreatorName();
 
@@ -223,7 +225,7 @@ public class AdminBackendServiceController {
 	 */
 	
 	@RequestMapping(value = "/adminpanel/occasion/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<OccasionView>> getAllColor() {
+	public @ResponseBody ResponseEntity<List<OccasionView>> getAllOccasions() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<OccasionView> allOccasions = stockService.getAllOccasionswithCreatorName();
 
@@ -288,6 +290,85 @@ public class AdminBackendServiceController {
 	
 	/***
 	 * occasion end
+	 * @return
+	 */
+	
+	
+	
+	
+	
+	
+	/***
+	 * category start
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/adminpanel/cat/all", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<CategoryView>> getAllCat() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<CategoryView> allcat = stockService.getAllCatwithCreatorName();
+
+		if (allcat.size() > 0) {
+			responseHeaders.add(AppConstant.message, "No Categories Available");
+		} else {
+			responseHeaders.add(AppConstant.message, allcat.size() + " available in stock");
+		}
+
+		return new ResponseEntity<List<CategoryView>>(allcat, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+
+	@RequestMapping(value = "/adminpanel/cat/save", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> saveOrupdateCat(@RequestBody Category cat) {
+		final Integer catId = cat.getCatId();
+
+		UserDetails userDetails = getLoggedInUserDetails();
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Category saveOrUpdateCat = null;
+		if (stockService.fetchCatByName(cat.getCatName().toLowerCase()) != null) {
+			responseHeaders.set(AppConstant.message, "Occasion is already present");
+		} else {
+			cat.setCreatedBy(userDetails.getUserId());
+			cat.setCreatedDate(AppConstant.getCurrentDateTime());
+			saveOrUpdateCat = stockService.saveOrUpdateCat(cat);
+			if (saveOrUpdateCat == null)
+
+				responseHeaders.set(AppConstant.message, "Data Base not available");
+
+			else {
+				if ((catId != null) && catId == saveOrUpdateCat.getCatId()) {
+					responseHeaders.set(AppConstant.message, "Category updated");
+
+				} else {
+					responseHeaders.set(AppConstant.message, "Category created");
+				}
+			}
+
+		}
+		return AppConstant.convertToReponseEntity(saveOrUpdateCat, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/cat/delete", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteCat(@RequestBody Category cat) {
+
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Category> catList = null;
+		
+		if (stockService.fetchCatById(cat) != null) {
+			catList = stockService.removeCat(cat);
+			responseHeaders.set(AppConstant.message, "Category Deleted");
+		}else
+		{
+			responseHeaders.set(AppConstant.message, "No Category Found");
+		}
+		
+
+		return AppConstant.convertToReponseEntity(catList, responseHeaders, HttpStatus.OK);
+	}
+	
+	/***
+	 * category end
 	 * @return
 	 */
 	

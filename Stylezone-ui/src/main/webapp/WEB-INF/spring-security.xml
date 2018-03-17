@@ -33,6 +33,13 @@
 
 	<security:http security="none" pattern="/adminpanel/occasion/delete" /> 
 	
+	
+	
+	<security:http security="none" pattern="/adminpanel/cat/all" /> 
+	
+	<security:http security="none" pattern="/adminpanel/cat/save" /> 
+
+	<security:http security="none" pattern="/adminpanel/cat/delete" /> 
 	 
 
 	<security:http auto-config="true">
