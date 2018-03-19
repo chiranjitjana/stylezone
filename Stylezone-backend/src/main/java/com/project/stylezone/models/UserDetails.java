@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.project.stylezone.AppConstant;
+
 @Entity
 @Table(name = "user_details")
 public class UserDetails {
@@ -33,7 +35,7 @@ public class UserDetails {
 	@Column(name = "role_name")
 	private String roleName;
 
-	@Column(name = "last_login")
+	@Column(name = "last_login",nullable=true)
 	private String lastLogin;
 
 	/*@Column(name = "address")
@@ -91,6 +93,8 @@ public class UserDetails {
 	}
 
 	public String getLastLogin() {
+		if(lastLogin==null)
+			lastLogin=AppConstant.getCurrentDateTime();
 		return lastLogin;
 	}
 

@@ -2,6 +2,26 @@ function ServiceController() {
 
 }
 
+/*Create user */
+ServiceController.createUser=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.createUser;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.createUserCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+
+
+
+
+
 /* load admin panel header */
 ServiceController.loadHeaderAndProfile = function(parameter) {
 

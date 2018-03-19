@@ -1,6 +1,58 @@
 function UIcontroller() {
 }
 
+//create user
+
+UIcontroller.createUser=function()
+{
+	var data = UIutiles.makeJsonObject(".signupfrmcontainer");
+	var requestObject = {};
+	requestObject.container = "signupfrmcontainer";
+	requestObject.data = data;
+	ServiceController.createUser(requestObject);
+
+}
+
+
+UIcontroller.createUserCallback=function(responseData) {
+	
+	console.log(responseData)
+	
+	UIutiles.handleReponse(responseData);
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // profile bar edit icon button click
 UIcontroller.profileEditButtonClick = function() {
 	$(".myprofile .readonly").each(function(i) {

@@ -17,7 +17,7 @@
 <!-- 	<security:http security="none" pattern="/adminpanel/saveAdminuser" />
 	<security:http security="none" pattern="/adminpanel/getAdminDetails" /> -->
 	
-	<security:http security="none" pattern="/adminpanel/brand/all" /> 
+	<!-- <security:http security="none" pattern="/adminpanel/brand/all" /> 
 	
 	<security:http security="none" pattern="/adminpanel/brand/save" /> 
 
@@ -40,8 +40,8 @@
 	<security:http security="none" pattern="/adminpanel/cat/save" /> 
 
 	<security:http security="none" pattern="/adminpanel/cat/delete" /> 
-	 
-
+	  -->
+ 	<security:http security="none" pattern="/register/user" />
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler"/>
 		<security:intercept-url pattern="/adminpanel/**" access="ROLE_Admin" />

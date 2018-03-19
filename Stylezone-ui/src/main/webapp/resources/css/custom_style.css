@@ -59,12 +59,10 @@
 }
 
 .error {
-	border: 2px solid red;
+	border: 2px solid red!important;
 }
 
-.error {
-	border: 2px solid red;
-}
+
 
 /* stocks*/
 #stock thead {

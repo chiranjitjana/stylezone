@@ -14,19 +14,34 @@
 <link href="resources/css/animate.css" rel="stylesheet">
 <link href="resources/css/main.css" rel="stylesheet">
 <link href="resources/css/responsive.css" rel="stylesheet">
-<!--[if lt IE 9]>
-    <script src="resources/js/html5shiv.js"></script>
-    <script src="resources/js/respond.min.js"></script>
-    <![endif]-->
-<link rel="shortcut icon" href="resources/images/ico/favicon.ico">
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="resources/images/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="resources/images/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="resources/images/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed"
-	href="resources/images/ico/apple-touch-icon-57-precomposed.png">
+<link href="resources/css/custom_style.css" rel="stylesheet">
+
+<style>
+.default_style {
+	background: #F0F0E9;
+	border: medium none;
+	color: #696763;
+	display: block;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+	height: 40px;
+	margin-bottom: 10px;
+	outline: medium none;
+	padding-left: 10px;
+	width: 100%;
+}
+
+.button {
+	background: #FE980F !important;
+	border: medium none !important;
+	border-radius: 0 !important;
+	color: #FFFFFF !important;
+	display: block !important;
+	font-family: 'Roboto', sans-serif;
+	padding: 6px 25px !important;
+}
+</style>
 </head>
 <!--/head-->
 
@@ -177,7 +192,7 @@
 							<div id="loginError">${notApproved}</div>
 						</div>
 					</c:if>
-					
+
 					<c:if test="${not empty accessdenided}">
 						<div class="alert alert-danger alert-dismissible" role="alert"
 							style="margin-top: 35px;">
@@ -203,14 +218,43 @@
 					<h2 class="or">OR</h2>
 				</div>
 				<div class="col-sm-4">
-					<div class="signup-form">
-						<!--sign up form-->
+					<div class="signup-form" id="signup-form">
+
 						<h2>New User Signup!</h2>
-						<form action="#">
-							<input type="text" placeholder="Name" /> <input type="email"
-								placeholder="Email Address" /> <input type="password"
-								placeholder="Password" />
-							<button type="submit" class="btn btn-default">Signup</button>
+
+
+						<form id="signupfrmcontainer" class="signupfrmcontainer">
+							<div class="message   hide alert alert-dismissible col-sm-12"
+								role="alert">
+								<span class="text"></span>
+							</div>
+							<div class="form-group ">
+								<input type="text" placeholder="Name" class="controle userName"
+									id="userName" />
+							</div>
+							<div class="form-group ">
+								<input type="email" placeholder="Email ID"
+									class="controle userEmail" id="userEmail" email />
+							</div>
+							<div class="form-group ">
+								<input type="password" placeholder="Password"
+									class="controle password" id="password" />
+							</div>
+							<div class="form-group ">
+								<input type="number" placeholder="Phone Number"
+									class="controle userMobileNo" id="userMobileNo" mobile />
+							</div>
+							<div class="form-group ">
+								<input type="text" class="form-control controle roleId hide"
+									id="roleId" child="userRole"> <select
+									class="form-control default_style" id="roleType"
+									class="controle roleType">
+									<option value="-1">Select Registration type</option>
+									<option value="2">User</option>
+									<option value="1">Admin</option>
+								</select>
+							</div>
+							<button type="button" class="btn btn-default createUser">Signup</button>
 						</form>
 					</div>
 					<!--/sign up form-->
@@ -319,5 +363,25 @@
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/jquery.prettyPhoto.js"></script>
 	<script src="resources/js/main.js"></script>
+	<script src="resources/js/servicecontroller.js"></script>
+	<script src="resources/js/uicontroller.js"></script>
+	<script src="resources/js/uiconstants.js"></script>
+	<script src="resources/js/ajaxhandler.js"></script>
+	<script src="resources/js/uiutiles.js"></script>
+
+
+
+
+	<script>
+	$("#signupfrmcontainer .createUser").click(function() {
+		if(UIutiles.rquiredValidator($("#signupfrmcontainer")))
+			UIcontroller.createUser();
+	});
+	
+	$("#roleType").on("change", function() {
+		$("#roleId").val( this.value);
+	});
+</script>
+
 </body>
 </html>

@@ -18,6 +18,8 @@ import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.service.UserService;
 
+
+
 @Controller
 public class UIController {
 

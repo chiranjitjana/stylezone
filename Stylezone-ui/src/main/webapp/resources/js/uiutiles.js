@@ -1,63 +1,105 @@
 function UIutiles() {
 }
 
-
 UIutiles.getRegex = function(type) {
 	switch (type) {
 	case "emptystring":
 		return /^\s*$/;
 		break;
+
+	case "email":
+		return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		break;
+	case "phone":
+		return /^[0]?[789]\d{9}$/;
+		break;
 	}
 }
-
 
 UIutiles.rquiredValidator = function(object) {
 	var clz = object.attr("id");
 	console.log(clz);
-	var ret=true;
-	$("#" + clz).children("div").each(function() {
-		$(this).find("input").each(function() {
+	var ret = true;
+	$("#" + clz).children("div").each(
+			function() {
+				$(this).find("input").each(
+						function() {
 
-			if (($(this).attr("hidden_id")) != undefined)
-				console.log("hidden_id " + $(this).attr("hidden_id"));
+							if (($(this).attr("hidden_id")) != undefined)
+								console.log("hidden_id "
+										+ $(this).attr("hidden_id"));
 
-			var id = $(this).attr("id");
-			var value = $("#" + id).val();
+							var id = $(this).attr("id");
+							var value = $("#" + id).val();
 
-			if (new RegExp(UIutiles.getRegex("emptystring")).test(value) && !$("#" + id).hasClass("hide")) {
-				$("#" + id).addClass("error");
-				$("#" + id).attr("placeholder", "Please provide " + id);
-					ret=false;
-			} else {
-				$("#" + id).removeClass("error");
-			}
-		});
-	});
+							if (new RegExp(UIutiles.getRegex("emptystring"))
+									.test(value)
+									&& !$("#" + id).hasClass("hide")) {
+								$("#" + id).addClass("error");
+								$("#" + id).attr("placeholder",
+										"Please provide " + id);
+
+							} else if (UIutiles.hasAttr(id, "email")
+									&& !new RegExp(UIutiles.getRegex("email"))
+											.test(value)) {
+								$("#" + id).addClass("error");
+								$("#" + id).attr("placeholder",
+										"Email is not correct " + id);
+								ret = false;
+							} else if (UIutiles.hasAttr(id, "phone")
+									&& !new RegExp(UIutiles.getRegex("phone"))
+											.test(value)) {
+								$("#" + id).addClass("error");
+								$("#" + id).attr("placeholder",
+										"Phone Number is not correct " + id);
+								ret = false;
+
+							} else {
+								$("#" + id).removeClass("error");
+							}
+						});
+
+				$(this).find("select")
+						.each(
+								function() {
+
+									var id = $(this).attr("id");
+									var value = $("#" + id).val();
+									console.log("selected value :" + value);
+									if (value === "-1"
+											&& !$("#" + id).hasClass("hide")) {
+										$("#" + id).addClass("error");
+										$("#" + id).attr("placeholder",
+												"Please provide " + id);
+										ret = false;
+									} else {
+										$("#" + id).removeClass("error");
+									}
+								});
+			});
 
 	return ret;
 }
-
 
 UIutiles.makeJsonObject = function(rootClass) {
 	var data = new Object();
 	$(rootClass).find(".controle").each(function(index) {
 
 		var id = $(this).attr("id");
-		
-		console.log("makejson object "+id );
-		
+
+		console.log("makejson object " + id);
+
 		if (UIutiles.hasAttr(id, "child")) {
 			var child = new Object();
 			var value = $("#" + id).attr("child");
-				$(rootClass).find("[child ='" + value + "']").each(function() {
-					child[$(this).attr("id")] = $(this).val();
-				}
-			);
+			$(rootClass).find("[child ='" + value + "']").each(function() {
+				child[$(this).attr("id")] = $(this).val();
+			});
 
 			data[$(this).attr("child")] = child;
 		} else {
 
-			data[id] = $(rootClass+" #" + id).val();
+			data[id] = $(rootClass + " #" + id).val();
 		}
 	});
 
@@ -71,7 +113,7 @@ UIutiles.bindReponseToUi = function(response, uiRoot) {
 			if (response[key] != null) {
 				if ($(uiRoot).find('.' + key).length !== 0) {
 
-					//checking is this control type like input type
+					// checking is this control type like input type
 
 					if ($(uiRoot).find(" ." + key).hasClass("controle"))
 						$(uiRoot).find(" ." + key).val(response[key]);
@@ -94,10 +136,7 @@ UIutiles.hasAttr = function(controler, attribute) {
 
 }
 
-
-
-UIutiles.handleReponse=function(responseData)
-{
+UIutiles.handleReponse = function(responseData) {
 	if (responseData.data != null) {
 		UIutiles.bindReponseToUi(responseData.data, "."
 				+ responseData.container);

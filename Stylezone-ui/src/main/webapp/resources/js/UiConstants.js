@@ -32,6 +32,8 @@ var  adminPanelSideBarUrl={
 }
 
 var adminPanelButtonAction={
+		
+		"createUser":adminPanel.root+"/register/user",
 		"saveAdmin":baseUrlAdmin+"/saveAdminuser",
 		"saveBrand":baseUrlAdmin+"/brand/save",
 		"fecthAllBrands":baseUrlAdmin+"/brand/all",

@@ -24,6 +24,7 @@ import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.UserDetails;
+import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
@@ -37,6 +38,35 @@ public class AdminBackendServiceController {
 	@Autowired
 	StocksService stockService;
 
+	@RequestMapping(value = "/register/user", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> createUser(@RequestBody Users user) {
+		UserDetails userDetails = userService.findUserDetailsByEmail(user.getUserEmail());
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Users saveUser = null;
+		if (userDetails == null) {
+			saveUser = userService.saveUser(user);
+			UserLoginInfo object=new UserLoginInfo();
+			object.setUserId(saveUser.getUserId());
+			object.setLastLogin(AppConstant.getCurrentDateTime());
+			userService.saveUserLastLogin( object );
+			// for admin
+			if (saveUser.getUserRole().getRoleId() == 1) {
+				responseHeaders.add(AppConstant.message, "Admin Created Successfully.Login to Open Account");
+			} else if (saveUser.getUserRole().getRoleId() == 2) {
+				responseHeaders.add(AppConstant.message, "User Created Successfully.Login to Open Account");
+			} else {
+				responseHeaders.add(AppConstant.message, "Unexpected User Regester type selected");
+
+			}
+
+		} else {
+			responseHeaders.add(AppConstant.message, "User is Already present");
+		}
+
+		return AppConstant.convertToReponseEntity(saveUser, responseHeaders, HttpStatus.OK);
+
+	}
+
 	@RequestMapping(value = "/adminpanel/getAdminDetails", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Object> getUserByEmail() {
 		UserDetails userDetails = getLoggedInUserDetails();
@@ -45,6 +75,10 @@ public class AdminBackendServiceController {
 		if (userDetails == null) {
 			responseHeaders.add(AppConstant.message, "No user found");
 		} else {
+			if(userDetails.getLastLogin()==null)
+			{
+				userDetails.setLastLogin(AppConstant.getCurrentDateTime());
+			}
 			responseHeaders.add(AppConstant.message, "User found");
 		}
 
@@ -65,12 +99,12 @@ public class AdminBackendServiceController {
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
 
-	
 	/***
 	 * Brands start
+	 * 
 	 * @return
 	 */
-	
+
 	@RequestMapping(value = "/adminpanel/brand/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<BrandView>> getAllBrand() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -121,34 +155,29 @@ public class AdminBackendServiceController {
 		UserDetails userDetails = getLoggedInUserDetails();
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<Brand> allBrands = null;
-		
+
 		if (stockService.fetchBrandById(brand) != null) {
 			allBrands = stockService.removeBrand(brand);
 			responseHeaders.set(AppConstant.message, "Brand Deleted");
-		}else
-		{
+		} else {
 			responseHeaders.set(AppConstant.message, "No Brand Found");
 		}
-		
 
 		return AppConstant.convertToReponseEntity(allBrands, responseHeaders, HttpStatus.OK);
 	}
 
-	
-
 	/***
 	 * Brands end
+	 * 
 	 * @return
 	 */
-	
-	
-	
 
 	/***
 	 * color start
+	 * 
 	 * @return
 	 */
-	
+
 	@RequestMapping(value = "/adminpanel/color/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<ColorView>> getAllColor() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -199,31 +228,29 @@ public class AdminBackendServiceController {
 		UserDetails userDetails = getLoggedInUserDetails();
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<Color> colors = null;
-		
+
 		if (stockService.fetchColordById(color) != null) {
 			colors = stockService.removeBrand(color);
 			responseHeaders.set(AppConstant.message, "Color Deleted");
-		}else
-		{
+		} else {
 			responseHeaders.set(AppConstant.message, "No Color Found");
 		}
-		
 
 		return AppConstant.convertToReponseEntity(colors, responseHeaders, HttpStatus.OK);
 	}
-	
+
 	/***
 	 * color end
+	 * 
 	 * @return
 	 */
-	
 
-	
 	/***
 	 * occasion start
+	 * 
 	 * @return
 	 */
-	
+
 	@RequestMapping(value = "/adminpanel/occasion/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<OccasionView>> getAllOccasions() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -237,8 +264,6 @@ public class AdminBackendServiceController {
 
 		return new ResponseEntity<List<OccasionView>>(allOccasions, responseHeaders, HttpStatus.OK);
 	}
-	
-	
 
 	@RequestMapping(value = "/adminpanel/occasion/save", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> saveOrupdateOccasion(@RequestBody Occasion occasion) {
@@ -275,34 +300,29 @@ public class AdminBackendServiceController {
 
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<Occasion> occasionList = null;
-		
+
 		if (stockService.fetchOccasiondById(occasion) != null) {
 			occasionList = stockService.removeOccasion(occasion);
 			responseHeaders.set(AppConstant.message, "Occasion Deleted");
-		}else
-		{
+		} else {
 			responseHeaders.set(AppConstant.message, "No Occasion Found");
 		}
-		
 
 		return AppConstant.convertToReponseEntity(occasionList, responseHeaders, HttpStatus.OK);
 	}
-	
+
 	/***
 	 * occasion end
+	 * 
 	 * @return
 	 */
-	
-	
-	
-	
-	
-	
+
 	/***
 	 * category start
+	 * 
 	 * @return
 	 */
-	
+
 	@RequestMapping(value = "/adminpanel/cat/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<CategoryView>> getAllCat() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -316,8 +336,6 @@ public class AdminBackendServiceController {
 
 		return new ResponseEntity<List<CategoryView>>(allcat, responseHeaders, HttpStatus.OK);
 	}
-	
-	
 
 	@RequestMapping(value = "/adminpanel/cat/save", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> saveOrupdateCat(@RequestBody Category cat) {
@@ -354,32 +372,26 @@ public class AdminBackendServiceController {
 
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<Category> catList = null;
-		
+
 		if (stockService.fetchCatById(cat) != null) {
 			catList = stockService.removeCat(cat);
 			responseHeaders.set(AppConstant.message, "Category Deleted");
-		}else
-		{
+		} else {
 			responseHeaders.set(AppConstant.message, "No Category Found");
 		}
-		
 
 		return AppConstant.convertToReponseEntity(catList, responseHeaders, HttpStatus.OK);
 	}
-	
+
 	/***
 	 * category end
+	 * 
 	 * @return
 	 */
-	
-	
-	
-	
-	
-	
+
 	private UserDetails getLoggedInUserDetails() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = userService.findUserDetailsByEmail("chiranjitjana@gmail.com");
+		UserDetails userDetails = userService.findUserDetailsByEmail(auth.getName());
 		return userDetails;
 	}
 
