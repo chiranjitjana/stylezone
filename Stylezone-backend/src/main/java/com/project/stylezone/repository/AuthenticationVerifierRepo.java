@@ -9,4 +9,7 @@ import com.project.stylezone.models.Users;
 public interface AuthenticationVerifierRepo extends CrudRepository<Users,Integer>{
 	@Query("select user from Users user where user.userEmail =:username AND user.password=:password")
 	Users findUserByUserNameAndPassword(@Param("username") String username, @Param("password") String password);
+	
+	Users findUserByUserId(Integer userId);
+	Users findUserByUserEmail(String email);
 }

@@ -29,6 +29,16 @@ public class UserServiceImpl implements UserService{
 		return userDao.saveUser(user);
 	}
 
+	public Users findUserByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		return userDao.findUserByUserId(id);
+	}
+
+	public Users findUserByUserEmail(String email) {
+		// TODO Auto-generated method stub
+		return userDao.findUserByUserEmail(email);
+	}
+
 	
 
 }

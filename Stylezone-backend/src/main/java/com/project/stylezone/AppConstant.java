@@ -17,6 +17,10 @@ public class AppConstant
 {
    
 	public final static String message="message";
+	public final static String accountEmail="stylezonewebsite@gmail.com";
+	public final static String accountPassword="stylezone12345";
+	public static final String USERVERIFICATION = "Verify Account";
+	public static final String BASEURL = "http://localhost:8080/Stylezone-ui/";
 	
 	public static String getCurrentDateTime() {
 		java.util.Date dt = new java.util.Date();

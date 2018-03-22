@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -16,29 +17,50 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.project.stylezone.models.Users;
+import com.project.stylezone.service.AuthenticationVerifier;
+import com.project.stylezone.service.UserService;
+
 @Component("authenticationSuccessHandler")
 public class CustomAuthenticationSuccess implements AuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@Autowired
+	UserService userService;
 
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		String email = authentication.getName();
 
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-		List<String> roles = new ArrayList<String>();
-
-		for (GrantedAuthority a : authorities) {
-			roles.add(a.getAuthority());
+		
+		Users user = userService.findUserByUserEmail(email);
+		String url=null;
+		if(user.getAccStatus()==0)
+		{
+			url="/loginprocess?accountnotactivate";
 		}
+		else
+		{
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-		String url = customRedirect(roles);
+			List<String> roles = new ArrayList<String>();
 
-		/* System.out.println("emaail " + email + "  role" + url); */
-		request.getSession().setAttribute("email", email);
-		request.getSession().setMaxInactiveInterval(20 * 60);
+			for (GrantedAuthority a : authorities) {
+				roles.add(a.getAuthority());
+			}
+
+			url = customRedirect(roles);
+
+			request.getSession().setAttribute("email", email);
+			request.getSession().setMaxInactiveInterval(20 * 60);
+		}
+		
+		
+		
+		
+	
 		redirectStrategy.sendRedirect(request, response, url);
 	}
 

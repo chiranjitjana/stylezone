@@ -35,6 +35,11 @@ public class Users {
 	@JoinColumn(name="user_role")
 	private UserRole userRole;
 	
+	
+	
+	@Column(name="acc_status")
+	private Integer accStatus;
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -81,6 +86,14 @@ public class Users {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}	
+	
+	public Integer getAccStatus() {
+		return accStatus;
+	}
+
+	public void setAccStatus(Integer accStatus) {
+		this.accStatus = accStatus;
 	}
 
 	@Override
@@ -88,9 +101,6 @@ public class Users {
 		return "Users [userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", password="
 				+ password + ", userMobileNo=" + userMobileNo + ", userRole=" + userRole + "]";
 	}
-	
-	
-	
 	
 	
 }

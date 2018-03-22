@@ -26,6 +26,13 @@ import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
+import com.project.stylezone.notification.AccountVerificationObject;
+import com.project.stylezone.notification.EmailObject;
+import com.project.stylezone.notification.EmailSenderObject;
+import com.project.stylezone.notification.NotificationObjectFactory;
+import com.project.stylezone.notification.NotificationType;
+import com.project.stylezone.notification.NotificationTypeEnum;
+import com.project.stylezone.notification.UserVerificationNotiType;
 import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
 
@@ -44,6 +51,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		Users saveUser = null;
 		if (userDetails == null) {
+			user.setAccStatus(0);
 			saveUser = userService.saveUser(user);
 			UserLoginInfo object=new UserLoginInfo();
 			object.setUserId(saveUser.getUserId());
@@ -53,7 +61,23 @@ public class AdminBackendServiceController {
 			if (saveUser.getUserRole().getRoleId() == 1) {
 				responseHeaders.add(AppConstant.message, "Admin Created Successfully.Login to Open Account");
 			} else if (saveUser.getUserRole().getRoleId() == 2) {
-				responseHeaders.add(AppConstant.message, "User Created Successfully.Login to Open Account");
+				NotificationType notificationObject = NotificationObjectFactory
+						.getNotificationObject(NotificationTypeEnum.VERIFYACCOUNT);
+
+				AccountVerificationObject accountVerificationObject = new AccountVerificationObject();
+				accountVerificationObject.setHref(AppConstant.BASEURL+"activatedaccount?session="+saveUser.getUserId());
+				accountVerificationObject.setHrefName("Verify Account");
+				accountVerificationObject.setMessageContent("In order to access your account please click on bellow link : -");
+				accountVerificationObject.setTitle("Account Verification");
+				
+				EmailObject emailObject = new EmailObject();
+				emailObject.setSubject("Verify Account");
+				emailObject.setReceiver(saveUser.getUserEmail());
+				emailObject.setHtmlEmailTemplate(notificationObject.getNotificationContent(accountVerificationObject));
+
+				EmailSenderObject.sendEmail(emailObject);
+				
+				responseHeaders.add(AppConstant.message, "User Created Successfully.Please your verify your email ID");
 			} else {
 				responseHeaders.add(AppConstant.message, "Unexpected User Regester type selected");
 

@@ -38,4 +38,14 @@ public class UserDaoImpl implements UserDao {
 		return authRepo.save(user);
 	}
 
+	public Users findUserByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return authRepo.findUserByUserId(userId);
+	}
+
+	public Users findUserByUserEmail(String email) {
+		// TODO Auto-generated method stub
+		return authRepo.findUserByUserEmail(email);
+	}
+
 }

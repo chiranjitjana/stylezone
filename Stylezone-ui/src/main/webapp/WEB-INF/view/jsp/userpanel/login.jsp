@@ -160,6 +160,31 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-1">
+				
+				
+				
+				<c:if test="${not empty activeactive}">
+						<div class="alert alert-success alert-dismissible" role="alert"
+							style="margin-top: 35px;">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<div id="loginError">${activeactive}</div>
+						</div>
+					</c:if>
+				
+					<c:if test="${not empty accountnotactivate}">
+						<div class="alert alert-danger alert-dismissible" role="alert"
+							style="margin-top: 35px;">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<div id="loginError">${accountnotactivate}</div>
+						</div>
+					</c:if>
+
 
 					<c:if test="${not empty error}">
 						<div class="alert alert-danger alert-dismissible" role="alert"
@@ -242,7 +267,7 @@
 							</div>
 							<div class="form-group ">
 								<input type="number" placeholder="Phone Number"
-									class="controle userMobileNo" id="userMobileNo" mobile />
+									class="controle userMobileNo" id="userMobileNo" phone />
 							</div>
 							<div class="form-group ">
 								<input type="text" class="form-control controle roleId hide"

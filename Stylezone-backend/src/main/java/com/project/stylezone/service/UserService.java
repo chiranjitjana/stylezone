@@ -11,4 +11,6 @@ public interface UserService {
 	UserDetails findUserDetailsByEmail(String email);
 	void saveUserLastLogin(UserLoginInfo userloginInfo);
 	Users saveUser(Users user); 
+	Users findUserByUserId(Integer id);
+	Users findUserByUserEmail(String email);
 }
