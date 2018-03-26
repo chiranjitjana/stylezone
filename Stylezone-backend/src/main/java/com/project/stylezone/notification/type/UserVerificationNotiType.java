@@ -1,5 +1,8 @@
-package com.project.stylezone.notification;
+package com.project.stylezone.notification.type;
 
+import com.project.stylezone.notification.NotificationDataModel;
+import com.project.stylezone.notification.NotificationType;
+import com.project.stylezone.notification.type.objects.AccountVerificationObject;
 
 public class UserVerificationNotiType implements NotificationType {
 

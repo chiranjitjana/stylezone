@@ -26,13 +26,13 @@ import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
-import com.project.stylezone.notification.AccountVerificationObject;
 import com.project.stylezone.notification.EmailObject;
 import com.project.stylezone.notification.EmailSenderObject;
 import com.project.stylezone.notification.NotificationObjectFactory;
 import com.project.stylezone.notification.NotificationType;
 import com.project.stylezone.notification.NotificationTypeEnum;
-import com.project.stylezone.notification.UserVerificationNotiType;
+import com.project.stylezone.notification.type.UserVerificationNotiType;
+import com.project.stylezone.notification.type.objects.AccountVerificationObject;
 import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
 
@@ -91,7 +91,7 @@ public class AdminBackendServiceController {
 
 	}
 
-	@RequestMapping(value = "/adminpanel/getAdminDetails", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/getDetails", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Object> getUserByEmail() {
 		UserDetails userDetails = getLoggedInUserDetails();
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
@@ -108,10 +108,12 @@ public class AdminBackendServiceController {
 
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/adminpanel/saveAdminuser", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/user/saveUser", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> saveAdmin(@RequestBody Users user) {
+		user.setAccStatus(1);
 		Users saveUser = userService.saveUser(user);
+		
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		UserDetails userDetails = userService.findUserDetailsByEmail(saveUser.getUserEmail());
 		if (userDetails == null) {

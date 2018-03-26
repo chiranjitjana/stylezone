@@ -14,7 +14,7 @@
 	<context:component-scan base-package="com.project.stylezone.security.*" />
 	
 	
-<!-- 	<security:http security="none" pattern="/adminpanel/saveAdminuser" />
+<!--  	<security:http security="none" pattern="/adminpanel/saveAdminuser" />
 	<security:http security="none" pattern="/adminpanel/getAdminDetails" /> -->
 	
 	<!-- <security:http security="none" pattern="/adminpanel/brand/all" /> 
@@ -42,9 +42,13 @@
 	<security:http security="none" pattern="/adminpanel/cat/delete" /> 
 	  -->
  	<security:http security="none" pattern="/register/user" />
+ 	<security:http security="none" pattern="/user/forgotPassword" />
+ 	
+ 	
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler"/>
 		<security:intercept-url pattern="/adminpanel/**" access="ROLE_Admin" />
+		<security:intercept-url pattern="/myaccount/**" access="ROLE_User" />
 		<security:form-login login-processing-url="/login"
 			login-page="/userlogin" default-target-url="/"
 			authentication-failure-handler-ref="authenticationFailureHandler"

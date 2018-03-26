@@ -1,5 +1,7 @@
 package com.project.stylezone.notification;
 
+import com.project.stylezone.notification.type.*;
+
 public class NotificationObjectFactory {
 
 	public static NotificationType getNotificationObject(NotificationTypeEnum type)
@@ -9,6 +11,8 @@ public class NotificationObjectFactory {
 		case VERIFYACCOUNT:
 			notiType=new UserVerificationNotiType();
 			break;
+		case FORGOTEPASSWORD:
+			notiType=new UserForgotPassNotiType();
 
 		}
 		

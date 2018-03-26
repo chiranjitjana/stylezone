@@ -22,7 +22,7 @@ var contenttype={
 
 
 var  adminPanelSideBarUrl={
-	"myprofile":baseUrlAdmin+"/getAdminDetails",
+	"myprofile":adminPanel.root+"/user/getDetails",
 	"orders":baseUrlAdmin+"/orders",
 	"stock":baseUrlAdmin+"/stocks",
 	"report":baseUrlAdmin+"/report",
@@ -34,7 +34,7 @@ var  adminPanelSideBarUrl={
 var adminPanelButtonAction={
 		
 		"createUser":adminPanel.root+"/register/user",
-		"saveAdmin":baseUrlAdmin+"/saveAdminuser",
+		"saveAdmin":adminPanel.root+"/user/saveUser",
 		"saveBrand":baseUrlAdmin+"/brand/save",
 		"fecthAllBrands":baseUrlAdmin+"/brand/all",
 		"deleteBrand":baseUrlAdmin+"/brand//delete",
@@ -52,7 +52,10 @@ var adminPanelButtonAction={
 		"fecthAllCat":baseUrlAdmin+"/cat/all",
 		"deleteCat":baseUrlAdmin+"/cat/delete"
 		
-		
-		
+}
+
+
+var user={
+		"forgotPass":adminPanel.root+"/user/forgotPassword"
 		
 }

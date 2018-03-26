@@ -51,9 +51,11 @@ public class CustomAuthenticationSuccess implements AuthenticationSuccessHandler
 				roles.add(a.getAuthority());
 			}
 
-			url = customRedirect(roles);
+			url = customRedirect(roles,request);
 
 			request.getSession().setAttribute("email", email);
+			request.getSession().setAttribute("user_name", user.getUserName());
+			
 			request.getSession().setMaxInactiveInterval(20 * 60);
 		}
 		
@@ -64,15 +66,20 @@ public class CustomAuthenticationSuccess implements AuthenticationSuccessHandler
 		redirectStrategy.sendRedirect(request, response, url);
 	}
 
-	private String customRedirect(List<String> roles) {
+	private String customRedirect(List<String> roles,HttpServletRequest request) {
 		String targetUrl = null;
+		
+	
+		
 		if (roles.contains("ROLE_Admin")) {
 			targetUrl = "/adminpanel";
-			
+			request.getSession().setAttribute("role", "ROLE_Admin");
 		} else if (roles.contains("ROLE_Superadmin")) {
 			targetUrl = "/superadminpanel";
+			request.getSession().setAttribute("role", "ROLE_Superadmin");
 		} else if (roles.contains("ROLE_User")) {
 			targetUrl = "/index";
+			request.getSession().setAttribute("role", "ROLE_User");
 		}
 		return targetUrl;
 	}

@@ -49,6 +49,12 @@ public class UIController {
 	}
 	
 	
+	@RequestMapping(value="/myaccount")
+	public String getMyAccount()
+	{
+		return "/userpanel/useraccount";
+	}
+	
 	
 	
 	@RequestMapping(value="/activatedaccount",method=RequestMethod.GET)

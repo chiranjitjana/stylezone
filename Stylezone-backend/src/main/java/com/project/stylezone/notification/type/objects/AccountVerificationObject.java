@@ -1,4 +1,6 @@
-package com.project.stylezone.notification;
+package com.project.stylezone.notification.type.objects;
+
+import com.project.stylezone.notification.NotificationDataModel;
 
 public class AccountVerificationObject implements NotificationDataModel{
 	private String title;

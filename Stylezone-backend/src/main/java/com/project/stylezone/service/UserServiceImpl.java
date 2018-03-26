@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.stylezone.dao.UserDao;
+import com.project.stylezone.models.OTP;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
@@ -13,6 +14,8 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserDao userDao;
+	
+	
 	
 	public UserDetails findUserDetailsByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -37,6 +40,11 @@ public class UserServiceImpl implements UserService{
 	public Users findUserByUserEmail(String email) {
 		// TODO Auto-generated method stub
 		return userDao.findUserByUserEmail(email);
+	}
+
+	public OTP saveOTP(OTP otp) {
+		// TODO Auto-generated method stub
+		return userDao.saveOTP(otp);
 	}
 
 	

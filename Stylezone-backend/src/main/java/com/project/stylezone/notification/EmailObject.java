@@ -1,5 +1,7 @@
 package com.project.stylezone.notification;
 
+import com.project.stylezone.notification.type.objects.AccountVerificationObject;
+
 public class EmailObject implements NotificationDataModel{
 	private String receiver;
 	private String subject;

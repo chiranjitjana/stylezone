@@ -1,6 +1,16 @@
+	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/price-range.js"></script>
+	<script src="resources/js/jquery.scrollUp.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/jquery.prettyPhoto.js"></script>
+	<script src="resources/js/main.js"></script>
+	<script src="resources/js/servicecontroller.js"></script>
+	<script src="resources/js/uicontroller.js"></script>
+	<script src="resources/js/uiconstants.js"></script>
+	<script src="resources/js/ajaxhandler.js"></script>
+	<script src="resources/js/uiutiles.js"></script>
 
-
-<footer id="footer">
+<footer id="footer" style="margin-top:20px;">
 	<!--Footer-->
 	<div class="footer-widget">
 		<div class="container">
@@ -83,4 +93,5 @@
 	</div>
 
 </footer>
+
 <!--/Footer-->

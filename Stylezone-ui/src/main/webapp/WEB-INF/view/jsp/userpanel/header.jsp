@@ -1,3 +1,4 @@
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/font-awesome.min.css" rel="stylesheet">
 <link href="resources/css/prettyPhoto.css" rel="stylesheet">
@@ -148,18 +149,47 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="logo pull-left">
-						<a href="index.html"><img src="resources/images/home/logo.png"
-							alt="" /></a>
+						<a href="/Stylezone-ui/index"><img
+							src="resources/images/home/logo.png" alt="" /></a>
 					</div>
 				</div>
 				<div class="col-sm-8">
 					<div class="shop-menu pull-right">
 						<ul class="nav navbar-nav">
+
+
+
+							<%
+								if (request.getSession().getAttribute("role") == "ROLE_User") {
+				
+							%>
+
+							<li><a href="#" style="color: #FE980F">Welcome ,<span class="userName"></span></a></li>
+
+							<li><a href="/Stylezone-ui/myaccount"><i
+									class="fa fa-user"></i> My Account</a></li>
+
+
+							<%
+								}
+							%>
+
 							<!--<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
 							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i>Cart(4)</a></li>
 
+							<%
+								if (request.getSession().getAttribute("role")!= "ROLE_User") {
+							%>
 							<li><a href="/Stylezone-ui/userlogin"><i
 									class="fa fa-lock"></i> Login</a></li>
+
+							<%
+								}else {
+									
+							%>
+
+							<li><a href="/Stylezone-ui/logout"><i class="fa fa-lock"></i>Logout</a></li>
+							<% } %>
 						</ul>
 					</div>
 				</div>
@@ -280,4 +310,12 @@
 	</div>
 	<!--/header-bottom-->
 </header>
+<script>
+$(".header-bottom").show();
+$(document).ready(function(){
+	UIcontroller.updateUi("myprofile");
+});
+
+</script>
+
 <!--/header-->
