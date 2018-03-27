@@ -157,3 +157,17 @@ ServiceController.deleteCat=function(requestObject) {
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+
+ServiceController.sendForgotPassOTP=function(requestObject) {
+	var object = {};
+	object.url = user.forgotPass;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIcontroller.sendForgotPassOTPCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}

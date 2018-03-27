@@ -30,12 +30,13 @@ public class UserController {
 
 	@RequestMapping(value = "/user/forgotPassword", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> sendOTP(@RequestBody OTP otp) {
-		Users userDetails = userService.findUserByUserId(otp.getUser().getUserId());
+		Users userDetails = userService.findUserByUserEmail(otp.getUser().getUserEmail());
 				
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 
 		if (userDetails != null) {
 			otp.setExpiryDate(AppConstant.getEpiryTime());
+			otp.setUser(userDetails);
 			OTP saveOTP = userService.saveOTP(otp);
 			
 			
@@ -43,7 +44,7 @@ public class UserController {
 					.getNotificationObject(NotificationTypeEnum.FORGOTEPASSWORD);
 			
 			ForgotPasswordObject forgotPass = new ForgotPasswordObject();
-			forgotPass.setMessageContent("OTP will be valid till 1 hour : -");
+			forgotPass.setMessageContent("OTP will be valid till 10 min : -");
 			forgotPass.setTitle("Forgot Password OTP");
 			forgotPass.setOTP(saveOTP.getOtp());
 			
@@ -56,11 +57,12 @@ public class UserController {
 			EmailSenderObject.sendEmail(emailObject);
 
 			responseHeaders.add(AppConstant.message, "OTP sent to your Email ID");
+			
 		} else {
 			responseHeaders.add(AppConstant.message, "Sorry Email ID NOT Found");
 		}
 
-		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
+		return AppConstant.convertToReponseEntity("data", responseHeaders, HttpStatus.OK);
 
 	}
 

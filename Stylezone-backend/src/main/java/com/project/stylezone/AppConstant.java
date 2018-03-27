@@ -59,10 +59,10 @@ public class AppConstant {
 
 	public static Date getEpiryTime() {
 		// TODO Auto-generated method stub
-		Calendar cal = Calendar.getInstance(); // creates calendar
-		cal.setTime(new Date()); // sets calendar time/date
-		cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
-		return cal.getTime();
+		Calendar now = Calendar.getInstance();
+	    now.add(Calendar.MINUTE, 10);
+	    Date teenMinutesFromNow = now.getTime();
+		return teenMinutesFromNow;
 		
 	}
 

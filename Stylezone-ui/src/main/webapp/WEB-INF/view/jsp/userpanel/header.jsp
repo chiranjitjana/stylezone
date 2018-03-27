@@ -11,15 +11,7 @@
 <link href="resources/css/animate.css" rel="stylesheet">
 <link href="resources/css/main.css" rel="stylesheet">
 <link href="resources/css/responsive.css" rel="stylesheet">
-<link rel="shortcut icon" href="resources/images/ico/favicon.ico">
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="resources/images/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="resources/images/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="resources/images/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed"
-	href="resources/images/ico/apple-touch-icon-57-precomposed.png">
+<link href="resources/css/custom_style.css" rel="stylesheet">
 <script src="resources/js/jquery.js"></script>
 <script src="resources/js/price-range.js"></script>
 <script src="resources/js/jquery.scrollUp.min.js"></script>
@@ -213,7 +205,7 @@
 					</div>
 					<div class="mainmenu pull-left">
 						<ul class="nav navbar-nav collapse navbar-collapse">
-							<li><a href="index.html" class="active">Home</a></li>
+							<li><a href="index.html" class="active" style="margin-top: 0px;">Home</a></li>
 							<li class="dropdown"><a href="#">Mens<i
 									class="fa fa-angle-down"></i></a>
 								<ul role="" class="sub-menu dropdown-content"

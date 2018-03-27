@@ -30,32 +30,32 @@ UIutiles.rquiredValidator = function(object) {
 										+ $(this).attr("hidden_id"));
 
 							var id = $(this).attr("id");
-							var value = $("#" + id).val();
+							var value = $("#" + clz+" #" + id).val();
 
 							if (new RegExp(UIutiles.getRegex("emptystring"))
 									.test(value)
-									&& !$("#" + id).hasClass("hide")) {
-								$("#" + id).addClass("error");
-								$("#" + id).attr("placeholder",
+									&& !$("#" + clz+" #" + id).hasClass("hide")) {
+								$("#" + clz+" #" + id).addClass("error");
+								$("#" + clz+" #" + id).attr("placeholder",
 										"Please provide " + id);
 
-							} else if (UIutiles.hasAttr(id, "email")
+							} else if (UIutiles.hasAttr("#" + clz,id, "email")
 									&& !new RegExp(UIutiles.getRegex("email"))
 											.test(value)) {
-								$("#" + id).addClass("error");
-								$("#" + id).attr("placeholder",
+								$("#" + clz+" #" + id).addClass("error");
+								$("#" + clz+" #" + id).attr("placeholder",
 										"Email is not correct " + id);
 								ret = false;
-							} else if (UIutiles.hasAttr(id, "phone")
+							} else if (UIutiles.hasAttr("#" + clz,id, "phone")
 									&& !new RegExp(UIutiles.getRegex("phone"))
 											.test(value)) {
-								$("#" + id).addClass("error");
-								$("#" + id).attr("placeholder",
+								$("#" + clz+" #" + id).addClass("error");
+								$("#" + clz+" #" + id).attr("placeholder",
 										"Phone Number is not correct " + id);
 								ret = false;
 
 							} else {
-								$("#" + id).removeClass("error");
+								$("#" + clz+" #" + id).removeClass("error");
 							}
 						});
 
@@ -64,16 +64,16 @@ UIutiles.rquiredValidator = function(object) {
 								function() {
 
 									var id = $(this).attr("id");
-									var value = $("#" + id).val();
+									var value = $("#" + clz+" #" + id).val();
 									console.log("selected value :" + value);
 									if (value === "-1"
-											&& !$("#" + id).hasClass("hide")) {
-										$("#" + id).addClass("error");
-										$("#" + id).attr("placeholder",
+											&& !$("#" + clz+" #" + id).hasClass("hide")) {
+										$("#" + clz+" #" + id).addClass("error");
+										$("#" + clz+" #" + id).attr("placeholder",
 												"Please provide " + id);
 										ret = false;
 									} else {
-										$("#" + id).removeClass("error");
+										$("#" + clz+" #" + id).removeClass("error");
 									}
 								});
 			});
@@ -89,9 +89,9 @@ UIutiles.makeJsonObject = function(rootClass) {
 
 		console.log("makejson object " + id);
 
-		if (UIutiles.hasAttr(id, "child")) {
+		if (UIutiles.hasAttr(rootClass,id, "child")) {
 			var child = new Object();
-			var value = $("#" + id).attr("child");
+			var value = $(rootClass+" #" + id).attr("child");
 			$(rootClass).find("[child ='" + value + "']").each(function() {
 				child[$(this).attr("id")] = $(this).val();
 			});
@@ -125,8 +125,8 @@ UIutiles.bindReponseToUi = function(response, uiRoot) {
 	}
 }
 
-UIutiles.hasAttr = function(controler, attribute) {
-	var attr = $("#" + controler).attr(attribute);
+UIutiles.hasAttr = function(root,controler, attribute) {
+	var attr = $(root+" #" + controler).attr(attribute);
 
 	if (typeof attr !== typeof undefined && attr !== false) {
 		// Element has this attribute

@@ -148,45 +148,53 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="text-center">
-
+							 <form class="forgotpass" id="forgotpass">'
 								<p>If you have forgotten your password you can reset it
 									here.</p>
-								<div class="panel-body">
-									<fieldset>
+									<div class="panel-body">
+										<div class="message   hide alert alert-dismissible col-sm-12"
+											role="alert">
+											<span class="text"></span>
+										</div>
+										<div class="otpsending hide">
+											<img alt="" src="resources/images/sending.gif" height="50">
+										</div>
+
 										<div class="form-group">
-											<input class="form-control input-md"
-												placeholder="E-mail Address" name="email" type="email">
+											<input class="form-control input-md userEmail controle" id="userEmail"
+												placeholder="E-mail Address"  type="email"  child="user" >
 										</div>
 
-										<div class="form-group hide">
+										<div class="form-group hide otptxtbox">
 											<input class="form-control input-md "
-												placeholder="Enter OTP" name="otp" type="number">
+												placeholder="Enter OTP"  type="number">
 										</div>
 
 										<div class="form-group hide">
 											<input class="form-control input-md"
-												placeholder="Enter Password" name="otp" type="password">
+												placeholder="Enter Password"  type="password">
 										</div>
 
 										<div class="form-group hide">
 											<input class="form-control input-md"
-												placeholder="Re-enter Password" name="otp" type="password">
+												placeholder="Re-enter Password"  type="password">
 										</div>
 									
 											<div class="row">
 												<div class="col-md-6">
-												<input class="btn btn-md btn-primary btn-block"
-													value="Send OTP" type="submit">
+												<button class="btn btn-md btn-primary btn-block sendOTP" type="button"
+													>Send OTP</button>
 												</div>
 												<div class="col-md-6 hide">
-													 <input
-													class="btn btn-md btn-primary btn-block " disabled
-													value="Change Password" type="submit">
+													 <button
+													class="btn btn-md btn-primary btn-block checkOTP" disabled
+													 >Change Password</button>
 												</div>
 											</div>
 									
-									</fieldset>
+									
 								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -214,6 +222,12 @@
 	$("#roleType").on("change", function() {
 		$("#roleId").val( this.value);
 	});
+	
+	$(".sendOTP").click(function(){
+		if(UIutiles.rquiredValidator($("#forgotpass")))
+			UIcontroller.sendForgotPassOTP();
+	});
+	
 </script>
 
 

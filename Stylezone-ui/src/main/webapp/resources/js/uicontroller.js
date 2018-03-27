@@ -482,3 +482,46 @@ UIcontroller.loadCatList=(function () {
         }
     };
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*user section*/
+
+UIcontroller.sendForgotPassOTP=function()
+{
+	 
+	$("#forgotpass .otpsending").removeClass("hide");
+	var email=$("#forgotpass #userEmail").val();
+	var data = {"user":{"userEmail":email}};
+	var requestObject = {};
+	requestObject.container = "forgotpass";
+	requestObject.data = JSON.stringify(data);
+	ServiceController.sendForgotPassOTP(requestObject);
+}
+
+
+UIcontroller.sendForgotPassOTPCallback=function(responseData) {
+	$("#forgotpass .otpsending").addClass("hide");
+	
+	if(responseData.message==="OTP sent to your Email ID")
+	{
+		$("#forgotpass .sendOTP").prop("disabled", true);
+		UIutiles.handleReponse(responseData);
+		$(".otptxtbox").removeClass("hide");
+		
+		$("#forgotpass .checkOTP").prop("disabled", false);
+		
+	}
+	
+}
