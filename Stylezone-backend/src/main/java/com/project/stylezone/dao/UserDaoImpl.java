@@ -58,4 +58,16 @@ public class UserDaoImpl implements UserDao {
 		return otpRepo.save(otp);
 	}
 
+	public OTP findOTPByUser(Users user) {
+		// TODO Auto-generated method stub
+		return otpRepo.findByUser(user);
+	}
+
+
+	public void deleteOTPforUser(OTP otp) {
+		// TODO Auto-generated method stub
+		 otpRepo.delete(otp);
+	}
+
+
 }

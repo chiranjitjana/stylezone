@@ -148,9 +148,10 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="text-center">
-							 <form class="forgotpass" id="forgotpass">'
-								<p>If you have forgotten your password you can reset it
-									here.</p>
+								<form class="forgotpass" id="forgotpass">
+									'
+									<p>If you have forgotten your password you can reset it
+										here.</p>
 									<div class="panel-body">
 										<div class="message   hide alert alert-dismissible col-sm-12"
 											role="alert">
@@ -161,39 +162,51 @@
 										</div>
 
 										<div class="form-group">
-											<input class="form-control input-md userEmail controle" id="userEmail"
-												placeholder="E-mail Address"  type="email"  child="user" >
+											<input class="form-control input-md userEmail controle"
+												id="userEmail" placeholder="E-mail Address" type="email"
+												child="user">
 										</div>
-
+										
+										
 										<div class="form-group hide otptxtbox">
-											<input class="form-control input-md "
-												placeholder="Enter OTP"  type="number">
+											<input class="form-control input-md otptxtvalue controle" placeholder="Enter OTP"
+												type="number" id="otptxtvalue">
 										</div>
 
-										<div class="form-group hide">
-											<input class="form-control input-md"
-												placeholder="Enter Password"  type="password">
+										<div class="form-group ">
+											<input class="form-control input-md hide password1"
+												placeholder="Enter Password" type="password">
 										</div>
 
-										<div class="form-group hide">
-											<input class="form-control input-md"
-												placeholder="Re-enter Password"  type="password">
+										<div class="form-group">
+											<input class="form-control input-md hide password2"
+												placeholder="Re-enter Password" type="password">
 										</div>
-									
-											<div class="row">
-												<div class="col-md-6">
-												<button class="btn btn-md btn-primary btn-block sendOTP" type="button"
-													>Send OTP</button>
-												</div>
-												<div class="col-md-6 hide">
-													 <button
-													class="btn btn-md btn-primary btn-block checkOTP" disabled
-													 >Change Password</button>
-												</div>
+
+										<div class="row">
+
+											<button class="btn btn-md btn-primary btn-block sendOTP"
+												type="button">Send OTP</button>
+
+
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<button type="button"
+													class="btn btn-md btn-primary btn-block checkOTP hide">Verify
+													OTP</button>
 											</div>
-									
-									
-								</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<button type="button"
+													class="btn btn-md btn-primary btn-block changePassword hide">Change Password
+													</button>
+											</div>
+										</div>
+
+
+									</div>
 								</form>
 							</div>
 						</div>
@@ -227,6 +240,15 @@
 		if(UIutiles.rquiredValidator($("#forgotpass")))
 			UIcontroller.sendForgotPassOTP();
 	});
+	
+	$(".checkOTP").click(function(){
+		UIcontroller.verifyForgotPassOTP();
+	});
+	
+	$(".changePassword").click(function(){
+		UIcontroller.changePassword();
+	});
+	
 	
 </script>
 

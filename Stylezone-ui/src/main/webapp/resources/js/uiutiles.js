@@ -158,3 +158,4 @@ UIutiles.handleReponse = function(responseData) {
 	$("." + responseData.container + "  .message").show().delay(5000).fadeOut();
 
 }
+

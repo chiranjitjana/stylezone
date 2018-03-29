@@ -1,5 +1,7 @@
 package com.project.stylezone.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.stylezone.AppConstant;
@@ -18,7 +21,6 @@ import com.project.stylezone.notification.EmailSenderObject;
 import com.project.stylezone.notification.NotificationObjectFactory;
 import com.project.stylezone.notification.NotificationType;
 import com.project.stylezone.notification.NotificationTypeEnum;
-import com.project.stylezone.notification.type.objects.AccountVerificationObject;
 import com.project.stylezone.notification.type.objects.ForgotPasswordObject;
 import com.project.stylezone.service.UserService;
 
@@ -35,8 +37,16 @@ public class UserController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 
 		if (userDetails != null) {
+			OTP otpFounded = userService.findOTPByUser(userDetails);
+			if(otpFounded!=null)
+			userService.deleteOTPforUser(otpFounded);
+			
+			
+			otp.setOtp(AppConstant.getOTP());
 			otp.setExpiryDate(AppConstant.getEpiryTime());
 			otp.setUser(userDetails);
+			otp.setCreatedDate(AppConstant.getDateTime());
+			
 			OTP saveOTP = userService.saveOTP(otp);
 			
 			
@@ -44,7 +54,7 @@ public class UserController {
 					.getNotificationObject(NotificationTypeEnum.FORGOTEPASSWORD);
 			
 			ForgotPasswordObject forgotPass = new ForgotPasswordObject();
-			forgotPass.setMessageContent("OTP will be valid till 10 min : -");
+			forgotPass.setMessageContent("OTP will be valid till 10 min");
 			forgotPass.setTitle("Forgot Password OTP");
 			forgotPass.setOTP(saveOTP.getOtp());
 			
@@ -62,9 +72,45 @@ public class UserController {
 			responseHeaders.add(AppConstant.message, "Sorry Email ID NOT Found");
 		}
 
-		return AppConstant.convertToReponseEntity("data", responseHeaders, HttpStatus.OK);
+		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
 
 	}
 
+	
+	@RequestMapping(value = "/user/verifyForgotPassOtp", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> verifyOTP(@RequestParam(name="email") String email,@RequestParam(name="otp") String otp)
+	{
+		Users userDetails = userService.findUserByUserEmail(email);
+		OTP findedOtp = userService.findOTPByUser(userDetails);
+		
+		
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Date expiryDate = findedOtp.getExpiryDate();
+		
+		
+		boolean after = new Date().after(expiryDate);
+		
+		if(after)
+		{
+			responseHeaders.add(AppConstant.message, "OTP is expired");
+			if(userService.findOTPByUser(userDetails)!=null)
+				userService.deleteOTPforUser(findedOtp);
+			
+		}else
+		{
+			if(otp.equals(findedOtp.getOtp()))
+			{
+				responseHeaders.add(AppConstant.message, "OTP matched");
+				if(userService.findOTPByUser(userDetails)!=null)
+					userService.deleteOTPforUser(findedOtp);
+			}else
+			{
+				responseHeaders.add(AppConstant.message, "OTP is not matched");
+			}
+		}
+	
+		
+		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
+	}
 	
 }

@@ -171,3 +171,30 @@ ServiceController.sendForgotPassOTP=function(requestObject) {
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+ServiceController.verifyForgotPassOTP=function(requestObject) {
+	var object = {};
+	object.url = user.verifyOtpPass;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIcontroller.verifyForgotPassOTPCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
+
+ServiceController.changePassword=function(requestObject) {
+	var object = {};
+	object.url = user.changePassword;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIcontroller.changePasswordCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}

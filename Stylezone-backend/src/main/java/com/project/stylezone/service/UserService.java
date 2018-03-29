@@ -15,4 +15,8 @@ public interface UserService {
 	Users findUserByUserEmail(String email);
 	
 	OTP saveOTP(OTP save);
+	OTP findOTPByUser(Users user);
+	
+	void deleteOTPforUser(OTP otp);
+
 }

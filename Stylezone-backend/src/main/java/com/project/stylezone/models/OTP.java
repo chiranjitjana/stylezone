@@ -12,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.project.stylezone.AppConstant;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "otp")
@@ -24,10 +24,10 @@ public class OTP {
 	private int otpId;
 
 	@Column(name = "otp")
-	private String otp=AppConstant.getOTP();
+	private String otp;
 	
 	@Column(name = "created_date")
-	private Date createdDate=AppConstant.getDateTime();
+	private Date createdDate;
 	
 	@Column(name = "expiry_date")
 	private Date expiryDate;

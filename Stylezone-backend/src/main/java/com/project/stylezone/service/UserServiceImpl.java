@@ -47,6 +47,19 @@ public class UserServiceImpl implements UserService{
 		return userDao.saveOTP(otp);
 	}
 
+	public OTP findOTPByUser(Users user) {
+		// TODO Auto-generated method stub
+		return userDao.findOTPByUser(user);
+	}
+
+	public void deleteOTPforUser(OTP otp) {
+		// TODO Auto-generated method stub
+		 userDao.deleteOTPforUser(otp);
+	}
+
+	
+	
+	
 	
 
 }
