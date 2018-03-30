@@ -7,18 +7,31 @@
 .marigin-bottom {
 	marigin-bottom: 10px !important;
 }
-.active
-{
-	color:#FE980F!important;
+
+.active {
+    color: #ffffff;
+    
 }
 
+
+.active:hover {
+    color: #ffffff;
+}
+
+a:hover {
+    outline: none;
+    text-decoration: none;
+}
 </style>
 
 
 <section>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3 panel-group category-products">
+			<div class="col-sm-3 panel-group " style="    border: 1px solid #b7b734;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    padding-top: 15px;">
 				<div class="left-sidebar">
 					<h2>Manage Account</h2>
 

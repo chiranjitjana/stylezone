@@ -288,7 +288,7 @@
 
 							<!--<li><a href="404.html">404</a></li>-->
 
-							<li><a href="contact-us.html">Contact Us</a></li>
+							<li><a href="/Stylezone-ui/contactus">Contact Us</a></li>
 						</ul>
 					</div>
 				</div>

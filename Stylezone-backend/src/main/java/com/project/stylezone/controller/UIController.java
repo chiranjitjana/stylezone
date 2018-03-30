@@ -49,6 +49,11 @@ public class UIController {
 	}
 	
 	
+	@RequestMapping(value = "/contactus")
+	public String getContactUs() {
+		return "/userpanel/contact-us";
+	}
+	
 	@RequestMapping(value="/myaccount")
 	public String getMyAccount()
 	{
