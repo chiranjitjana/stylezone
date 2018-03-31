@@ -78,9 +78,7 @@
 					<h2>Login to your account</h2>
 					<form action="/Stylezone-ui/login" method="post">
 						<input type="email" placeholder="Email ID" name="username" /> <input
-							type="password" placeholder="Password" name="password" /> <a
-							href="#" data-target="#pwdModal" data-toggle="modal">Forgot
-							my password</a>
+							type="password" placeholder="Password" name="password" /> <a class="forgotPassButton">Forgot password</a>
 						<button type="submit" class="btn btn-default">Login</button>
 					</form>
 				</div>
@@ -235,6 +233,13 @@
 	$("#roleType").on("change", function() {
 		$("#roleId").val( this.value);
 	});
+	
+	$(".forgotPassButton").click(function(){
+		 UIcontroller.reInitForgotPassword(); 
+		$('#pwdModal').modal('show');
+		
+	});
+	
 	
 	$(".sendOTP").click(function(){
 		if(UIutiles.rquiredValidator($("#forgotpass")))

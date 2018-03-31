@@ -1,3 +1,4 @@
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -444,3 +445,10 @@
 	<!--/#do_action-->
 
 	<jsp:include page="footer.jsp"></jsp:include>
+	<script>
+$(".header-bottom").show();
+$(document).ready(function(){
+	UIcontroller.updateUi("myprofile");
+});
+
+</script>

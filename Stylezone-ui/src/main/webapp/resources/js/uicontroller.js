@@ -481,7 +481,7 @@ UIcontroller.sendForgotPassOTP = function() {
 
 UIcontroller.sendForgotPassOTPCallback = function(responseData) {
 	$("#forgotpass .otpsending").addClass("hide");
-
+	$("#forgotpass #otptxtvalue").removeClass("hide");
 	if (responseData.message === "OTP sent to your Email ID") {
 		$("#forgotpass .sendOTP").addClass("hide");
 
@@ -512,6 +512,7 @@ UIcontroller.sendForgotPassOTPCallback = function(responseData) {
 }
 
 UIcontroller.verifyForgotPassOTP = function() {
+	
 	var email = $("#forgotpass #userEmail").val();
 	var otp = $("#forgotpass #otptxtvalue").val();
 
@@ -569,20 +570,63 @@ UIcontroller.verifyForgotPassOTPCallBack = function(responseData) {
 		var pass1 = $("#forgotpass .password1").val();
 		var pass2 = $("#forgotpass .password2").val();
 
-		var data = {}
-		data.email = email;
-		data.password = pass1;
-
-		var requestObject = {};
-		requestObject.container = "forgotpass";
-		requestObject.data = data;
-		ServiceController.changePassword(requestObject);
+		var noError=true;
+		if(new RegExp(UIutiles.getRegex("emptystring")).test(pass1))
+		{
+			$("#forgotpass .password1").addClass("error");
+			
+			if(noError==true)
+			noError=false;
+		}
+		
+		if(new RegExp(UIutiles.getRegex("emptystring")).test(pass2))
+		{
+			$("#forgotpass .password2").addClass("error");
+			if(noError==true)
+				noError=false;
+		}
+		
+		
+		if(!new RegExp(UIutiles.getRegex("emptystring")).test(pass2) && !new RegExp(UIutiles.getRegex("emptystring")).test(pass1))
+		{
+			
+			if(pass2!=pass1)
+			{
+				noError=false;
+				$(".forgotpass  .message").addClass("alert-danger");
+				$(".forgotpass  .message").removeClass("hide");
+				
+				$(".forgotpass  .message .text").text(
+						"Password Not Matched");
+				$(".forgotpass .message").show().delay(5000)
+						.fadeOut();
+			}
+		}
+			
+		
+		
+		
+		if(noError!=false)
+		{
+			
+			var data = {}
+			data.email = email;
+			data.password = pass1;
+			var requestObject = {};
+			requestObject.container = "forgotpass";
+			requestObject.data = data;
+			ServiceController.changePassword(requestObject);
+			
+		}
+		
+		
+	
 	}
 
 	UIcontroller.changePasswordCallBack = function(responseData) {
 
 		$("#forgotpass #otptxtvalue").removeClass("error");
-		if (responseData.message === "OTP matched") {
+		if (responseData.message === "Password Changed .Login with new password") {
 
 			UIutiles.bindReponseToUi(responseData.data, "."
 					+ responseData.container);
@@ -603,6 +647,8 @@ UIcontroller.verifyForgotPassOTPCallBack = function(responseData) {
 
 			$("#forgotpass .password1").removeClass("hide");
 			$("#forgotpass .password2").removeClass("hide");
+			
+			setTimeout(function() { $('#pwdModal').modal('hide'); }, 3000);
 
 		} else {
 
@@ -619,4 +665,23 @@ UIcontroller.verifyForgotPassOTPCallBack = function(responseData) {
 
 		}
 	}
+}
+
+
+UIcontroller.reInitForgotPassword=function()
+{
+	$("#forgotpass #userEmail").prop("readonly", false);
+	$("#forgotpass #userEmail").val("");
+	$("#forgotpass #otptxtvalue").val("");
+	$("#forgotpass #password1").val("");
+	$("#forgotpass #password2").val("");
+	
+	$("#forgotpass #otptxtvalue").addClass("hide");
+	$("#forgotpass .checkOTP").addClass("hide");
+	$("#forgotpass .changePassword").addClass("hide");
+
+	$("#forgotpass .password1").addClass("hide");
+	$("#forgotpass .password2").addClass("hide");
+	$("#forgotpass .sendOTP").removeClass("hide");
+	
 }

@@ -58,6 +58,6 @@ var adminPanelButtonAction={
 var user={
 		"forgotPass":adminPanel.root+"/user/forgotPassword",
 		"verifyOtpPass":adminPanel.root+"/user/verifyForgotPassOtp",
-		"changePassword":""
+		"changePassword":adminPanel.root+"/user/changePassword"
 		
 }

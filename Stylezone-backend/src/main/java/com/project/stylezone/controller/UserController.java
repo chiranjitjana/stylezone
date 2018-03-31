@@ -113,4 +113,21 @@ public class UserController {
 		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(value = "/user/changePassword", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> changePassword(@RequestParam(name="email") String email,@RequestParam(name="password") String password)
+	{
+		Users userDetails = userService.findUserByUserEmail(email);
+		userDetails.setPassword(password);
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		if(userService.saveUser(userDetails)!=null) {
+			responseHeaders.add(AppConstant.message, "Password Changed .Login with new password");
+			
+		}else
+		{
+			responseHeaders.add(AppConstant.message, "Unexpected Error Occored");
+		}
+		
+		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
+	}
 }
