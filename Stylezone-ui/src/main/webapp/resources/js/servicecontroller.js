@@ -198,3 +198,23 @@ ServiceController.changePassword=function(requestObject) {
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+
+
+
+
+
+/**********product8***************/
+ServiceController.addProduct=function(requestObject) {
+	var object = {};
+	object.url = adminPanelButtonAction.saveProduct;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = ProductController.addProductCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+

@@ -38,7 +38,7 @@ UIutiles.rquiredValidator = function(object) {
 								$("#" + clz+" #" + id).addClass("error");
 								$("#" + clz+" #" + id).attr("placeholder",
 										"Please provide " + id);
-
+								ret = false;
 							} else if (UIutiles.hasAttr("#" + clz,id, "email")
 									&& !new RegExp(UIutiles.getRegex("email"))
 											.test(value)) {

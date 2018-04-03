@@ -195,7 +195,6 @@ UIcontroller.callBackHeaderInfo = function(responseData) {
 
 UIcontroller.loadBrandList = (function() {
 	var instance;
-
 	function createInstance() {
 		var object = $('.brands #brands')
 				.DataTable(
@@ -233,6 +232,7 @@ UIcontroller.loadBrandList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
+								ProductController.refresh();
 								$(".brands .brandlistcount")
 										.text(
 												"("
@@ -258,7 +258,6 @@ UIcontroller.loadBrandList = (function() {
 
 UIcontroller.loadColorList = (function() {
 	var instance;
-
 	function createInstance() {
 		var object = $('.colors  #colors')
 				.DataTable(
@@ -311,6 +310,7 @@ UIcontroller.loadColorList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
+								ProductController.refresh();
 								$(".colors .colorlistcount")
 										.text(
 												"("
@@ -336,7 +336,6 @@ UIcontroller.loadColorList = (function() {
 
 UIcontroller.loadOccasionList = (function() {
 	var instance;
-
 	function createInstance() {
 		var object = $('.occasions  #occasions')
 				.DataTable(
@@ -375,6 +374,7 @@ UIcontroller.loadOccasionList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
+								ProductController.refresh();
 								$(".occasions .occasionlistcount")
 										.text(
 												"("
@@ -400,7 +400,6 @@ UIcontroller.loadOccasionList = (function() {
 
 UIcontroller.loadCatList = (function() {
 	var instance;
-
 	function createInstance() {
 		var object = $('.category  #category')
 				.DataTable(
@@ -439,6 +438,8 @@ UIcontroller.loadCatList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
+								
+								ProductController.refresh();
 								$(".category .catlistcount")
 										.text(
 												"("

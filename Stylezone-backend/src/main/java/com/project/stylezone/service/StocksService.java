@@ -10,6 +10,9 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
+import com.project.stylezone.models.Product;
+import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetailsMaleAttr;
 
 public interface StocksService {
 
@@ -55,6 +58,21 @@ public interface StocksService {
 	Category fetchCatByName(String cat);
 	List<CategoryView> getAllCatwithCreatorName();
 	Category fetchCatById(Category Occasion);
+	
+	
+	
+	/***Product
+	 */
+	//List<Pro> getAllCat();
+	Product saveOrUpdateProdct(Product product);
+	
+	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
+	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
+	/*List<Category> removeCat(Category cat);
+	Category fetchCatByName(String cat);
+	List<CategoryView> getAllCatwithCreatorName();
+	Category fetchCatById(Category Occasion);*/
+	boolean checkProductExists(Product product);
 
 
 	

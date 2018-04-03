@@ -13,6 +13,10 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
+import com.project.stylezone.models.Product;
+import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetails;
+import com.project.stylezone.models.ProductDetailsMaleAttr;
 import com.project.stylezone.repository.BrandRepo;
 import com.project.stylezone.repository.BrandViewRepo;
 import com.project.stylezone.repository.CatRepo;
@@ -21,40 +25,54 @@ import com.project.stylezone.repository.ColorRepo;
 import com.project.stylezone.repository.ColorViewRepo;
 import com.project.stylezone.repository.OccasionRepo;
 import com.project.stylezone.repository.OccasionViewRepo;
+import com.project.stylezone.repository.ProductDetailRepo;
+import com.project.stylezone.repository.ProductDetailsFemaleRepo;
+import com.project.stylezone.repository.ProductDetailsMaleRepo;
+import com.project.stylezone.repository.ProductRepo;
 
 @Component
 public class StocksDaoImpl implements StocksDao {
 
 	@Autowired
 	BrandRepo brandRepo;
-	
+
 	@Autowired
 	BrandViewRepo brandViewRepo;
-	
+
 	@Autowired
 	ColorViewRepo colorViewRepo;
-	
-	
+
 	@Autowired
 	ColorRepo colorRepo;
-	
+
 	@Autowired
 	OccasionViewRepo occasionViewRepo;
-	
+
 	@Autowired
 	OccasionRepo occasionRepo;
-	
+
 	@Autowired
 	CatRepo catRepo;
-	
 
 	@Autowired
 	CatViewRepo catViewRepo;
-	
+
+	@Autowired
+	ProductRepo productRepo;
+
+	@Autowired
+	ProductDetailRepo productDetailsRepo;
+
+	@Autowired
+	ProductDetailsMaleRepo productDetailsMaleRepo;
+
+	@Autowired
+	ProductDetailsFemaleRepo productDetailsFemaleRepo;
+
 	public List<Brand> getAllBrands() {
 		// TODO Auto-generated method stub
-		//return (List<Brand>) brandRepo.findAll();
-		
+		// return (List<Brand>) brandRepo.findAll();
+
 		return brandRepo.findAllBrandByLatestCreatedDate();
 	}
 
@@ -66,7 +84,7 @@ public class StocksDaoImpl implements StocksDao {
 	public List<Brand> removeBrand(Brand brand) {
 		// TODO Auto-generated method stub
 		brandRepo.delete(brand);
-		return  (List<Brand>) brandRepo.findAll();	
+		return (List<Brand>) brandRepo.findAll();
 	}
 
 	public Brand fetchBrandByName(String brandName) {
@@ -84,18 +102,9 @@ public class StocksDaoImpl implements StocksDao {
 		return brandRepo.findByBrandId(brand.getBrandId());
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public List<Color> getAllColors() {
 		// TODO Auto-generated method stub
-		return (List<Color>)colorRepo.findAllColorByLatestCreatedDate();
+		return (List<Color>) colorRepo.findAllColorByLatestCreatedDate();
 	}
 
 	public Color saveOrUpdateColor(Color color) {
@@ -105,8 +114,8 @@ public class StocksDaoImpl implements StocksDao {
 
 	public List<Color> removeBrand(Color color) {
 		// TODO Auto-generated method stub
-		 colorRepo.delete(color);
-		 return (List<Color>) colorRepo.findAll();	
+		colorRepo.delete(color);
+		return (List<Color>) colorRepo.findAll();
 	}
 
 	public Color fetchColorByName(String colorName) {
@@ -129,13 +138,6 @@ public class StocksDaoImpl implements StocksDao {
 		return colorRepo.findByColorId(color.getColorId());
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	public List<Occasion> getAllOccasion() {
 		// TODO Auto-generated method stub
 		return occasionRepo.findAllOccasionByLatestCreatedDate();
@@ -148,8 +150,8 @@ public class StocksDaoImpl implements StocksDao {
 
 	public List<Occasion> removeOccasion(Occasion occasion) {
 		// TODO Auto-generated method stub
-		 occasionRepo.delete(occasion);
-		 return (List<Occasion>) occasionRepo.findAll();
+		occasionRepo.delete(occasion);
+		return (List<Occasion>) occasionRepo.findAll();
 	}
 
 	public Occasion fetchOccasionByName(String occasion) {
@@ -167,10 +169,6 @@ public class StocksDaoImpl implements StocksDao {
 		return occasionRepo.findByOccasionId(occasion.getOccasionId());
 	}
 
-	
-	
-	
-	
 	public List<Category> getAllCat() {
 		// TODO Auto-generated method stub
 		return catRepo.findAllCatByLatestCreatedDate();
@@ -184,7 +182,7 @@ public class StocksDaoImpl implements StocksDao {
 	public List<Category> removeCat(Category cat) {
 		// TODO Auto-generated method stub
 		catRepo.delete(cat);
-		 return (List<Category>) catRepo.findAll();
+		return (List<Category>) catRepo.findAll();
 	}
 
 	public Category fetchCatByName(String cat) {
@@ -202,5 +200,40 @@ public class StocksDaoImpl implements StocksDao {
 		return catRepo.findByCatId(cat.getCatId());
 	}
 
+	public Product saveOrUpdateProdct(Product product) {
+		// TODO Auto-generated method stub
+		return productRepo.save(product);
+	}
+
+	public ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr productDetails) {
+		// TODO Auto-generated method stub
+		return productDetailsMaleRepo.save(productDetails);
+	}
+
+	public ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr productDetails) {
+		// TODO Auto-generated method stub
+		return productDetailsFemaleRepo.save(productDetails);
+	}
+
+	public boolean checkProductExists(Product product) {
+		// TODO Auto-generated method stub
+		List<ProductDetails> findProductDetailsByTitle = productDetailsRepo
+				.findProductDetailsByTitle(product.getProductDetails().getProductTitle());
+		if (findProductDetailsByTitle.size() == 0) {
+			return false;
+		} else {
+			return true;
+			/*List<Product> existsProduct = productRepo.isExistsProduct(product.getBrand(), product.getCategory(),
+					product.getOccasion(), product.getColor(), product.getProductDetails());
+
+			if (existsProduct.size() > 0) {
+				return false;
+			} else {
+				return true;
+			}*/
+
+		}
+
+	}
 
 }

@@ -10,6 +10,9 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
+import com.project.stylezone.models.Product;
+import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetailsMaleAttr;
 
 public interface StocksDao {
 
@@ -55,4 +58,12 @@ public interface StocksDao {
 	List<CategoryView> getAllCatwithCreatorName();
 	Category fetchCatById(Category Occasion);
 
+	
+	/***Product
+	 */
+	//List<Pro> getAllCat();
+	Product saveOrUpdateProdct(Product product);
+	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
+	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
+	boolean checkProductExists(Product product);
 }

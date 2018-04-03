@@ -136,7 +136,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<BrandView> allBrands = stockService.getAllBrandwithCreatorName();
 
-		if (allBrands.size() > 0) {
+		if (allBrands.size()<= 0) {
 			responseHeaders.add(AppConstant.message, "No Brands Available");
 		} else {
 			responseHeaders.add(AppConstant.message, allBrands.size() + " available in stock");
@@ -209,7 +209,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<ColorView> colorView = stockService.getAllColorswithCreatorName();
 
-		if (colorView.size() > 0) {
+		if (colorView.size() <=0) {
 			responseHeaders.add(AppConstant.message, "No Color Available");
 		} else {
 			responseHeaders.add(AppConstant.message, colorView.size() + " available in stock");
@@ -282,7 +282,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<OccasionView> allOccasions = stockService.getAllOccasionswithCreatorName();
 
-		if (allOccasions.size() > 0) {
+		if (allOccasions.size() <= 0) {
 			responseHeaders.add(AppConstant.message, "No Brands Available");
 		} else {
 			responseHeaders.add(AppConstant.message, allOccasions.size() + " available in stock");
@@ -354,7 +354,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<CategoryView> allcat = stockService.getAllCatwithCreatorName();
 
-		if (allcat.size() > 0) {
+		if (allcat.size() <= 0) {
 			responseHeaders.add(AppConstant.message, "No Categories Available");
 		} else {
 			responseHeaders.add(AppConstant.message, allcat.size() + " available in stock");

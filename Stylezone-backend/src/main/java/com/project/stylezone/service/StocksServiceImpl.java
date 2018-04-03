@@ -14,6 +14,9 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
+import com.project.stylezone.models.Product;
+import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetailsMaleAttr;
 
 @Service
 public class StocksServiceImpl implements StocksService {
@@ -145,5 +148,26 @@ public class StocksServiceImpl implements StocksService {
 		// TODO Auto-generated method stub
 		return stocksDao.fetchCatById(cat);
 	}
+
+	public Product saveOrUpdateProdct(Product product) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateProdct(product);
+	}
+
+	public ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateProdctMale(product);
+	}
+
+	public ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product) {
+		// TODO Auto-generated method stub
+		return stocksDao.saveOrUpdateProdctFemale(product);
+	}
+
+	public boolean checkProductExists(Product product) {
+		// TODO Auto-generated method stub
+		return stocksDao.checkProductExists(product);
+	}
+
 
 }
