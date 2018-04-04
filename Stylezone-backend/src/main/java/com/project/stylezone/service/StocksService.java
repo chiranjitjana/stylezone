@@ -13,6 +13,7 @@ import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
+import com.project.stylezone.models.ProductListView;
 
 public interface StocksService {
 
@@ -68,9 +69,10 @@ public interface StocksService {
 	
 	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
 	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
+	List<ProductListView> getAllProducts();
 	/*List<Category> removeCat(Category cat);
 	Category fetchCatByName(String cat);
-	List<CategoryView> getAllCatwithCreatorName();
+	
 	Category fetchCatById(Category Occasion);*/
 	boolean checkProductExists(Product product);
 

@@ -145,7 +145,7 @@ ProductController.create = function() {
 
 
 ProductController.addProductCallBack=function(responseData) {
-
+	ProductController.loadProductList.getInstance().ajax.reload();
 	UIutiles.handleReponse(responseData);
 	$('#productCreate').animate({
 		scrollTop : 0
@@ -430,3 +430,76 @@ ProductController.CustomValidatorLogic = function(object) {
 	return ret;
 
 }
+
+
+/**load product list**/
+ProductController.loadProductList = (function() {
+	var instance;
+	function createInstance() {
+		var object = $('.products  #productsTable')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : adminPanelButtonAction.fecthAllProduct,
+								"dataSrc" : ""
+							},
+							"columns" : [
+									{
+										"data" : "pId"
+									},
+									{
+										"data" : "title"
+									},
+									{
+										"data" : "gender"
+									},
+									{
+										"data" : "inStock"
+									},
+									{
+										"data" : "createDateFormated"
+									},
+									{
+										"data" : "createBy"
+									},
+
+									{
+										"targets" : -1,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-info update-btn'>Update </button>"
+									},
+									{
+										"targets" : -1,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-danger delete-btn' >Delete </button>"
+									} ],
+							"columnDefs" : [ {
+								"targets" : [ 0 ],
+								"visible" : false
+							} ],
+							'info' : true,
+							"fnDrawCallback" : function() {
+								
+								ProductController.refresh();
+								$(".products .proListCount")
+										.text(
+												"("
+														+ this
+																.fnSettings()
+																.fnRecordsTotal()
+														+ ")");
+							}
+
+						});
+		return object;
+	}
+
+	return {
+		getInstance : function() {
+			if (!instance) {
+				instance = createInstance();
+			}
+			return instance;
+		}
+	};
+})();

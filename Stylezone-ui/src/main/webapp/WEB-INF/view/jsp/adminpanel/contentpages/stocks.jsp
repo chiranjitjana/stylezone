@@ -36,9 +36,9 @@
 <script>
          $(document).ready(function() {
 			
-			$('#products').DataTable( {
+		/* 	$('#products').DataTable( {
          		"pagingType": "full_numbers"
-         	} );
+         	} ); */
 			
 			
 			$(".list-group a").click(function(){

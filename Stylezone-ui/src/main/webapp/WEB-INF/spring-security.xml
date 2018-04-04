@@ -44,6 +44,7 @@
 	  
 
 	  <security:http security="none" pattern="/adminpanel/product/create" />
+	    <security:http security="none" pattern="/adminpanel/product/all" />
  	<security:http security="none" pattern="/register/user" />
  	<security:http security="none" pattern="/user/forgotPassword" />
  	

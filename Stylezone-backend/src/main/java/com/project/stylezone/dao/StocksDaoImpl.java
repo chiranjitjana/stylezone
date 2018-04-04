@@ -17,6 +17,7 @@ import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetails;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
+import com.project.stylezone.models.ProductListView;
 import com.project.stylezone.repository.BrandRepo;
 import com.project.stylezone.repository.BrandViewRepo;
 import com.project.stylezone.repository.CatRepo;
@@ -28,6 +29,7 @@ import com.project.stylezone.repository.OccasionViewRepo;
 import com.project.stylezone.repository.ProductDetailRepo;
 import com.project.stylezone.repository.ProductDetailsFemaleRepo;
 import com.project.stylezone.repository.ProductDetailsMaleRepo;
+import com.project.stylezone.repository.ProductListViewRepo;
 import com.project.stylezone.repository.ProductRepo;
 
 @Component
@@ -68,6 +70,10 @@ public class StocksDaoImpl implements StocksDao {
 
 	@Autowired
 	ProductDetailsFemaleRepo productDetailsFemaleRepo;
+	
+	@Autowired
+	ProductListViewRepo productListViewRepo;
+	
 
 	public List<Brand> getAllBrands() {
 		// TODO Auto-generated method stub
@@ -234,6 +240,11 @@ public class StocksDaoImpl implements StocksDao {
 
 		}
 
+	}
+
+	public List<ProductListView> getAllProducts() {
+		// TODO Auto-generated method stub
+		return (List<ProductListView>) productListViewRepo.findAll();
 	}
 
 }

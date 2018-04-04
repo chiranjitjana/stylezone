@@ -13,6 +13,7 @@ import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
+import com.project.stylezone.models.ProductListView;
 
 public interface StocksDao {
 
@@ -66,4 +67,5 @@ public interface StocksDao {
 	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
 	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
 	boolean checkProductExists(Product product);
+	List<ProductListView> getAllProducts();
 }

@@ -17,6 +17,7 @@ import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
+import com.project.stylezone.models.ProductListView;
 
 @Service
 public class StocksServiceImpl implements StocksService {
@@ -167,6 +168,11 @@ public class StocksServiceImpl implements StocksService {
 	public boolean checkProductExists(Product product) {
 		// TODO Auto-generated method stub
 		return stocksDao.checkProductExists(product);
+	}
+
+	public List<ProductListView> getAllProducts() {
+		// TODO Auto-generated method stub
+		return stocksDao.getAllProducts();
 	}
 
 

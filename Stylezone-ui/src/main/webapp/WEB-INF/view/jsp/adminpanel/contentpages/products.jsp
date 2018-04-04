@@ -2,7 +2,7 @@
 <div class="list_container">
 	<div class="table_info row">
 		<div class="col-sm-6 ">
-			<h4 class="pull-left">All Products</h4>
+			<h4 class="pull-left">All Products <span class="proListCount"></span></h4>
 		</div>
 		<div class="col-sm-6 ">
 			<a class="btn btn-primary pull-right" data-toggle="modal"
@@ -13,45 +13,22 @@
 	</div>
 
 
-	<table id="products" class="display" cellspacing="0" width="100%"
+	<table id="productsTable" class="display" cellspacing="0" width="100%"
 		class="row">
 		<thead>
 			<tr>
-				<th>Product Name</th>
-				<th>Created Date</th>
+				<th></th>
+				<th>Title</th>
+				<th>Gender</th>
+				<th>In Stock</th>
 				<th>Created By</th>
-
-				<th>Product IsInstock</th>
-				<!-- <th>Brand Name</th>
-							<th>Category Name</th>
-							<th>Product Color</th>
-							<th>Occasion Name</th> -->
-
+				<th>Created Date</th>
 				<th></th>
 				<th></th>
-				<th></th>
-
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Lungi</td>
-				<td>21/05/2018</td>
-				<td>Rohan Tiwari</td>
-
-				<!-- <td>Yes</td>
-							<td>XYZ</td>
-							<td>PQR</td>
-							<td><input class="jscolor" value="ffffff"></td> -->
-				<td>Shadi</td>
-
-				<td><button class="btn btn-info" data-toggle="modal"
-						data-target="#update">View Details</button></td>
-				<td><button class="btn btn-success" class="btn btn-info"
-						data-toggle="modal" data-target="#update">Update</button></td>
-				<td><button class="btn btn-danger" class="btn btn-info "
-						data-toggle="modal" data-target="#view">Delete</button></td>
-			</tr>
+		</tbody>
 	</table>
 </div>
 
@@ -232,6 +209,10 @@
 
 	$(document).ready(function() {
 		ProductController.refresh();
+		var productList = ProductController.loadProductList.getInstance().ajax.reload();
+		
+		
+		
 		$( "#female" ).change(function() {
 			// female attribute
 			if ($("#female").is(":checked")) {

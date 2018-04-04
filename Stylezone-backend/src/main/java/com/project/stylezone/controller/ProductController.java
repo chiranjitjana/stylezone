@@ -19,9 +19,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.gson.Gson;
 import com.project.stylezone.AppConstant;
+import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
+import com.project.stylezone.models.ProductListView;
 import com.project.stylezone.models.ProductWrapper;
 import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
@@ -68,6 +70,29 @@ public class ProductController {
 		}
 
 		return AppConstant.convertToReponseEntity(saveOrUpdateProdct, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/adminpanel/product/all", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<ProductListView>> getAllBrand() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<ProductListView> allProducts = stockService.getAllProducts();
+		
+		
+
+		if (allProducts.size()<= 0) {
+			responseHeaders.add(AppConstant.message, "No Product Available");
+		} else {
+			
+			for (ProductListView productListView : allProducts) {
+				productListView.setGender(productListView.getGender().equals("M")?"Men":"Women");
+				productListView.setInStock(productListView.getAvailability()==1?"Yes":"No");
+				productListView.setCreateDateFormated(AppConstant.getFormatedDate( productListView.getCreateDate()));
+			}
+			responseHeaders.add(AppConstant.message, allProducts.size() + " Product available in stock");
+		}
+
+		return new ResponseEntity<List<ProductListView>>(allProducts, responseHeaders, HttpStatus.OK);
 	}
 
 	public <T> List<T> jsonArrayToObjectList(String json, Class<T> tClass) throws IOException {

@@ -54,7 +54,7 @@ var adminPanelButtonAction={
 		
 		
 		"saveProduct":baseUrlAdmin+"/product/create",
-		"fecthAllProduct":baseUrlAdmin+"/cat/all",
+		"fecthAllProduct":baseUrlAdmin+"/product/all",
 		"deleteProduct":baseUrlAdmin+"/cat/delete",
 }
 
