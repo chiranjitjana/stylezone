@@ -16,6 +16,7 @@ import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetails;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
 import com.project.stylezone.models.ProductListView;
 
@@ -173,6 +174,23 @@ public class StocksServiceImpl implements StocksService {
 	public List<ProductListView> getAllProducts() {
 		// TODO Auto-generated method stub
 		return stocksDao.getAllProducts();
+	}
+
+	public Product fetchAProduct(Integer productId) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchAProduct(productId);
+	}
+
+	public ProductDetailsMaleAttr fetchMaleAttr(Integer maleId) {
+		// TODO Auto-generated method stub
+	
+		
+		return stocksDao.fetchMaleAttr(maleId);
+	}
+
+	public ProductDetailFemaleAttr fetchFemale(Integer femaleId) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchFemale(femaleId);
 	}
 
 

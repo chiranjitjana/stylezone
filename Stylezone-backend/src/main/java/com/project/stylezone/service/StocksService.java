@@ -66,9 +66,13 @@ public interface StocksService {
 	 */
 	//List<Pro> getAllCat();
 	Product saveOrUpdateProdct(Product product);
-	
+	Product fetchAProduct(Integer productId);
 	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
 	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
+	
+	ProductDetailsMaleAttr fetchMaleAttr(Integer maleId);
+	ProductDetailFemaleAttr fetchFemale(Integer femaleId);
+	
 	List<ProductListView> getAllProducts();
 	/*List<Category> removeCat(Category cat);
 	Category fetchCatByName(String cat);

@@ -247,4 +247,23 @@ public class StocksDaoImpl implements StocksDao {
 		return (List<ProductListView>) productListViewRepo.findAll();
 	}
 
+	public Product fetchAProduct(Integer productId) {
+		// TODO Auto-generated method stub
+		return productRepo.findOne(productId);
+	}
+
+	public ProductDetailsMaleAttr fetchMaleAttr(Integer maleId) {
+		// TODO Auto-generated method stub
+		ProductDetails details=new ProductDetails();
+		details.setProductDetailsId(maleId);
+		return productDetailsMaleRepo.findByProductDetails(details);
+	}
+
+	public ProductDetailFemaleAttr fetchFemale(Integer femaleId) {
+		// TODO Auto-generated method stub
+		ProductDetails details=new ProductDetails();
+		details.setProductDetailsId(femaleId);
+		return productDetailsFemaleRepo.findByProductDetails(details);
+	}
+
 }

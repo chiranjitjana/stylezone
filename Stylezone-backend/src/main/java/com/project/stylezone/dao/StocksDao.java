@@ -64,8 +64,12 @@ public interface StocksDao {
 	 */
 	//List<Pro> getAllCat();
 	Product saveOrUpdateProdct(Product product);
+	Product fetchAProduct(Integer productId);
 	ProductDetailsMaleAttr saveOrUpdateProdctMale(ProductDetailsMaleAttr product);
 	ProductDetailFemaleAttr saveOrUpdateProdctFemale(ProductDetailFemaleAttr product);
 	boolean checkProductExists(Product product);
 	List<ProductListView> getAllProducts();
+	ProductDetailsMaleAttr fetchMaleAttr(Integer maleId);
+	ProductDetailFemaleAttr fetchFemale(Integer femaleId);
+	
 }

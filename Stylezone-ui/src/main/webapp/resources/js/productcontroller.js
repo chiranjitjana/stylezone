@@ -123,16 +123,16 @@ ProductController.refresh = function() {
 ProductController.create = function() {
 
 	if (ProductController.Validate()) {
-		$(".productform .message").attr("style",true);
+		$(".productform .message").attr("style", true);
 		$(".productform .message").addClass("hide");
 		$(".productform .message").removeClass("alert-danger");
-		var data=ProductController.createData();
+		var data = ProductController.createData();
 		var requestObject = {};
 		requestObject.container = "productform";
 		requestObject.data = data;
 		ServiceController.addProduct(requestObject);
 	} else {
-		$(".productform .message").attr("style",false);
+		$(".productform .message").attr("style", false);
 		$(".productform .message").removeClass("hide");
 		$(".productform .message").addClass("alert-danger");
 		$(".productform .message .text").text("Provide all the fields details");
@@ -142,9 +142,7 @@ ProductController.create = function() {
 	}
 }
 
-
-
-ProductController.addProductCallBack=function(responseData) {
+ProductController.addProductCallBack = function(responseData) {
 	ProductController.loadProductList.getInstance().ajax.reload();
 	UIutiles.handleReponse(responseData);
 	$('#productCreate').animate({
@@ -152,103 +150,94 @@ ProductController.addProductCallBack=function(responseData) {
 	}, 'slow');
 }
 
+ProductController.createData = function() {
+	var data = {};
+	data.product = ProductController.fetchProduct();
 
-
-
-
-ProductController.createData=function()
-{
-	var data={};
-	data.product=ProductController.fetchProduct();
-	
-	if($(".productform #male").is(":checked"))
-	data.productDetailsMale=ProductController.fetchMaleAttr();
+	if ($(".productform #male").is(":checked"))
+		data.productDetailsMale = ProductController.fetchMaleAttr();
 	else
-	data.productDetailFemaleAttr=ProductController.fetchFeMaleAttr();
-	var ret=JSON.stringify(data);
+		data.productDetailFemaleAttr = ProductController.fetchFeMaleAttr();
+	var ret = JSON.stringify(data);
 	return ret;
-	
+
 }
 
-ProductController.fetchMaleAttr=function()
-{
-	var male={};
-	male.topSize=$(".productform .topSize").val();
-	male.bottomSize=$(".productform .bottomSize").val();
+ProductController.fetchMaleAttr = function() {
+	var male = {};
+	male.topSize = $(".productform .topSize").val();
+	male.bottomSize = $(".productform .bottomSize").val();
 	return male;
 }
 
-ProductController.fetchFeMaleAttr=function()
-{
-	var female={};
-	female.size=$(".productform .size").val();
-	female.bust=$(".productform .bust").val();
-	female.waist=$(".productform .waist").val();
-	female.hip=$(".productform .hip").val();
-	female.height=$(".productform .height").val();
+ProductController.fetchFeMaleAttr = function() {
+	var female = {};
+	female.size = $(".productform .size").val();
+	female.bust = $(".productform .bust").val();
+	female.waist = $(".productform .waist").val();
+	female.hip = $(".productform .hip").val();
+	female.height = $(".productform .height").val();
 
 	return female;
 }
 
-ProductController.fetchProduct=function()
-{
-	var product={};
-	var brand={};
-	brand.brandId=$(".productform .brandId").val();
-	
-	var category={};
-	category.catId=$(".productform .catId").val();
-		
-	var occasion={};
-	occasion.occasionId=$(".productform .occasionId").val();
-	
-	var color={};
-	color.colorId=$(".productform .colorId").val();
-	
-		
-	product.brand=brand;
-	product.category=category;
-	product.color=color;
-	product.occasion=occasion;
-	product.availableInstock=1;
-	product.productDetails=ProductController.fetchProductDtls();
-	
+ProductController.fetchProduct = function() {
+	var product = {};
+	var brand = {};
+	brand.brandId = $(".productform .brandId").val();
+
+	var category = {};
+	category.catId = $(".productform .catId").val();
+
+	var occasion = {};
+	occasion.occasionId = $(".productform .occasionId").val();
+
+	var color = {};
+	color.colorId = $(".productform .colorId").val();
+
+	product.brand = brand;
+	product.category = category;
+	product.color = color;
+	product.occasion = occasion;
+	product.availableInstock = 1;
+	product.productDetails = ProductController.fetchProductDtls();
+
 	return product;
 }
 
-ProductController.fetchProductDtls=function()
-{
-	var productDetails={};
-	productDetails.productTitle=$(".productform .productTitle").val();
-	productDetails.productDescription=$(".productform .productDescription").val();
-	productDetails.customFitting=$(".productform .customFitting").val();
-	if($(".productform #female").is(":checked"))
-	productDetails.gender="F";
-	if($(".productform #male").is(":checked"))
-	productDetails.gender="M";
-	productDetails.rentPrice=$(".productform .rentPrice").val();
-	productDetails.depositePercentage=$(".productform .depositePercentage").val();
-	
-	if($(".productform #duration4").is(":checked"))
-		productDetails.duration4="Y";
+ProductController.fetchProductDtls = function() {
+	var productDetails = {};
+	productDetails.productTitle = $(".productform .productTitle").val();
+	productDetails.productDescription = $(".productform .productDescription")
+			.val();
+	productDetails.customFitting = $(".productform .customFitting").val();
+	if ($(".productform #female").is(":checked"))
+		productDetails.gender = "F";
+	if ($(".productform #male").is(":checked"))
+		productDetails.gender = "M";
+	productDetails.rentPrice = $(".productform .rentPrice").val();
+	productDetails.depositePercentage = $(".productform .depositePercentage")
+			.val();
+
+	if ($(".productform #duration4").is(":checked"))
+		productDetails.duration4 = "Y";
 	else
-		productDetails.duration4="N";
-		
-	if($(".productform #duration6").is(":checked"))
-		productDetails.duration6="Y";
+		productDetails.duration4 = "N";
+
+	if ($(".productform #duration6").is(":checked"))
+		productDetails.duration6 = "Y";
 	else
-		productDetails.duration6="N";
-		
-	if($(".productform #duration8").is(":checked"))
-		productDetails.duration8="Y";
+		productDetails.duration6 = "N";
+
+	if ($(".productform #duration8").is(":checked"))
+		productDetails.duration8 = "Y";
 	else
-		productDetails.duration8="N";
-		
+		productDetails.duration8 = "N";
+
 	return productDetails;
 }
 
-/*** Dirty validation done****/
-
+/** * Dirty validation done*** */
 
 ProductController.Validate = function() {
 	var rturn = true;
@@ -258,14 +247,13 @@ ProductController.Validate = function() {
 	// female attribute
 	if ($("#female").is(":checked")) {
 
-
 		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
 				".productform  .size").val())) {
 			$(".productform .size").addClass("error");
 			rturn = false;
 		} else {
 			$(".productform  .size").removeClass("error");
-			
+
 		}
 		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
 				".productform .bust").val())) {
@@ -301,7 +289,6 @@ ProductController.Validate = function() {
 
 	if ($("#male").is(":checked")) {
 
-
 		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
 				".productform .topSize").val())) {
 			$(".productform .topSize").addClass("error");
@@ -326,113 +313,121 @@ ProductController.CustomValidatorLogic = function(object) {
 	var clz = object.attr("id");
 	console.log(clz);
 	var ret = true;
-	$("#" + clz).children("div").each(
-			function() {
-				$(this).find("input").each(
-						function() {
+	$("#" + clz)
+			.children("div")
+			.each(
+					function() {
+						$(this)
+								.find("input")
+								.each(
+										function() {
 
-							if (($(this).attr("hidden_id")) != undefined)
-								console.log("hidden_id "
-										+ $(this).attr("hidden_id"));
+											if (($(this).attr("hidden_id")) != undefined)
+												console.log("hidden_id "
+														+ $(this).attr(
+																"hidden_id"));
 
-							var id = $(this).attr("id");
-							var value = $("#" + clz + " #" + id).val();
+											var id = $(this).attr("id");
+											var value = $("#" + clz + " #" + id)
+													.val();
 
-							if (new RegExp(UIutiles.getRegex("emptystring"))
-									.test(value)
-									&& !$("#" + clz + " #" + id).hasClass(
-											"hide") && $(this).attr("type")!="radio" && $(this).attr("type")!="checkbox") {
-								$("#" + clz + " #" + id).addClass("error");
-								$("#" + clz + " #" + id).attr("placeholder",
-										"Please provide " + id);
-								ret = false;
-							} else {
-								$("#" + clz + " #" + id).removeClass("error");
-							}
-						});
+											if (new RegExp(UIutiles
+													.getRegex("emptystring"))
+													.test(value)
+													&& !$("#" + clz + " #" + id)
+															.hasClass("hide")
+													&& $(this).attr("type") != "radio"
+													&& $(this).attr("type") != "checkbox") {
+												$("#" + clz + " #" + id)
+														.addClass("error");
+												$("#" + clz + " #" + id).attr(
+														"placeholder",
+														"Please provide " + id);
+												ret = false;
+											} else {
+												$("#" + clz + " #" + id)
+														.removeClass("error");
+											}
+										});
 
-				$(this).find("select").each(
-						function() {
+						$(this).find("select").each(
+								function() {
 
-							var id = $(this).attr("id");
-							var value = $("#" + clz + " #" + id).val();
-							console.log("selected value :" + value);
-							if (value === "-1"
-									&& !$("#" + clz + " #" + id).hasClass(
-											"hide")) {
-								$("#" + clz + " #" + id).addClass("error");
-								$("#" + clz + " #" + id).attr("placeholder",
-										"Please provide " + id);
-								ret = false;
-							} else {
-								$("#" + clz + " #" + id).removeClass("error");
-							}
-						});
+									var id = $(this).attr("id");
+									var value = $("#" + clz + " #" + id).val();
+									console.log("selected value :" + value);
+									if (value === "-1"
+											&& !$("#" + clz + " #" + id)
+													.hasClass("hide")) {
+										$("#" + clz + " #" + id).addClass(
+												"error");
+										$("#" + clz + " #" + id).attr(
+												"placeholder",
+												"Please provide " + id);
+										ret = false;
+									} else {
+										$("#" + clz + " #" + id).removeClass(
+												"error");
+									}
+								});
 
-				$(this).find("textarea").each(
-						function() {
-							var id = $(this).attr("id");
-							var value = $("#" + clz + " #" + id).val();
-							if (new RegExp(UIutiles.getRegex("emptystring"))
-									.test(value)
-									&& !$("#" + clz + " #" + id).hasClass(
-											"hide")) {
-								$("#" + clz + " #" + id).addClass("error");
-								$("#" + clz + " #" + id).attr("placeholder",
-										"Please provide " + id);
-								ret = false;
-							} else {
-								$("#" + clz + " #" + id).removeClass("error");
-							}
-						});
+						$(this).find("textarea").each(
+								function() {
+									var id = $(this).attr("id");
+									var value = $("#" + clz + " #" + id).val();
+									if (new RegExp(UIutiles
+											.getRegex("emptystring"))
+											.test(value)
+											&& !$("#" + clz + " #" + id)
+													.hasClass("hide")) {
+										$("#" + clz + " #" + id).addClass(
+												"error");
+										$("#" + clz + " #" + id).attr(
+												"placeholder",
+												"Please provide " + id);
+										ret = false;
+									} else {
+										$("#" + clz + " #" + id).removeClass(
+												"error");
+									}
+								});
 
-				
-		
-				/*
-				 * var isChecked = false;
-				 * $(this).find("input").each(function() {
+						/*
+						 * var isChecked = false;
+						 * $(this).find("input").each(function() {
+						 * 
+						 * if ($(this).attr("type") === "checkbox") {
+						 * 
+						 * if ($(this).is(":checked")) { isChecked = true;
+						 * $(".duration").removeClass("error"); } else { if
+						 * (isChecked == false) {
+						 * $(".duration").addClass("error"); ret = false; } } }
+						 * 
+						 * });
+						 */
 
-					if ($(this).attr("type") === "checkbox") {
-
-						if ($(this).is(":checked")) {
-							isChecked = true;
-							$(".duration").removeClass("error");
+						if ($("#" + clz).find(
+								"input:checkbox[name=duration]:checked").length == 0) {
+							$(".duration").addClass("error");
+							ret = false;
 						} else {
-							if (isChecked == false) {
-								$(".duration").addClass("error");
-								ret = false;
-							}
+							$(".duration").removeClass("error");
 						}
-					}
 
-				});*/
-				
-				if($("#" + clz).find("input:checkbox[name=duration]:checked").length==0){
-					$(".duration").addClass("error");
-					ret = false;
-				}else
-				{
-					$(".duration").removeClass("error");
-				}
-				
-		
-				if($("#" + clz).find("input:radio[name=gender]:checked").length==0){
-					$(".gendertype").addClass("error");
-					ret = false;
-				}else
-				{
-					$(".gendertype").removeClass("error");
-				}
-					
-				
+						if ($("#" + clz).find(
+								"input:radio[name=gender]:checked").length == 0) {
+							$(".gendertype").addClass("error");
+							ret = false;
+						} else {
+							$(".gendertype").removeClass("error");
+						}
 
-			});
+					});
 	return ret;
 
 }
 
-
-/**load product list**/
+/** load product list* */
 ProductController.loadProductList = (function() {
 	var instance;
 	function createInstance() {
@@ -466,7 +461,7 @@ ProductController.loadProductList = (function() {
 									{
 										"targets" : -1,
 										"data" : null,
-										"defaultContent" : "<button class='btn btn-info update-btn'>Update </button>"
+										"defaultContent" : "<button class='btn btn-info update-btn'>View </button>"
 									},
 									{
 										"targets" : -1,
@@ -479,7 +474,7 @@ ProductController.loadProductList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
-								
+
 								ProductController.refresh();
 								$(".products .proListCount")
 										.text(
@@ -503,3 +498,109 @@ ProductController.loadProductList = (function() {
 		}
 	};
 })();
+
+ProductController.fetchSingleProduct = function(productId) {
+	var requestObject = {};
+	var product = {};
+	product.productId = productId;
+	requestObject.container = "productform";
+	requestObject.data = product;
+	ServiceController.fetchProduct(requestObject);
+
+}
+
+ProductController.fetchSingleProductCallbackFunc = function(responseData) {
+	var data = responseData.data;
+
+	console.log(data);
+
+	$(".productform .productTitle").val(data.productDetails.productTitle);
+	$(".productform .brandId").val(data.brand.brandId);
+	$(".productform .catId").val(data.category.catId);
+	$(".productform .occasionId").val(data.occasion.occasionId);
+	$(".productform .colorId").val(data.color.colorId);
+	$(".productform .productDescription").val(
+			data.productDetails.productDescription);
+	$(".productform .customFitting").val(data.productDetails.customFitting);
+	$(".productform .rentPrice").val(data.productDetails.rentPrice);
+	$(".productform .depositePercentage").val(
+			data.productDetails.depositePercentage);
+
+	if (data.productDetails.duration4 === "Y") {
+		$(".productform #duration4").prop('checked', true);
+	} else {
+		$(".productform #duration4").prop('checked', false);
+	}
+
+	if (data.productDetails.duration6 === "Y") {
+		$(".productform #duration6").prop('checked', true);
+	} else {
+		$(".productform #duration6").prop('checked', false);
+	}
+
+	if (data.productDetails.duration8 === "Y") {
+		$(".productform #duration8").prop('checked', true);
+	} else {
+		$(".productform #duration8").prop('checked', false);
+	}
+
+	if (data.productDetails.gender === "M") {
+
+		$(".productform #female").prop('checked', false);
+		$(".productform #male").prop('checked', true);
+
+		$(".productform .women").addClass("hide")
+		$(".productform .men").removeClass("hide");
+		$(".productform  .topSize").removeClass("hide");
+		$(".productform  .bottomSize").removeClass("hide");
+
+	} else {
+		$(".productform #female").prop('checked', true);
+		$(".productform #male").prop('checked', false);
+
+		$(".productform .men").addClass("hide");
+		$(".productform .women").removeClass("hide");
+		$(".productform  .size").removeClass("hide");
+		$(".productform  .bust").removeClass("hide");
+		$(".productform  .waist").removeClass("hide");
+		$(".productform  .hip").removeClass("hide");
+		$(".productform  .height").removeClass("hide");
+	}
+
+	ProductController.fetchProductAttr(data.productDetails.productDetailsId,
+			data.productDetails.gender);
+
+}
+
+ProductController.fetchProductAttr = function(productDetailsId, gender) {
+	var requestObject = {};
+	var productDtls = {};
+	productDtls.productDetailsId = productDetailsId;
+	productDtls.gender = gender;
+
+	requestObject.container = "productform";
+	requestObject.data = productDtls;
+	ServiceController.fetchProductAttr(requestObject);
+}
+
+ProductController.fetchProductAttrCallBack = function(responseData) {
+	var data = responseData.data;
+	
+	console.log(data);
+	if ( typeof data.bust === "undefined") {
+		// male
+		$(".productform  .topSize").val(parseInt(data.topSize));
+		$(".productform  .bottomSize").val(data.bottomSize);
+	} else {
+		// female
+		$(".productform  .size").val(data.size);
+		$(".productform  .bust").val(data.bust);
+		$(".productform  .waist").val(data.waist);
+		$(".productform  .hip").val(data.hip);
+		$(".productform  .height").val(data.height);
+	}
+
+	console.log(data);
+	$('#productCreate').modal('show');
+
+}

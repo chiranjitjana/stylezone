@@ -215,6 +215,36 @@ ServiceController.addProduct=function(requestObject) {
 	object.contenttype = contenttype.application_json;
 	object.callbackFunction = ProductController.addProductCallBack;
 	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+
+ServiceController.fetchProduct=function(requestObject)
+{
+	var object = {};
+	object.url = adminPanelButtonAction.fetchSingleProduct;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = ProductController.fetchSingleProductCallbackFunc;
+	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+
+ServiceController.fetchProductAttr=function(requestObject)
+{
+	var object = {};
+	object.url = adminPanelButtonAction.fetchProductAttr;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = ProductController.fetchProductAttrCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}
+
 

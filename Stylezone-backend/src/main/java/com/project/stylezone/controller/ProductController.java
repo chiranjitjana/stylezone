@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,7 +75,7 @@ public class ProductController {
 	
 	
 	@RequestMapping(value = "/adminpanel/product/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<ProductListView>> getAllBrand() {
+	public @ResponseBody ResponseEntity<List<ProductListView>> getAllProducts() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<ProductListView> allProducts = stockService.getAllProducts();
 		
@@ -95,6 +96,47 @@ public class ProductController {
 		return new ResponseEntity<List<ProductListView>>(allProducts, responseHeaders, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/adminpanel/product/fetch", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Product> getSingleProduct(@RequestParam(name="productId") String productId) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Product fetchAProduct = stockService.fetchAProduct(Integer.parseInt(productId));
+		
+		
+
+		if (fetchAProduct== null) {
+			responseHeaders.add(AppConstant.message, "Product Not found");
+		} else {
+			responseHeaders.add(AppConstant.message, "Product found");
+		}
+
+		return new ResponseEntity<Product>(fetchAProduct, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/adminpanel/productDtls/fetch", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> getProductDtlsAttr(@RequestParam(name="productDetailsId") Integer productDetailsId,@RequestParam(name="gender") String gender) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		
+		Object object=null;
+		if(gender.equals("M"))
+		{
+			object=stockService.fetchMaleAttr(productDetailsId);
+		}else
+		{
+			object=stockService.fetchFemale(productDetailsId);
+		}
+			
+
+		if (object== null) {
+			responseHeaders.add(AppConstant.message, "Product Attribute Not Found");
+		} else {
+			responseHeaders.add(AppConstant.message, "Product Attribute  Found");
+		}
+
+		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
+	}
+	
+	
 	public <T> List<T> jsonArrayToObjectList(String json, Class<T> tClass) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, tClass);
