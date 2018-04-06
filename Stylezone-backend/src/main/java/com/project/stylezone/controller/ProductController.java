@@ -1,26 +1,30 @@
 package com.project.stylezone.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.gson.Gson;
 import com.project.stylezone.AppConstant;
-import com.project.stylezone.models.BrandView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
@@ -32,6 +36,9 @@ import com.project.stylezone.service.UserService;
 @Controller
 public class ProductController {
 
+	@Value("${fileupload.path}")
+	String filePath;
+	
 	@Autowired
 	UserService userService;
 
@@ -39,26 +46,59 @@ public class ProductController {
 	StocksService stockService;
 
 	@RequestMapping(value = "/adminpanel/product/create", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> createProduct(@RequestBody ProductWrapper productWrapper) {
-
-		Product product = productWrapper.getProduct();
+	public @ResponseBody ResponseEntity<Object> createProduct(MultipartRequest request ,HttpServletRequest httpRequest) {
+		
+		System.out.println("Inside controller");
+		System.out.println("Path "+filePath);
+		
+		String parameter = httpRequest.getParameter("data");
+		
+		
+		
+		
+		Gson gson = new Gson();
+		
+		ProductWrapper localProductWrapper = gson.fromJson(parameter, ProductWrapper.class);
+		System.out.println(parameter);
+		
+		
+		Product product = localProductWrapper.getProduct();
 		Product saveOrUpdateProdct = null;
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		if (!stockService.checkProductExists(product)) {
 
 			product.setCreatedBy(28);
 			product.setCreatedDate(new Date());
+			MultipartFile avt1 = request.getFile("avt1");
+			MultipartFile avt2 = request.getFile("avt2");
+			MultipartFile avt3 = request.getFile("avt3");
+			
+			product.getProductDetails().setAvt1(filePath+avt1.getOriginalFilename());
+			product.getProductDetails().setAvt2(filePath+avt2.getOriginalFilename());
+			product.getProductDetails().setAvt3(filePath+avt3.getOriginalFilename());
+			
+			try {
+				avt1.transferTo(new File(filePath+avt1.getOriginalFilename()));
+				avt2.transferTo(new File(filePath+avt2.getOriginalFilename()));
+				avt3.transferTo(new File(filePath+avt3.getOriginalFilename()));
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			saveOrUpdateProdct = stockService.saveOrUpdateProdct(product);
 			if (saveOrUpdateProdct != null) {
 				if (saveOrUpdateProdct.getProductDetails().getGender() == 'M') {
 
-					ProductDetailsMaleAttr maleAttr = productWrapper.getProductDetailsMale();
+					ProductDetailsMaleAttr maleAttr = localProductWrapper.getProductDetailsMale();
 					maleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
 					stockService.saveOrUpdateProdctMale(maleAttr);
 					responseHeaders.add(AppConstant.message, "Product Created Successfull");
 				} else {
-					ProductDetailFemaleAttr femaleAttr = productWrapper.getProductDetailFemaleAttr();
+					ProductDetailFemaleAttr femaleAttr = localProductWrapper.getProductDetailFemaleAttr();
 					femaleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
 					stockService.saveOrUpdateProdctFemale(femaleAttr);
 					responseHeaders.add(AppConstant.message, "Product Created Successfull");

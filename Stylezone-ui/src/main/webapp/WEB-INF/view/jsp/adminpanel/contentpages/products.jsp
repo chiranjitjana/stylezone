@@ -100,7 +100,7 @@
 								parent="occasion">
 								<!-- <option value="-1">Select</option>
 								<option value="1">Most Trending</option>
-								<option value="2">Most awaited</option>
+								<option value="2">Most awaited</option>name
 								<option value="3">By Dj</option> -->
 							</select>
 						</div>
@@ -114,17 +114,17 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Product Image 1 :</label> <input
-								type="file" class="filestyle controle avt1" data-icon="false"
+								type="file" class="filestyle controle avt1" data-icon="false" name="avt1"
 								id="avt1" parent="productDetails">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Product Image 2 :</label> <input
-								type="file" class="filestyle controle avt2" data-icon="false"
+								type="file" class="filestyle controle avt2" data-icon="false"  name="avt2"
 								id="avt2" parent="productDetails">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Product Image 3 :</label> <input
-								type="file" class="filestyle controle avt3" data-icon="false"
+								type="file" class="filestyle controle avt3" data-icon="false"  name="avt3"
 								id="avt3" parent="productDetails">
 						</div>
 

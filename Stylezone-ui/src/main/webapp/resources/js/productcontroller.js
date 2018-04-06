@@ -127,9 +127,15 @@ ProductController.create = function() {
 		$(".productform .message").addClass("hide");
 		$(".productform .message").removeClass("alert-danger");
 		var data = ProductController.createData();
+		
+		 var form = $("#productform")[0];
+		 var dataToSend = new FormData(form);
+		 dataToSend.append("data",data);
+		
 		var requestObject = {};
 		requestObject.container = "productform";
-		requestObject.data = data;
+		requestObject.data = dataToSend;
+		
 		ServiceController.addProduct(requestObject);
 	} else {
 		$(".productform .message").attr("style", false);
@@ -513,7 +519,10 @@ ProductController.fetchSingleProductCallbackFunc = function(responseData) {
 	var data = responseData.data;
 
 	console.log(data);
-
+	
+	
+	$(".productform .productId").val(data.productDetails.productId);
+	$(".productform .productDetailsId").val(data.productDetails.productDetailsId);
 	$(".productform .productTitle").val(data.productDetails.productTitle);
 	$(".productform .brandId").val(data.brand.brandId);
 	$(".productform .catId").val(data.category.catId);

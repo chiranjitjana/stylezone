@@ -212,10 +212,10 @@ ServiceController.addProduct=function(requestObject) {
 	object.data = requestObject.data;
 	object.datatype = datatype.json;
 	object.container = requestObject.container;
-	object.contenttype = contenttype.application_json;
+	/*object.contenttype = contenttype.application_json;*/
 	object.callbackFunction = ProductController.addProductCallBack;
 	object.callbackFuntionParameter = null;
-	AjaxHandler.makeAjaxCall(object);
+	AjaxHandler.makeMutipartAjaxCall(object);
 }
 
 ServiceController.fetchProduct=function(requestObject)
