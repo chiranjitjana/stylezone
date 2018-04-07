@@ -193,5 +193,10 @@ public class StocksServiceImpl implements StocksService {
 		return stocksDao.fetchFemale(femaleId);
 	}
 
+	public ProductDetails fetchSingleProductDetails(Integer productDetailsId) {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchSingleProductDetails(productDetailsId);
+	}
+
 
 }

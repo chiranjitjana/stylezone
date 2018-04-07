@@ -266,4 +266,9 @@ public class StocksDaoImpl implements StocksDao {
 		return productDetailsFemaleRepo.findByProductDetails(details);
 	}
 
+	public ProductDetails fetchSingleProductDetails(Integer productDetailsId) {
+		// TODO Auto-generated method stub
+		return productDetailsRepo.findOne(productDetailsId);
+	}
+
 }

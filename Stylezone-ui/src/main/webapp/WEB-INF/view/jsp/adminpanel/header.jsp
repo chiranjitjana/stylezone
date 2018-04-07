@@ -1,3 +1,4 @@
+<%-- <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %> --%>
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/font-awesome.min.css" rel="stylesheet">
 <link href="resources/css/prettyPhoto.css" rel="stylesheet">

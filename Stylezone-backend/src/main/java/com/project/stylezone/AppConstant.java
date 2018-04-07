@@ -1,9 +1,11 @@
 package com.project.stylezone;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,13 +29,12 @@ public class AppConstant {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm a");
 		return sdf.format(dt);
 	}
-	
+
 	public static String getFormatedDate(Date dt) {
-		
+
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd ");
-		 return sdf.format(dt);
-		
-		 
+		return sdf.format(dt);
+
 	}
 
 	public static Date getDateTime() {
@@ -68,10 +69,18 @@ public class AppConstant {
 	public static Date getEpiryTime() {
 		// TODO Auto-generated method stub
 		Calendar now = Calendar.getInstance();
-	    now.add(Calendar.MINUTE, 10);
-	    Date teenMinutesFromNow = now.getTime();
+		now.add(Calendar.MINUTE, 10);
+		Date teenMinutesFromNow = now.getTime();
 		return teenMinutesFromNow;
+
+	}
+
+	public static String getCurrentTimeInMs() {
 		
+		// TODO Auto-generated method stub
+		Date dNow = new Date();
+		SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
+		return ft.format(dNow)+UUID.randomUUID().toString().replace("-", "");
 	}
 
 }

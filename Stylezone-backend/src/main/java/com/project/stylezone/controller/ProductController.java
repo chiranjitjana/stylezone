@@ -2,6 +2,7 @@ package com.project.stylezone.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 import com.project.stylezone.AppConstant;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetails;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
 import com.project.stylezone.models.ProductListView;
 import com.project.stylezone.models.ProductWrapper;
@@ -38,7 +40,10 @@ public class ProductController {
 
 	@Value("${fileupload.path}")
 	String filePath;
-	
+
+	@Value("${filepath.src}")
+	String fileSrc;
+
 	@Autowired
 	UserService userService;
 
@@ -46,89 +51,134 @@ public class ProductController {
 	StocksService stockService;
 
 	@RequestMapping(value = "/adminpanel/product/create", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> createProduct(MultipartRequest request ,HttpServletRequest httpRequest) {
-		
-		System.out.println("Inside controller");
-		System.out.println("Path "+filePath);
-		
-		String parameter = httpRequest.getParameter("data");
-		
-		
-		
-		
+	public @ResponseBody ResponseEntity<Object> createProduct(MultipartRequest request,
+			HttpServletRequest httpRequest) {
+
 		Gson gson = new Gson();
-		
-		ProductWrapper localProductWrapper = gson.fromJson(parameter, ProductWrapper.class);
-		System.out.println(parameter);
-		
-		
+
+		ProductWrapper localProductWrapper = gson.fromJson(httpRequest.getParameter("data"), ProductWrapper.class);
 		Product product = localProductWrapper.getProduct();
 		Product saveOrUpdateProdct = null;
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
-		if (!stockService.checkProductExists(product)) {
 
-			product.setCreatedBy(28);
-			product.setCreatedDate(new Date());
-			MultipartFile avt1 = request.getFile("avt1");
-			MultipartFile avt2 = request.getFile("avt2");
-			MultipartFile avt3 = request.getFile("avt3");
-			
-			product.getProductDetails().setAvt1(filePath+avt1.getOriginalFilename());
-			product.getProductDetails().setAvt2(filePath+avt2.getOriginalFilename());
-			product.getProductDetails().setAvt3(filePath+avt3.getOriginalFilename());
-			
-			try {
-				avt1.transferTo(new File(filePath+avt1.getOriginalFilename()));
-				avt2.transferTo(new File(filePath+avt2.getOriginalFilename()));
-				avt3.transferTo(new File(filePath+avt3.getOriginalFilename()));
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (localProductWrapper.getProduct().getProductId() == 0) {
+			if (!stockService.checkProductExists(product)) {
 
-			saveOrUpdateProdct = stockService.saveOrUpdateProdct(product);
-			if (saveOrUpdateProdct != null) {
-				if (saveOrUpdateProdct.getProductDetails().getGender() == 'M') {
-
-					ProductDetailsMaleAttr maleAttr = localProductWrapper.getProductDetailsMale();
-					maleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
-					stockService.saveOrUpdateProdctMale(maleAttr);
-					responseHeaders.add(AppConstant.message, "Product Created Successfull");
-				} else {
-					ProductDetailFemaleAttr femaleAttr = localProductWrapper.getProductDetailFemaleAttr();
-					femaleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
-					stockService.saveOrUpdateProdctFemale(femaleAttr);
-					responseHeaders.add(AppConstant.message, "Product Created Successfull");
-				}
+				saveOrUpdateProdct = saveOrUpdateMethod(request, localProductWrapper, product, responseHeaders,
+						"Product Created");
 			} else {
-				responseHeaders.add(AppConstant.message, "Error occured while creating product");
+				responseHeaders.add(AppConstant.message, "Product Is Already Exists");
 			}
-		} else {
-			responseHeaders.add(AppConstant.message, "Product Is Already Exists");
+		}
+
+		else if (localProductWrapper.getProduct().getProductId() != 0) {
+			saveOrUpdateProdct = saveOrUpdateMethod(request, localProductWrapper, product, responseHeaders,
+					"Product Updated");
 		}
 
 		return AppConstant.convertToReponseEntity(saveOrUpdateProdct, responseHeaders, HttpStatus.OK);
+
 	}
-	
-	
+
+	private Product saveOrUpdateMethod(MultipartRequest request, ProductWrapper localProductWrapper, Product product,
+			HttpHeaders responseHeaders, String message) {
+		Product saveOrUpdateProdct;
+		product.setCreatedBy(28);
+		product.setCreatedDate(new Date());
+
+		MultipartFile avt1 = request.getFile("avt1");
+		MultipartFile avt2 = request.getFile("avt2");
+		MultipartFile avt3 = request.getFile("avt3");
+		String timestamp1 = AppConstant.getCurrentTimeInMs();
+		String timestamp2 = AppConstant.getCurrentTimeInMs();
+		String timestamp3 = AppConstant.getCurrentTimeInMs();
+
+		setProductImages(product, avt1, avt2, avt3, timestamp1, timestamp2, timestamp3);
+
+		saveOrUpdateProdct = stockService.saveOrUpdateProdct(product);
+		if (saveOrUpdateProdct != null) {
+			try {
+				if (!avt1.isEmpty())
+					avt1.transferTo(new File(filePath + getFileName(avt1, timestamp1)));
+				if (!avt2.isEmpty())
+					avt2.transferTo(new File(filePath + getFileName(avt2, timestamp2)));
+				if (!avt3.isEmpty())
+					avt3.transferTo(new File(filePath + getFileName(avt3, timestamp3)));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (saveOrUpdateProdct.getProductDetails().getGender() == 'M') {
+
+				ProductDetailsMaleAttr maleAttr = localProductWrapper.getProductDetailsMale();
+				maleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
+					
+				
+				stockService.saveOrUpdateProdctMale(maleAttr);
+				responseHeaders.add(AppConstant.message, message);
+			} else {
+				ProductDetailFemaleAttr femaleAttr = localProductWrapper.getProductDetailFemaleAttr();
+				femaleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
+				stockService.saveOrUpdateProdctFemale(femaleAttr);
+				responseHeaders.add(AppConstant.message, message);
+			}
+		}
+
+		else {
+			responseHeaders.add(AppConstant.message, "Error occured while creating product");
+		}
+		return saveOrUpdateProdct;
+	}
+
+	private void setProductImages(Product product, MultipartFile avt1, MultipartFile avt2, MultipartFile avt3,
+			String timestamp1, String timestamp2, String timestamp3) {
+		ProductDetails fetchSingleProductDetails = stockService
+				.fetchSingleProductDetails(product.getProductDetails().getProductDetailsId());
+
+		if (!avt1.isEmpty()) {
+			product.getProductDetails().setAvt1(fileSrc + getFileName(avt1, timestamp1));
+		} else {
+			product.getProductDetails().setAvt1(fetchSingleProductDetails.getAvt1());
+
+		}
+
+		if (!avt2.isEmpty()) {
+			product.getProductDetails().setAvt2(fileSrc + getFileName(avt2, timestamp2));
+		} else {
+			product.getProductDetails().setAvt2(fetchSingleProductDetails.getAvt2());
+		}
+
+		if (!avt3.isEmpty()) {
+
+			product.getProductDetails().setAvt3(fileSrc + getFileName(avt3, timestamp3));
+		} else {
+			product.getProductDetails().setAvt3(fetchSingleProductDetails.getAvt3());
+		}
+	}
+
+	private String getFileName(MultipartFile originalFilename, String timems) {
+		// TODO Auto-generated method stub
+
+		String[] split = originalFilename.getOriginalFilename().split("\\.");
+		String ext = split[split.length - 1];
+		return timems + "." + ext;
+
+	}
+
 	@RequestMapping(value = "/adminpanel/product/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<ProductListView>> getAllProducts() {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<ProductListView> allProducts = stockService.getAllProducts();
-		
-		
 
-		if (allProducts.size()<= 0) {
+		if (allProducts.size() <= 0) {
 			responseHeaders.add(AppConstant.message, "No Product Available");
 		} else {
-			
+
 			for (ProductListView productListView : allProducts) {
-				productListView.setGender(productListView.getGender().equals("M")?"Men":"Women");
-				productListView.setInStock(productListView.getAvailability()==1?"Yes":"No");
-				productListView.setCreateDateFormated(AppConstant.getFormatedDate( productListView.getCreateDate()));
+				productListView.setGender(productListView.getGender().equals("M") ? "Men" : "Women");
+				productListView.setInStock(productListView.getAvailability() == 1 ? "Yes" : "No");
+				productListView.setCreateDateFormated(AppConstant.getFormatedDate(productListView.getCreateDate()));
 			}
 			responseHeaders.add(AppConstant.message, allProducts.size() + " Product available in stock");
 		}
@@ -137,13 +187,11 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/adminpanel/product/fetch", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Product> getSingleProduct(@RequestParam(name="productId") String productId) {
+	public @ResponseBody ResponseEntity<Product> getSingleProduct(@RequestParam(name = "productId") String productId) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		Product fetchAProduct = stockService.fetchAProduct(Integer.parseInt(productId));
-		
-		
 
-		if (fetchAProduct== null) {
+		if (fetchAProduct == null) {
 			responseHeaders.add(AppConstant.message, "Product Not found");
 		} else {
 			responseHeaders.add(AppConstant.message, "Product found");
@@ -151,23 +199,21 @@ public class ProductController {
 
 		return new ResponseEntity<Product>(fetchAProduct, responseHeaders, HttpStatus.OK);
 	}
-	
-	
-	@RequestMapping(value = "/adminpanel/productDtls/fetch", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> getProductDtlsAttr(@RequestParam(name="productDetailsId") Integer productDetailsId,@RequestParam(name="gender") String gender) {
-		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
-		
-		Object object=null;
-		if(gender.equals("M"))
-		{
-			object=stockService.fetchMaleAttr(productDetailsId);
-		}else
-		{
-			object=stockService.fetchFemale(productDetailsId);
-		}
-			
 
-		if (object== null) {
+	@RequestMapping(value = "/adminpanel/productDtls/fetch", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> getProductDtlsAttr(
+			@RequestParam(name = "productDetailsId") Integer productDetailsId,
+			@RequestParam(name = "gender") String gender) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+
+		Object object = null;
+		if (gender.equals("M")) {
+			object = stockService.fetchMaleAttr(productDetailsId);
+		} else {
+			object = stockService.fetchFemale(productDetailsId);
+		}
+
+		if (object == null) {
 			responseHeaders.add(AppConstant.message, "Product Attribute Not Found");
 		} else {
 			responseHeaders.add(AppConstant.message, "Product Attribute  Found");
@@ -175,13 +221,18 @@ public class ProductController {
 
 		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
 	}
+
 	
-	
-	public <T> List<T> jsonArrayToObjectList(String json, Class<T> tClass) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, tClass);
-		List<T> ts = mapper.readValue(json, listType);
-		return ts;
+	@RequestMapping(value = "/adminpanel/product/delete", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteProduct(
+			@RequestParam(name = "productDetailsId") Integer productDetailsId,
+			@RequestParam(name = "gender") String gender,@RequestParam(name = "attrId") Integer attrId,
+			@RequestParam(name = "productId") String productId) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+
+		Object obj=null;
+		return new ResponseEntity<Object>(obj, responseHeaders, HttpStatus.OK);
 	}
 
+	
 }

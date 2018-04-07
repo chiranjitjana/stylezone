@@ -7,6 +7,15 @@
 	</welcome-file-list>
 
 
+	<servlet>
+		<servlet-name>FileServlet</servlet-name>
+		<servlet-class>com.project.stylezone.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+   		 <url-pattern>/FileServlet</url-pattern>
+	</servlet-mapping>
+
 	<display-name>StyleZone</display-name>
 	<servlet>
 		<servlet-name>stylezone</servlet-name>

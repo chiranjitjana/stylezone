@@ -12,6 +12,7 @@ import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetails;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
 import com.project.stylezone.models.ProductListView;
 
@@ -71,5 +72,6 @@ public interface StocksDao {
 	List<ProductListView> getAllProducts();
 	ProductDetailsMaleAttr fetchMaleAttr(Integer maleId);
 	ProductDetailFemaleAttr fetchFemale(Integer femaleId);
+	ProductDetails fetchSingleProductDetails(Integer productDetailsId);
 	
 }

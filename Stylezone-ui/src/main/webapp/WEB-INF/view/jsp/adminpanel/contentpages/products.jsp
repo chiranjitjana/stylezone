@@ -41,7 +41,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title"><span class="modalTitle"></span></h4>
+				<h4 class="modal-title">
+					<span class="modalTitle"></span>
+				</h4>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -55,11 +57,13 @@
 								type="text" class="form-control controle productTitle"
 								id="productTitle" placeholder="Enter Product Name"> <input
 								type="text" class="form-control controle productId hide"
-								id="productId">
-								
-								<input
-								type="text" class="form-control controle productDetailsId hide"
+								id="productId"> <input type="text"
+								class="form-control controle productDetailsId hide"
 								id="productDetailsId">
+								
+								<input type="text"
+								class="form-control controle attrId hide"
+								id="attrId">
 						</div>
 
 						<div class="form-group">
@@ -113,19 +117,40 @@
 								rows="5" id="productDescription" parent="productDetails"></textarea>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Product Image 1 :</label> <input
-								type="file" class="filestyle controle avt1" data-icon="false" name="avt1"
-								id="avt1" parent="productDetails">
+							<div class="col-sm-6 avt1-group">
+								<label class="control-label">Product Image 1 :</label> <input
+									type="file" class="filestyle controle avt1" data-icon="false"
+									name="avt1" id="avt1" parent="productDetails" accept="image/*">
+							</div>
+							<div class="col-sm-6 avt1-image">
+								<img class="imgavt1 hide  pull-right" style="padding: 5px"
+								
+									height=100 width=100 />
+							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Product Image 2 :</label> <input
-								type="file" class="filestyle controle avt2" data-icon="false"  name="avt2"
-								id="avt2" parent="productDetails">
+							<div class="col-sm-6 avt2-group">
+								<label class="control-label">Product Image 2 :</label> <input
+									type="file" class="filestyle controle avt2" data-icon="false"
+									name="avt2" id="avt2" parent="productDetails" accept="image/*">
+							</div>
+							<div class="col-sm-6 avt2-image">
+								<img class="imgavt2 hide  pull-right" style="padding: 5px"
+									
+									height=100 width=100 />
+							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Product Image 3 :</label> <input
-								type="file" class="filestyle controle avt3" data-icon="false"  name="avt3"
-								id="avt3" parent="productDetails">
+							<div class="col-sm-6 avt3-group">
+								<label class="control-label">Product Image 3 :</label> <input
+									type="file" class="filestyle controle avt3" data-icon="false"
+									name="avt3" id="avt3" parent="productDetails" accept="image/*">
+							</div>
+							<div class="col-sm-6 avt3-image">
+								<img class="imgavt3 hide  pull-right" style="padding: 5px"
+									
+									height=100 width=100 />
+							</div>
 						</div>
 
 						<div class="form-group gendertype">
@@ -226,10 +251,11 @@
 						</div>
 
 
-						<button type="button" class="btn btn-success createProduct" value="Add Product"></button>
+						<button type="button" class="btn btn-success createProduct"
+							value="Add Product"></button>
 					</form>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -239,37 +265,52 @@
 			function() {
 				$(".products .createProduct").text("Create Product");
 				$(".products .modalTitle").text("Create Product");
-				
-				
+
 				ProductController.refresh();
 				var productList = ProductController.loadProductList
 						.getInstance().ajax.reload();
 
-				$(".products #productsTable tbody").on(
-						'click',
-						'button',
-						function() {
-							var data = productList.row($(this).parents('tr'))
-									.data();
-							if ($(this).hasClass("update-btn")) {
-								$(".products .createProduct").text("Update Product");
-								$(".products .modalTitle").text("Update Product");
-								
-								
-								/* $('#brandCreate .modal-title').text("Update Brand");
-								$('#brandCreate .brandaddbtn').val("Update Brand");
-								$('#brandCreate .brandName').val(data.brandName);
-								$('#brandCreate .brandId').val(data.brandId);
-								$('#brandCreate').modal('show'); */
-								ProductController.fetchSingleProduct(data.pId);
+				$(".products #productsTable tbody")
+						.on(
+								'click',
+								'button',
+								function() {
+									var data = productList.row(
+											$(this).parents('tr')).data();
+									if ($(this).hasClass("update-btn")) {
+										ProductController.resetForm();
+										$(".products .avt1-group").addClass(
+												"col-sm-6")
+										$(".products .avt2-group").addClass(
+												"col-sm-6");
+										$(".products .avt3-group").addClass(
+												"col-sm-6");
+										
+										
+										$(".products .avt1-image").removeClass("hide");
+										$(".products .avt2-image").removeClass("hide");
+										$(".products .avt3-image").removeClass("hide");
 
-							}
+										$(".products .createProduct").text(
+												"Update Product");
+										$(".products .modalTitle").text(
+												"Update Product");
 
-							/* if ($(this).hasClass("delete-btn")) {
-								$('#deleteBrand .brandId').val(data.brandId);
-								$('#deleteBrand').modal('show');
-							} */
-						});
+										/* $('#brandCreate .modal-title').text("Update Brand");
+										$('#brandCreate .brandaddbtn').val("Update Brand");
+										$('#brandCreate .brandName').val(data.brandName);
+										$('#brandCreate .brandId').val(data.brandId);
+										$('#brandCreate').modal('show'); */
+										ProductController
+												.fetchSingleProduct(data.pId);
+
+									}
+
+									/* if ($(this).hasClass("delete-btn")) {
+										$('#deleteBrand .brandId').val(data.brandId);
+										$('#deleteBrand').modal('show');
+									} */
+								});
 
 				$("#female").change(function() {
 					// female attribute
@@ -306,8 +347,16 @@
 	$(".createProdctModalShow").click(function() {
 		$(".products .createProduct").text("Create Product");
 		$(".products .modalTitle").text("Create Product");
+		$(".products .avt1-group").removeClass("col-sm-6");
+		$(".products .avt2-group").removeClass("col-sm-6");
+		$(".products .avt3-group").removeClass("col-sm-6");
+		
+		$(".products .avt1-image").addClass("hide");
+		$(".products .avt2-image").addClass("hide");
+		$(".products .avt3-image").addClass("hide");
+		
+		ProductController.resetForm();
 		
 		$('#productCreate').modal('show');
 	});
-	
 </script>

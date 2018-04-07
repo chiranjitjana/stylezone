@@ -12,6 +12,7 @@ import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetailFemaleAttr;
+import com.project.stylezone.models.ProductDetails;
 import com.project.stylezone.models.ProductDetailsMaleAttr;
 import com.project.stylezone.models.ProductListView;
 
@@ -79,7 +80,7 @@ public interface StocksService {
 	
 	Category fetchCatById(Category Occasion);*/
 	boolean checkProductExists(Product product);
-
+	ProductDetails fetchSingleProductDetails(Integer productDetailsId);
 
 	
 }

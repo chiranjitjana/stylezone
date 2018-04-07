@@ -122,20 +122,25 @@ ProductController.refresh = function() {
 /** *************** CREATE PRODUCT************** */
 ProductController.create = function() {
 
-	if (ProductController.Validate()) {
+	var required = false;
+	if ($(".products .createProduct").text() === "Create Product") {
+		required = true;
+	}
+
+	if (ProductController.Validate(required)) {
 		$(".productform .message").attr("style", true);
 		$(".productform .message").addClass("hide");
 		$(".productform .message").removeClass("alert-danger");
 		var data = ProductController.createData();
-		
-		 var form = $("#productform")[0];
-		 var dataToSend = new FormData(form);
-		 dataToSend.append("data",data);
-		
+
+		var form = $("#productform")[0];
+		var dataToSend = new FormData(form);
+		dataToSend.append("data", data);
+
 		var requestObject = {};
 		requestObject.container = "productform";
 		requestObject.data = dataToSend;
-		
+
 		ServiceController.addProduct(requestObject);
 	} else {
 		$(".productform .message").attr("style", false);
@@ -154,12 +159,20 @@ ProductController.addProductCallBack = function(responseData) {
 	$('#productCreate').animate({
 		scrollTop : 0
 	}, 'slow');
+	
+	setTimeout(function() { $('#productCreate').modal('hide'); }, 3000);
 }
 
 ProductController.createData = function() {
 	var data = {};
 	data.product = ProductController.fetchProduct();
 
+	
+	
+	
+	
+	
+	
 	if ($(".productform #male").is(":checked"))
 		data.productDetailsMale = ProductController.fetchMaleAttr();
 	else
@@ -171,6 +184,9 @@ ProductController.createData = function() {
 
 ProductController.fetchMaleAttr = function() {
 	var male = {};
+	if (!new RegExp(UIutiles.getRegex("emptystring")).test($(".productform .attrId").val())) {
+		male.attrId = $(".productform .attrId").val();
+	}
 	male.topSize = $(".productform .topSize").val();
 	male.bottomSize = $(".productform .bottomSize").val();
 	return male;
@@ -178,6 +194,10 @@ ProductController.fetchMaleAttr = function() {
 
 ProductController.fetchFeMaleAttr = function() {
 	var female = {};
+	
+	if (!new RegExp(UIutiles.getRegex("emptystring")).test($(".productform .attrId").val())) {
+		female.attrId = $(".productform .attrId").val();
+	}
 	female.size = $(".productform .size").val();
 	female.bust = $(".productform .bust").val();
 	female.waist = $(".productform .waist").val();
@@ -206,6 +226,14 @@ ProductController.fetchProduct = function() {
 	product.color = color;
 	product.occasion = occasion;
 	product.availableInstock = 1;
+
+	if (!new RegExp(UIutiles.getRegex("emptystring")).test($(
+			".productform .productId").val())) {
+		product.productId = $(".productform .productId").val();
+	}
+
+
+
 	product.productDetails = ProductController.fetchProductDtls();
 
 	return product;
@@ -239,16 +267,35 @@ ProductController.fetchProductDtls = function() {
 		productDetails.duration8 = "Y";
 	else
 		productDetails.duration8 = "N";
+	
+	if (!new RegExp(UIutiles.getRegex("emptystring")).test($(
+	".productform .productDetailsId").val())) {
+		productDetails.productDetailsId = $(".productform .productDetailsId").val();
+	}
 
 	return productDetails;
 }
 
 /** * Dirty validation done*** */
 
-ProductController.Validate = function() {
+ProductController.Validate = function(required) {
 	var rturn = true;
 
-	rturn = ProductController.CustomValidatorLogic($("#productform"));
+	rturn = ProductController.CustomValidatorLogic($("#productform"), required);
+
+	if ($("#productform").find("input:checkbox[name=duration]:checked").length == 0) {
+		$(".duration").addClass("error");
+		ret = false;
+	} else {
+		$(".duration").removeClass("error");
+	}
+
+	if ($("#productform").find("input:radio[name=gender]:checked").length == 0) {
+		$(".gendertype").addClass("error");
+		ret = false;
+	} else {
+		$(".gendertype").removeClass("error");
+	}
 
 	// female attribute
 	if ($("#female").is(":checked")) {
@@ -312,123 +359,101 @@ ProductController.Validate = function() {
 		}
 	}
 
+	if (required) {
+		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
+				".productform .avt1").val())) {
+			rturn = false;
+			$(".productform .avt1").addClass("error");
+		} else {
+			$(".productform .avt1").removeClass("error");
+		}
+
+		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
+				".productform .avt2").val())) {
+			rturn = false;
+			$(".productform .avt2").addClass("error");
+		} else {
+			$(".productform .avt2").removeClass("error");
+		}
+
+		if (new RegExp(UIutiles.getRegex("emptystring")).test($(
+				".productform .avt3").val())) {
+			rturn = false;
+			$(".productform .avt3").addClass("error");
+		} else {
+			$(".productform .avt3").removeClass("error");
+		}
+
+	}
+
 	return rturn;
 }
 
-ProductController.CustomValidatorLogic = function(object) {
+ProductController.CustomValidatorLogic = function(object, required) {
 	var clz = object.attr("id");
 	console.log(clz);
 	var ret = true;
-	$("#" + clz)
-			.children("div")
-			.each(
-					function() {
-						$(this)
-								.find("input")
-								.each(
-										function() {
+	$("#" + clz).children("div").each(
+			function() {
+				$(this).find("input[type='text'],input[type='number']").each(
+						function() {
 
-											if (($(this).attr("hidden_id")) != undefined)
-												console.log("hidden_id "
-														+ $(this).attr(
-																"hidden_id"));
+							if (($(this).attr("hidden_id")) != undefined)
+								console.log("hidden_id "
+										+ $(this).attr("hidden_id"));
 
-											var id = $(this).attr("id");
-											var value = $("#" + clz + " #" + id)
-													.val();
+							var id = $(this).attr("id");
+							var value = $("#" + clz + " #" + id).val();
 
-											if (new RegExp(UIutiles
-													.getRegex("emptystring"))
-													.test(value)
-													&& !$("#" + clz + " #" + id)
-															.hasClass("hide")
-													&& $(this).attr("type") != "radio"
-													&& $(this).attr("type") != "checkbox") {
-												$("#" + clz + " #" + id)
-														.addClass("error");
-												$("#" + clz + " #" + id).attr(
-														"placeholder",
-														"Please provide " + id);
-												ret = false;
-											} else {
-												$("#" + clz + " #" + id)
-														.removeClass("error");
-											}
-										});
+							if (new RegExp(UIutiles.getRegex("emptystring"))
+									.test(value)
+									&& !$("#" + clz + " #" + id).hasClass(
+											"hide")) {
+								$("#" + clz + " #" + id).addClass("error");
+								$("#" + clz + " #" + id).attr("placeholder",
+										"Please provide " + id);
+								ret = false;
+							} else {
+								$("#" + clz + " #" + id).removeClass("error");
+							}
+						});
 
-						$(this).find("select").each(
-								function() {
+				$(this).find("select").each(
+						function() {
 
-									var id = $(this).attr("id");
-									var value = $("#" + clz + " #" + id).val();
-									console.log("selected value :" + value);
-									if (value === "-1"
-											&& !$("#" + clz + " #" + id)
-													.hasClass("hide")) {
-										$("#" + clz + " #" + id).addClass(
-												"error");
-										$("#" + clz + " #" + id).attr(
-												"placeholder",
-												"Please provide " + id);
-										ret = false;
-									} else {
-										$("#" + clz + " #" + id).removeClass(
-												"error");
-									}
-								});
+							var id = $(this).attr("id");
+							var value = $("#" + clz + " #" + id).val();
+							console.log("selected value :" + value);
+							if (value === "-1"
+									&& !$("#" + clz + " #" + id).hasClass(
+											"hide")) {
+								$("#" + clz + " #" + id).addClass("error");
+								$("#" + clz + " #" + id).attr("placeholder",
+										"Please provide " + id);
+								ret = false;
+							} else {
+								$("#" + clz + " #" + id).removeClass("error");
+							}
+						});
 
-						$(this).find("textarea").each(
-								function() {
-									var id = $(this).attr("id");
-									var value = $("#" + clz + " #" + id).val();
-									if (new RegExp(UIutiles
-											.getRegex("emptystring"))
-											.test(value)
-											&& !$("#" + clz + " #" + id)
-													.hasClass("hide")) {
-										$("#" + clz + " #" + id).addClass(
-												"error");
-										$("#" + clz + " #" + id).attr(
-												"placeholder",
-												"Please provide " + id);
-										ret = false;
-									} else {
-										$("#" + clz + " #" + id).removeClass(
-												"error");
-									}
-								});
+				$(this).find("textarea").each(
+						function() {
+							var id = $(this).attr("id");
+							var value = $("#" + clz + " #" + id).val();
+							if (new RegExp(UIutiles.getRegex("emptystring"))
+									.test(value)
+									&& !$("#" + clz + " #" + id).hasClass(
+											"hide")) {
+								$("#" + clz + " #" + id).addClass("error");
+								$("#" + clz + " #" + id).attr("placeholder",
+										"Please provide " + id);
+								ret = false;
+							} else {
+								$("#" + clz + " #" + id).removeClass("error");
+							}
+						});
 
-						/*
-						 * var isChecked = false;
-						 * $(this).find("input").each(function() {
-						 * 
-						 * if ($(this).attr("type") === "checkbox") {
-						 * 
-						 * if ($(this).is(":checked")) { isChecked = true;
-						 * $(".duration").removeClass("error"); } else { if
-						 * (isChecked == false) {
-						 * $(".duration").addClass("error"); ret = false; } } }
-						 * 
-						 * });
-						 */
-
-						if ($("#" + clz).find(
-								"input:checkbox[name=duration]:checked").length == 0) {
-							$(".duration").addClass("error");
-							ret = false;
-						} else {
-							$(".duration").removeClass("error");
-						}
-
-						if ($("#" + clz).find(
-								"input:radio[name=gender]:checked").length == 0) {
-							$(".gendertype").addClass("error");
-							ret = false;
-						} else {
-							$(".gendertype").removeClass("error");
-						}
-
-					});
+			});
 	return ret;
 
 }
@@ -517,12 +542,19 @@ ProductController.fetchSingleProduct = function(productId) {
 
 ProductController.fetchSingleProductCallbackFunc = function(responseData) {
 	var data = responseData.data;
+	var path = "FileServlet?path=";
 
-	console.log(data);
+	$(".productform .imgavt1").removeClass("hide");
+	$(".productform .imgavt1").attr("src", path + data.productDetails.avt1);
+	$(".productform .imgavt2").removeClass("hide");
+	$(".productform .imgavt2").attr("src", path + data.productDetails.avt2);
+	$(".productform .imgavt3").removeClass("hide");
+	$(".productform .imgavt3").attr("src", path + data.productDetails.avt3);
+
+	$(".productform .productId").val(data.productId);
+	$(".productform .productDetailsId").val(
+			data.productDetails.productDetailsId);
 	
-	
-	$(".productform .productId").val(data.productDetails.productId);
-	$(".productform .productDetailsId").val(data.productDetails.productDetailsId);
 	$(".productform .productTitle").val(data.productDetails.productTitle);
 	$(".productform .brandId").val(data.brand.brandId);
 	$(".productform .catId").val(data.category.catId);
@@ -594,11 +626,11 @@ ProductController.fetchProductAttr = function(productDetailsId, gender) {
 
 ProductController.fetchProductAttrCallBack = function(responseData) {
 	var data = responseData.data;
-	
-	console.log(data);
-	if ( typeof data.bust === "undefined") {
+
+	$(".productform  .attrId").val(data.attrId);
+	if (typeof data.bust === "undefined") {
 		// male
-		$(".productform  .topSize").val(parseInt(data.topSize));
+		$(".productform  .topSize").val(data.topSize);
 		$(".productform  .bottomSize").val(data.bottomSize);
 	} else {
 		// female
@@ -611,5 +643,52 @@ ProductController.fetchProductAttrCallBack = function(responseData) {
 
 	console.log(data);
 	$('#productCreate').modal('show');
+
+}
+
+ProductController.resetForm = function() {
+	var clz="productform";
+	$(".productform .men").addClass("hide");
+	$(".productform .women").addClass("hide");
+	$(".productform .message").addClass("hide");
+	$(".productform .message").removeClass("alert-danger");
+	$(".productform .message").val("");
+	$("#" + clz+" .gendertype").removeClass("error");
+	$("#" + clz+" .duration").removeClass("error");
+	
+	$(".productform #female").prop('checked', false);
+	$(".productform #male").prop('checked', false);
+	
+	
+	$(".productform #duration4").prop('checked', false);
+	$(".productform #duration6").prop('checked', false);
+	$(".productform #duration8").prop('checked', false);
+	
+	
+	$("#" + clz).children("div").each(function() {
+		$(this).find("input").each(function() {
+
+			var id = $(this).attr("id");
+			$("#" + clz + " #" + id).removeClass("error");
+			$("#" + clz + " #" + id).val("");
+
+		});
+
+		$(this).find("select").each(function() {
+
+			var id = $(this).attr("id");
+			$("#" + clz + " #" + id).removeClass("error");
+			$("#" + clz + " #" + id).val(-1);
+
+		});
+
+		$(this).find("textarea").each(function() {
+			var id = $(this).attr("id");
+			$("#" + clz + " #" + id).removeClass("error");
+			$("#" + clz + " #" + id).val("");
+
+		});
+
+	});
 
 }
