@@ -208,41 +208,7 @@
 							<li><a href="index.html" class="active" style="margin-top: 0px;">Home</a></li>
 							<li class="dropdown"><a href="#">Mens<i
 									class="fa fa-angle-down"></i></a>
-								<ul role="" class="sub-menu dropdown-content"
-									style="width: 800px;">
-									<li>
-										<div class="header row">
-											<h4>New Arrival</h4>
-											<h4>Stylezone Collection</h4>
-										</div>
-										<div class=" listbrand">
-											<div class="column">
-												<h4 class="color">Rent By Style</h4>
-												<a href="#">View all</a> <a href="#">Suits & Tuxedos</a> <a
-													href="#">Blazers</a> <a href="#">Nehru Jacket</a> <a
-													href="#">Jodhpuri suits</a> <a href="#">Kurta Pyjamas
-													set</a> <a href="#">Indo Western</a> <a href="#">Plain
-													Sherwanis</a> <a href="#">Embriodered Sherwanis</a>
-											</div>
-											<div class="column">
-												<h4 class="color">Rent By Occasion</h4>
-												<a href="#">Cocktail & Reception</a> <a href="#">Sangeet</a>
-												<a href="#">Mehendi</a> <a href="#">Wedding</a> <a href="#">Festivals</a>
-												<a href="#">Club night</a> <a href="#">Formal dress for
-													meetings</a>
-											</div>
-											<div class="column">
-												<h4 class="color">Rent By Brands</h4>
-												<a href="#">Armani</a> <a href="#">Raymond</a> <a href="#">The
-													boston luxe</a> <a href="#">Zara</a> <a href="#">H & M</a>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="dropdown"><a href="#">Womens<i
-									class="fa fa-angle-down"></i></a>
-								<ul role="" class="sub-menu dropdown-content"
+								<ul role="" class="sub-menu dropdown-content menlist"
 									style="width: 800px;">
 									<li>
 										<div class="header row">
@@ -251,30 +217,85 @@
 										</div>
 										<div class="listbrand">
 											<div class="column">
-												<h4 class="color">Rent By Style</h4>
-												<a href="#">View all</a> <a href="#">Lehengas</a> <a
-													href="#">Anarkalis</a> <a href="#">Gowns</a> <a href="#">Sarees</a>
-												<a href="#">Kurta sets</a> <a href="#">Crop top & Skirt
-													set</a> <a href="#">Dhoti set</a> <a href="#">Sharara sets</a>
-												<a href="#">Saree gowns</a>
-											</div>
-											<div class="column">
-												<h4 class="color">Rent By Collection</h4>
-												<a href="#">Bridal wear</a> <a href="#">Western wear</a> <a
-													href="#">The curve edit</a> <a href="#">Christian
-													wedding gowns</a>
+												<h4 class="color">Rent By Style/Categories</h4>
+												<div class="category_list">
+													
+												</div>
+												
+												<!--  <a href="#">Suits & Tuxedos</a> <a
+													href="#">Blazers</a> <a href="#">Nehru Jacket</a> <a
+													href="#">Jodhpuri suits</a> <a href="#">Kurta Pyjamas
+													set</a> <a href="#">Indo Western</a> <a href="#">Plain
+													Sherwanis</a> <a href="#">Embriodered Sherwanis</a> -->
 											</div>
 											<div class="column">
 												<h4 class="color">Rent By Occasion</h4>
+												<div class="occasion_list">
+													
+												</div>
+												<!-- 
 												<a href="#">Cocktail & Reception</a> <a href="#">Sangeet</a>
 												<a href="#">Mehendi</a> <a href="#">Wedding</a> <a href="#">Festivals</a>
 												<a href="#">Club night</a> <a href="#">Formal dress for
-													meetings</a>
+													meetings</a> -->
 											</div>
 											<div class="column">
-												<h4>Rent By Brands</h4>
-												<a href="#">Levi's</a> <a href="#">Nike</a> <a href="#">Banin</a>
-												<a href="#">Zara</a> <a href="#">H & M</a>
+												<h4 class="color">Rent By Brands</h4>
+												<div class="brand_list">
+													
+												</div>
+											<!-- 	<a href="#">Armani</a> <a href="#">Raymond</a> <a href="#">The
+													boston luxe</a> <a href="#">Zara</a> <a href="#">H & M</a> -->
+											</div>
+										</div>
+									</li>
+								</ul></li>
+
+							<li class="dropdown"><a href="#">Womens<i
+									class="fa fa-angle-down"></i></a>
+								<ul role="" class="sub-menu dropdown-content womenlist"
+									style="width: 800px;">
+									<li>
+										<div class="header row">
+											<h4>New Arrival</h4>
+											<h4>Stylezone Collection</h4>
+										</div>
+										<div class="listbrand">
+											<div class="column">
+												<h4 class="color">Rent By Style/Categories</h4>
+												<div class="category_list">
+													
+												</div>
+												
+									
+											</div>
+											<div class="column">
+												<h4 class="color">Rent By Brand</h4>
+												<!-- <a href="#">Bridal wear</a> <a href="#">Western wear</a> <a
+													href="#">The curve edit</a> <a href="#">Christian
+													wedding gowns</a> -->
+												<div class="brand_list">
+													
+												</div>
+											</div>
+											<div class="column">
+												<h4 class="color">Rent By Occasion</h4>
+												<!-- <a href="#">Cocktail & Reception</a> <a href="#">Sangeet</a>
+												<a href="#">Mehendi</a> <a href="#">Wedding</a> <a href="#">Festivals</a>
+												<a href="#">Club night</a> <a href="#">Formal dress for
+													meetings</a> -->
+													
+												<div class="occasion_list">
+													
+												</div>
+											</div>
+											<div class="column">
+												<h4>Products By Color</h4>
+												<!-- <a href="#">Levi's</a> <a href="#">Nike</a> <a href="#">Banin</a>
+												<a href="#">Zara</a> <a href="#">H & M</a> -->
+												<div class="color_list">
+													
+												</div>
 											</div>
 										</div>
 									</li>

@@ -8,7 +8,16 @@
 	<script src="resources/js/uicontroller.js"></script>
 	<script src="resources/js/uiconstants.js"></script>
 	<script src="resources/js/ajaxhandler.js"></script>
+	<script src="resources/js/uiusers.js"></script>
 	<script src="resources/js/uiutiles.js"></script>
+
+<script>
+	$(document).ready(function(){
+		UIWebsite.loadMenMenu("M");
+		UIWebsite.loadMenMenu("F");
+	});
+</script>
+
 
 <footer id="footer" style="margin-top:20px;">
 	<!--Footer-->

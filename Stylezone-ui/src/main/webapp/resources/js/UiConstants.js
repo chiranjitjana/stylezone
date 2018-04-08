@@ -67,3 +67,8 @@ var user={
 		"changePassword":adminPanel.root+"/user/changePassword"
 		
 }
+
+var website={
+		"fetchMenu":adminPanel.root+"/getMenu",
+		
+}

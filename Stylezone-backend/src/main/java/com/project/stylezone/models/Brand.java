@@ -65,4 +65,44 @@ public class Brand {
 		this.createdDate = createdDate;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + brandId;
+		result = prime * result + ((brandName == null) ? 0 : brandName.hashCode());
+		result = prime * result + createdBy;
+		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Brand other = (Brand) obj;
+		if (brandId != other.brandId)
+			return false;
+		if (brandName == null) {
+			if (other.brandName != null)
+				return false;
+		} else if (!brandName.equals(other.brandName))
+			return false;
+		if (createdBy != other.createdBy)
+			return false;
+		if (createdDate == null) {
+			if (other.createdDate != null)
+				return false;
+		} else if (!createdDate.equals(other.createdDate))
+			return false;
+		return true;
+	}
+
+	
+	
+	
 }

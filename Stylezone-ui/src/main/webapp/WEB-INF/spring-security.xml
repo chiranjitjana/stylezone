@@ -12,53 +12,40 @@
                 http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<context:component-scan base-package="com.project.stylezone.security.*" />
-	
-	
-<!--  	<security:http security="none" pattern="/adminpanel/saveAdminuser" />
-	<security:http security="none" pattern="/adminpanel/getAdminDetails" /> -->
-	
-	<!-- <security:http security="none" pattern="/adminpanel/brand/all" /> 
-	
-	<security:http security="none" pattern="/adminpanel/brand/save" /> 
 
-	<security:http security="none" pattern="/adminpanel/color/all" /> 
-	
-	<security:http security="none" pattern="/adminpanel/color/save" /> 
 
-	<security:http security="none" pattern="/adminpanel/color/delete" />
-	
-	<security:http security="none" pattern="/adminpanel/occasion/all" /> 
-	
-	<security:http security="none" pattern="/adminpanel/occasion/save" /> 
+	<!-- <security:http security="none" pattern="/adminpanel/saveAdminuser" 
+		/> <security:http security="none" pattern="/adminpanel/getAdminDetails" /> -->
 
-	<security:http security="none" pattern="/adminpanel/occasion/delete" /> 
-	
-	
-	
-	<security:http security="none" pattern="/adminpanel/cat/all" /> 
-	
-	<security:http security="none" pattern="/adminpanel/cat/save" /> 
+	<!-- <security:http security="none" pattern="/adminpanel/brand/all" /> <security:http 
+		security="none" pattern="/adminpanel/brand/save" /> <security:http security="none" 
+		pattern="/adminpanel/color/all" /> <security:http security="none" pattern="/adminpanel/color/save" 
+		/> <security:http security="none" pattern="/adminpanel/color/delete" /> <security:http 
+		security="none" pattern="/adminpanel/occasion/all" /> <security:http security="none" 
+		pattern="/adminpanel/occasion/save" /> <security:http security="none" pattern="/adminpanel/occasion/delete" 
+		/> <security:http security="none" pattern="/adminpanel/cat/all" /> <security:http 
+		security="none" pattern="/adminpanel/cat/save" /> <security:http security="none" 
+		pattern="/adminpanel/cat/delete" /> -->
 
-	<security:http security="none" pattern="/adminpanel/cat/delete" /> 
-	  -->
-	  
-	<security:http security="none" pattern="/adminpanel/product/delete" />
-	<security:http security="none" pattern="/adminpanel/product/create" />
-	<security:http security="none" pattern="/adminpanel/product/all" />
- 	<security:http security="none" pattern="/register/user" />
- 	<security:http security="none" pattern="/user/forgotPassword" />
- 
- 	
+	<!-- <security:http security="none" pattern="/adminpanel/product/delete" 
+		/> <security:http security="none" pattern="/adminpanel/product/create" /> 
+	<security:http security="none" pattern="/adminpanel/product/all" />-->
+	<security:http security="none" pattern="/register/user" />
+	<security:http security="none" pattern="/user/forgotPassword" />
+	<security:http security="none" pattern="/getMenu" />
+
+
 	<security:http auto-config="true">
-		<security:access-denied-handler ref="customAccessDeniedHandler"/>
-		<security:intercept-url pattern="/adminpanel/**" access="ROLE_Admin" />
-		<security:intercept-url pattern="/myaccount/**" access="ROLE_User" />
+		<security:access-denied-handler ref="customAccessDeniedHandler" />
+		<security:intercept-url pattern="/adminpanel/**"
+			access="ROLE_Admin" />
+		<security:intercept-url pattern="/myaccount/**"
+			access="ROLE_User" />
 		<security:form-login login-processing-url="/login"
 			login-page="/userlogin" default-target-url="/"
 			authentication-failure-handler-ref="authenticationFailureHandler"
 			authentication-success-handler-ref="authenticationSuccessHandler"
-			username-parameter="username"
-			password-parameter="password" />
+			username-parameter="username" password-parameter="password" />
 		<security:logout logout-success-url="/logout" />
 	</security:http>
 
