@@ -132,3 +132,25 @@
 	background-color: #FE980F;
 	color: #fff;
 }
+
+
+.productinfo h4
+{
+	
+	color: #FE980F;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.product-template :hover{
+	border:1px solid yellow;
+	
+}
+
+/* footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+  
+} */

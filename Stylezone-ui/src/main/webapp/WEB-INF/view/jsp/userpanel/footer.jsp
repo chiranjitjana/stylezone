@@ -15,13 +15,14 @@
 	$(document).ready(function(){
 		UIWebsite.loadMenMenu("M");
 		UIWebsite.loadMenMenu("F");
+		UIWebsite.loadProductListLatestHome();
 	});
 </script>
 
 
 <footer id="footer" style="margin-top:20px;">
 	<!--Footer-->
-	<div class="footer-widget">
+<!-- 	<div class="footer-widget">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-2">
@@ -90,7 +91,7 @@
 
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="footer-bottom">
 		<div class="container">

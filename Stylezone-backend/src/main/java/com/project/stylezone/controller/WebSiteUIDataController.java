@@ -20,7 +20,9 @@ import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.Category;
 import com.project.stylezone.models.Color;
 import com.project.stylezone.models.Occasion;
+import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductListView;
+import com.project.stylezone.models.ProductWrapper;
 import com.project.stylezone.service.StocksService;
 
 @Controller
@@ -30,7 +32,7 @@ public class WebSiteUIDataController {
 	StocksService stockService;
 
 	@RequestMapping(value = "/getMenu", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> getWomenMenu(@RequestParam(name="gender")String type) {
+	public @ResponseBody ResponseEntity<Object> getWomenMenu(@RequestParam(name = "gender") String type) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		HashSet<ProductListView> pl = new HashSet<ProductListView>();
 
@@ -75,6 +77,32 @@ public class WebSiteUIDataController {
 		menuList.put("categoryList", new ArrayList<Category>(categoryhashMap));
 
 		return new ResponseEntity<Object>(menuList, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getProductList", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> getHomePageist() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+
+		List<ProductWrapper> wrapper = new ArrayList<ProductWrapper>();
+
+		List<Product> fetchAllProductByIDDesc = stockService.fetchAllProductByIDDesc();
+
+		for (Product product : fetchAllProductByIDDesc) {
+			ProductWrapper productWr = new ProductWrapper();
+			if (product.getProductDetails().getGender() == 'M') {
+				productWr.setProductDetailsMale(
+						stockService.fetchMaleAttr(product.getProductDetails().getProductDetailsId()));
+
+			} else {
+				productWr.setProductDetailFemaleAttr(
+						stockService.fetchFemale(product.getProductDetails().getProductDetailsId()));
+			}
+
+			productWr.setProduct(product);
+			wrapper.add(productWr);
+		}
+
+		return new ResponseEntity<Object>(wrapper, responseHeaders, HttpStatus.OK);
 	}
 
 }

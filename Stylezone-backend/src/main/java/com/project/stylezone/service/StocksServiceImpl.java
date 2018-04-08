@@ -218,5 +218,10 @@ public class StocksServiceImpl implements StocksService {
 		stocksDao.removeProduct(product);
 	}
 
+	public List<Product> fetchAllProductByIDDesc() {
+		// TODO Auto-generated method stub
+		return stocksDao.fetchAllProductByIDDesc();
+	}
+
 
 }

@@ -85,6 +85,7 @@ public interface StocksService {
 	void removeFemaleAttrById(Integer id);
 	void removeProductDts(Integer id);
 	void removeProduct(Product product);
+	List<Product> fetchAllProductByIDDesc();
 	
 	
 }

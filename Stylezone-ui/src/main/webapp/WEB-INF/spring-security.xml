@@ -29,11 +29,11 @@
 
 	<!-- <security:http security="none" pattern="/adminpanel/product/delete" 
 		/> <security:http security="none" pattern="/adminpanel/product/create" /> 
-	<security:http security="none" pattern="/adminpanel/product/all" />-->
+		<security:http security="none" pattern="/adminpanel/product/all" /> -->
 	<security:http security="none" pattern="/register/user" />
 	<security:http security="none" pattern="/user/forgotPassword" />
 	<security:http security="none" pattern="/getMenu" />
-
+	<security:http security="none" pattern="/getProductList" />
 
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler" />

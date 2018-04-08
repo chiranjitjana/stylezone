@@ -291,5 +291,10 @@ public class StocksDaoImpl implements StocksDao {
 		productRepo.delete(product);
 	}
 
+	public List<Product> fetchAllProductByIDDesc() {
+		// TODO Auto-generated method stub
+		return productRepo.fetchAllProductByIDDesc();
+	}
+
 
 }

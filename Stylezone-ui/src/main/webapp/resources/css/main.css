@@ -1,4 +1,4 @@
-﻿
+
 /*************************
 *******Typography******
 **************************/
@@ -12,6 +12,8 @@ body {
   position: relative;
   font-weight:400px;
 }
+
+
 
 ul li {
   list-style: none;
@@ -1556,7 +1558,7 @@ h2.title {
 }
 
 .breadcrumbs .breadcrumb > li + li:before {
-  content: " ";
+  content: "�";
 }
 
 #cart_items .cart_info {

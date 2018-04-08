@@ -78,4 +78,5 @@ public interface StocksDao {
 	
 	void removeProductDts(Integer id);
 	void removeProduct(Product product);
+	List<Product> fetchAllProductByIDDesc();
 }

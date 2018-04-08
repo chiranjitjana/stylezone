@@ -12,6 +12,7 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductDetails;
+import com.project.stylezone.models.ProductListView;
 
 public interface ProductRepo extends CrudRepository<Product, Integer> {
 
@@ -20,4 +21,7 @@ public interface ProductRepo extends CrudRepository<Product, Integer> {
 			@Param("occasion") Occasion occasion, @Param("color") Color color,
 			@Param("productdtls") ProductDetails prodtsl);
 
+	@Query("select product from Product product order by productId desc")
+	List<Product> fetchAllProductByIDDesc();
+	
 }
