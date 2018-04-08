@@ -8,4 +8,7 @@ import com.project.stylezone.models.ProductDetailsMaleAttr;
 
 public interface ProductDetailsMaleRepo extends CrudRepository<ProductDetailsMaleAttr, Integer>{
 	ProductDetailsMaleAttr findByProductDetails(ProductDetails details);
+	
+	
+	
 }

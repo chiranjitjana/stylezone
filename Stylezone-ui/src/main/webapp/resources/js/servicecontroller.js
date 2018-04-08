@@ -248,3 +248,16 @@ ServiceController.fetchProductAttr=function(requestObject)
 }
 
 
+ServiceController.deleteProduct=function(requestObject)
+{
+	var object = {};
+	object.url = adminPanelButtonAction.deleteProduct;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = null;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = ProductController.deleteProductCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object)
+}

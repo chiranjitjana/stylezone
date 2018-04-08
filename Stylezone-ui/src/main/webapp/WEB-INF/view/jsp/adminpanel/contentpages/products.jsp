@@ -59,11 +59,8 @@
 								type="text" class="form-control controle productId hide"
 								id="productId"> <input type="text"
 								class="form-control controle productDetailsId hide"
-								id="productDetailsId">
-								
-								<input type="text"
-								class="form-control controle attrId hide"
-								id="attrId">
+								id="productDetailsId"> <input type="text"
+								class="form-control controle attrId hide" id="attrId">
 						</div>
 
 						<div class="form-group">
@@ -124,7 +121,6 @@
 							</div>
 							<div class="col-sm-6 avt1-image">
 								<img class="imgavt1 hide  pull-right" style="padding: 5px"
-								
 									height=100 width=100 />
 							</div>
 						</div>
@@ -136,7 +132,6 @@
 							</div>
 							<div class="col-sm-6 avt2-image">
 								<img class="imgavt2 hide  pull-right" style="padding: 5px"
-									
 									height=100 width=100 />
 							</div>
 						</div>
@@ -148,7 +143,6 @@
 							</div>
 							<div class="col-sm-6 avt3-image">
 								<img class="imgavt3 hide  pull-right" style="padding: 5px"
-									
 									height=100 width=100 />
 							</div>
 						</div>
@@ -260,6 +254,36 @@
 		</div>
 	</div>
 </div>
+
+<!--delete brand modal-->
+<div id="deleteProduct" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<form class="deleteProduct">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+					<h4>Delete Product</h4>
+				</div>
+				<div class="modal-body">
+					<div class="message  hide alert alert-dismissible col-sm-12"
+						role="alert">
+						<span class="text"></span>
+					</div>
+
+					<input type="text" class="form-control productId hide controle"
+						id="productId">
+					<p>You are about to delete.</p>
+					<p>Do you want to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<a href="#" id="btnYesProduct" class="btn danger">Yes</a> <a
+						href="#" data-dismiss="modal" aria-hidden="true"
+						class="btn secondary">No</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 <script>
 	$(document).ready(
 			function() {
@@ -306,10 +330,11 @@
 
 									}
 
-									/* if ($(this).hasClass("delete-btn")) {
-										$('#deleteBrand .brandId').val(data.brandId);
-										$('#deleteBrand').modal('show');
-									} */
+									 if ($(this).hasClass("delete-btn")) {
+											 $('#deleteProduct .productId').val(data.pId);
+											$('#deleteProduct').modal('show');
+										 
+									} 
 								});
 
 				$("#female").change(function() {
@@ -344,6 +369,13 @@
 	$(".createProduct").click(function() {
 		ProductController.create();
 	});
+	
+	
+	
+	$("#btnYesProduct").click(function(){
+		ProductController.deleteProduct();
+	});
+	
 	$(".createProdctModalShow").click(function() {
 		$(".products .createProduct").text("Create Product");
 		$(".products .modalTitle").text("Create Product");

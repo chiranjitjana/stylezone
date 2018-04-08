@@ -198,5 +198,25 @@ public class StocksServiceImpl implements StocksService {
 		return stocksDao.fetchSingleProductDetails(productDetailsId);
 	}
 
+	public void removeMaleAttrById(Integer id) {
+		// TODO Auto-generated method stub
+		 stocksDao.removeMaleAttrById(id);;
+	}
+
+	public void removeFemaleAttrById(Integer id) {
+		// TODO Auto-generated method stub
+		 stocksDao.removeFemaleAttrById(id);
+	}
+
+	public void removeProductDts(Integer id) {
+		// TODO Auto-generated method stub
+		stocksDao.removeProductDts(id);
+	}
+
+	public void removeProduct(Product product) {
+		// TODO Auto-generated method stub
+		stocksDao.removeProduct(product);
+	}
+
 
 }

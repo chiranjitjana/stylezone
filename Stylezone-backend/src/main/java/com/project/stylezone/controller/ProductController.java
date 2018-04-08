@@ -113,8 +113,7 @@ public class ProductController {
 
 				ProductDetailsMaleAttr maleAttr = localProductWrapper.getProductDetailsMale();
 				maleAttr.setProductDetails(saveOrUpdateProdct.getProductDetails());
-					
-				
+
 				stockService.saveOrUpdateProdctMale(maleAttr);
 				responseHeaders.add(AppConstant.message, message);
 			} else {
@@ -222,17 +221,33 @@ public class ProductController {
 		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
 	}
 
-	
 	@RequestMapping(value = "/adminpanel/product/delete", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> deleteProduct(
-			@RequestParam(name = "productDetailsId") Integer productDetailsId,
-			@RequestParam(name = "gender") String gender,@RequestParam(name = "attrId") Integer attrId,
-			@RequestParam(name = "productId") String productId) {
+	public @ResponseBody ResponseEntity<Object> deleteProduct(@RequestParam(name = "productId") String productId) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 
-		Object obj=null;
-		return new ResponseEntity<Object>(obj, responseHeaders, HttpStatus.OK);
+		Product product = stockService.fetchAProduct(Integer.parseInt(productId));
+
+		if (product != null) {
+			ProductDetails productDtls = stockService
+					.fetchSingleProductDetails(product.getProductDetails().getProductDetailsId());
+
+			if (productDtls.getGender() == 'M') {
+				ProductDetailsMaleAttr maleDtls = stockService.fetchMaleAttr(productDtls.getProductDetailsId());
+				stockService.removeMaleAttrById(maleDtls.getAttrId());
+
+			} else {
+				ProductDetailFemaleAttr femaleDtls = stockService.fetchFemale(productDtls.getProductDetailsId());
+				stockService.removeFemaleAttrById(femaleDtls.getAttrId());
+			}
+			stockService.removeProduct(product);
+			
+			responseHeaders.add(AppConstant.message, "Product Deleted");
+			
+		} else {
+			responseHeaders.add(AppConstant.message, "Product Not Found");
+		}
+
+		return new ResponseEntity<Object>(null, responseHeaders, HttpStatus.OK);
 	}
 
-	
 }

@@ -271,4 +271,25 @@ public class StocksDaoImpl implements StocksDao {
 		return productDetailsRepo.findOne(productDetailsId);
 	}
 
+	public void removeMaleAttrById(Integer id) {
+		// TODO Auto-generated method stub
+		 productDetailsMaleRepo.delete(id);;
+	}
+
+	public void removeFemaleAttrById(Integer id) {
+		// TODO Auto-generated method stub
+		 productDetailsFemaleRepo.delete(id);
+	}
+
+	public void removeProductDts(Integer id) {
+		// TODO Auto-generated method stub
+		productDetailsRepo.delete(id);
+	}
+
+	public void removeProduct(Product product) {
+		// TODO Auto-generated method stub
+		productRepo.delete(product);
+	}
+
+
 }

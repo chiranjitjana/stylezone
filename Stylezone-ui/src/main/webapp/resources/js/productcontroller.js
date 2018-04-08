@@ -119,6 +119,39 @@ ProductController.refresh = function() {
 	ProductController.fetchOccasion();
 }
 
+/******************Delete A product*****************/
+
+
+
+ProductController.deleteProduct=function(productId)
+{
+	var id=$('#deleteProduct .productId').val();
+	var product={"productId":id}
+	var requestObject = {};
+	requestObject.container = "deleteProduct";
+	requestObject.data =product ;
+	ServiceController.deleteProduct(requestObject);
+
+}
+
+
+ProductController.deleteProductCallBack=function(responseData)
+{
+	ProductController.loadProductList.getInstance().ajax.reload();
+	UIutiles.handleReponse(responseData);
+
+}
+
+
+
+
+
+
+
+
+
+
+
 /** *************** CREATE PRODUCT************** */
 ProductController.create = function() {
 

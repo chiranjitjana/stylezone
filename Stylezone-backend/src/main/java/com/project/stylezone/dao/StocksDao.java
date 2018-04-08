@@ -73,5 +73,9 @@ public interface StocksDao {
 	ProductDetailsMaleAttr fetchMaleAttr(Integer maleId);
 	ProductDetailFemaleAttr fetchFemale(Integer femaleId);
 	ProductDetails fetchSingleProductDetails(Integer productDetailsId);
+	void removeMaleAttrById(Integer id);
+	void removeFemaleAttrById(Integer id);
 	
+	void removeProductDts(Integer id);
+	void removeProduct(Product product);
 }

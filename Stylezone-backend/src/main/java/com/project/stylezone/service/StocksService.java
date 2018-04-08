@@ -81,6 +81,10 @@ public interface StocksService {
 	Category fetchCatById(Category Occasion);*/
 	boolean checkProductExists(Product product);
 	ProductDetails fetchSingleProductDetails(Integer productDetailsId);
-
+	void removeMaleAttrById(Integer id);
+	void removeFemaleAttrById(Integer id);
+	void removeProductDts(Integer id);
+	void removeProduct(Product product);
+	
 	
 }
