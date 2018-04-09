@@ -73,7 +73,7 @@ UIWebsite.loadCat = function(categoryDiv, cat) {
 	for (var x = 0; x < cat.length; x++) {
 		var localAnchor = $("<a></a>");
 		localAnchor.text(cat[x].catName);
-		localAnchor.attr("href", adminPanel.root + "/getProducts/cat/"
+		localAnchor.attr("href", adminPanel.root + "/getProducts/Category/"
 				+ cat[x].catId);
 		categoryDiv.append(localAnchor);
 	}
@@ -84,7 +84,7 @@ UIWebsite.loadBrand = function(brandDiv, brand) {
 	for (var x = 0; x < brand.length; x++) {
 		var localAnchor = $("<a></a>");
 		localAnchor.text(brand[x].brandName);
-		localAnchor.attr("href", adminPanel.root + "/getProducts/brand/"
+		localAnchor.attr("href", adminPanel.root + "/getProducts/Brand/"
 				+ brand[x].brandId);
 		brandDiv.append(localAnchor);
 	}
@@ -95,7 +95,7 @@ UIWebsite.loadOcassion = function(occasionDiv, occasion) {
 	for (var x = 0; x < occasion.length; x++) {
 		var localAnchor = $("<a></a>");
 		localAnchor.text(occasion[x].occasionName);
-		localAnchor.attr("href", adminPanel.root + "/getProducts/occasion/"
+		localAnchor.attr("href", adminPanel.root + "/getProducts/Occasion/"
 				+ occasion[x].occasionId);
 		occasionDiv.append(localAnchor);
 	}
@@ -106,7 +106,7 @@ UIWebsite.loadColor = function(colorDiv, color) {
 	for (var x = 0; x < color.length; x++) {
 		var localAnchor = $("<a></a>");
 		localAnchor.text(color[x].colorName);
-		localAnchor.attr("href", adminPanel.root + "/getProducts/color/"
+		localAnchor.attr("href", adminPanel.root + "/getProducts/Color/"
 				+ color[x].colorId);
 		colorDiv.append(localAnchor);
 	}
@@ -118,7 +118,7 @@ UIWebsite.loadCatSideBar = function(categoryDiv, cat) {
 		var li = $("<li></li>");
 		var localAnchor = $("<a></a>");
 		localAnchor.text(cat[x].catName);
-		localAnchor.attr("href", adminPanel.root + "/getProducts/cat/"
+		localAnchor.attr("href", adminPanel.root + "/getProducts/Category/"
 				+ cat[x].catId);
 		li.append(localAnchor);
 		categoryDiv.append(li);

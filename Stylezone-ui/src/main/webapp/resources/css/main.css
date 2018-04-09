@@ -13,7 +13,10 @@ body {
   font-weight:400px;
 }
 
-
+.product-template :hover{
+	border:1px solid yellow;
+	
+}
 
 ul li {
   list-style: none;

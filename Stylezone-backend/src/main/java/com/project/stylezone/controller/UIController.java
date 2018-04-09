@@ -1,5 +1,11 @@
 package com.project.stylezone.controller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,18 +21,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.stylezone.AppConstant;
+import com.project.stylezone.models.Product;
+import com.project.stylezone.models.ProductWrapper;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
+import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
-
-
 
 @Controller
 public class UIController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	StocksService stockService;
 
 	@RequestMapping(value = "/index")
 	public String getHome() {
@@ -47,23 +57,120 @@ public class UIController {
 	public String getCart() {
 		return "/userpanel/cart";
 	}
-	
-	
+
 	@RequestMapping(value = "/contactus")
 	public String getContactUs() {
 		return "/userpanel/contact-us";
 	}
-	
-	@RequestMapping(value="/myaccount")
-	public String getMyAccount()
-	{
+
+	@RequestMapping(value = "/myaccount")
+	public String getMyAccount() {
 		return "/userpanel/useraccount";
 	}
-	
-	
-	
-	@RequestMapping(value="/activatedaccount",method=RequestMethod.GET)
-	public ModelAndView activateAccount( @RequestParam(value = "session", required = false) Integer id,HttpServletRequest request,HttpServletResponse response) {
+
+	@RequestMapping(value = "/getProducts/{type}/{typeid}", method = RequestMethod.GET)
+	public ModelAndView getProductsCat(@PathVariable String type,@PathVariable String typeid) {
+		ModelAndView model = new ModelAndView();
+		
+		List<ProductWrapper> wrapper = new ArrayList<ProductWrapper>();
+		getWantedProductList(wrapper);
+		List<ProductWrapper> extractedList=null;
+		try {
+			extractedList = extractThePassType(wrapper,type,typeid);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.setViewName("/userpanel/productlist");
+		model.addObject("productlist", extractedList);
+		
+		return model;
+
+	}
+
+	private List<ProductWrapper> extractThePassType(List<ProductWrapper> wrapper, String type, String typeid) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		// TODO Auto-generated method stub
+		HashSet<ProductWrapper> set=new HashSet<ProductWrapper>();
+		
+		for (ProductWrapper productWrapper : wrapper) {
+			Product product = productWrapper.getProduct();
+			
+			Method method = product.getClass().getMethod("get"+type, null);
+			Object invoke = method.invoke(product, null);
+			
+			Object value=null;
+			if(type.equals("Category"))
+			{
+				Method idMethods = invoke.getClass().getMethod("getCatId", null);
+				value=idMethods.invoke(invoke, null);
+			}
+			
+			if(type.equals("Brand"))
+			{
+				Method idMethods = invoke.getClass().getMethod("getBrandId", null);
+				value=idMethods.invoke(invoke, null);
+			}
+			
+			
+			if(type.equals("Occasion"))
+			{
+				Method idMethods = invoke.getClass().getMethod("getOccasionId", null);
+				value=idMethods.invoke(invoke, null);
+			}
+			
+			if(type.equals("Color"))
+			{
+				Method idMethods = invoke.getClass().getMethod("getColorId", null);
+				value=idMethods.invoke(invoke, null);
+			}
+			
+			if(Integer.parseInt(value.toString())==Integer.parseInt(typeid))
+			{
+				set.add(productWrapper);
+			}
+			
+			
+		}
+		
+		
+		return new ArrayList <ProductWrapper> (set); 
+	}
+
+	private void getWantedProductList(List<ProductWrapper> wrapper) {
+		List<Product> fetchAllProductByIDDesc = stockService.fetchAllProductByIDDesc();
+
+		for (Product product : fetchAllProductByIDDesc) {
+			ProductWrapper productWr = new ProductWrapper();
+			if (product.getProductDetails().getGender() == 'M') {
+				productWr.setProductDetailsMale(
+						stockService.fetchMaleAttr(product.getProductDetails().getProductDetailsId()));
+
+			} else {
+				productWr.setProductDetailFemaleAttr(
+						stockService.fetchFemale(product.getProductDetails().getProductDetailsId()));
+			}
+
+			productWr.setProduct(product);
+			wrapper.add(productWr);
+		}
+	}
+
+	@RequestMapping(value = "/activatedaccount", method = RequestMethod.GET)
+	public ModelAndView activateAccount(@RequestParam(value = "session", required = false) Integer id,
+			HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		Users user = userService.findUserByUserId(id);
 		user.setAccStatus(1);
@@ -72,46 +179,42 @@ public class UIController {
 		model.setViewName("/userpanel/login");
 		return model;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/loginprocess", method = RequestMethod.GET)
-	public ModelAndView login(
-			@RequestParam(value = "error", required = false) String error,
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "notApproved", required = false) String notApproved,
 			@RequestParam(value = "duplicateSessionObject", required = false) String duplicateSessionObject,
 			@RequestParam(value = "accessDenied", required = false) String accessdenided,
 			@RequestParam(value = "accountnotactivate", required = false) String accountnotactivate,
-			@RequestParam(value = "logout", required = false) String logout,
-			HttpServletRequest request,HttpServletResponse response) {
-			ModelAndView model = new ModelAndView();
-			if (error != null) {
-				model.addObject("error", "Invalid username and password!");
-			}
-			
-			if (notApproved != null) {
-				model.addObject("notApproved", "You are not authorised to login!");
-			}
-			
-			if (duplicateSessionObject != null) {
-				model.addObject("duplicateSessionObject", "You are already logged in another session");
-			}
-			
-			if (accessdenided != null) {
-				model.addObject("accessdenided", "You not have correct Credentials to access this page");
-			}
-			
-			if(accountnotactivate!=null)
-			{
-				model.addObject("accountnotactivate", "Your email ID not verified .Please verify it in order to compelete signup process");
-			}
-			
-			model.setViewName("/userpanel/login");
-			return model;
-
+			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("error", "Invalid username and password!");
 		}
-	
-	
+
+		if (notApproved != null) {
+			model.addObject("notApproved", "You are not authorised to login!");
+		}
+
+		if (duplicateSessionObject != null) {
+			model.addObject("duplicateSessionObject", "You are already logged in another session");
+		}
+
+		if (accessdenided != null) {
+			model.addObject("accessdenided", "You not have correct Credentials to access this page");
+		}
+
+		if (accountnotactivate != null) {
+			model.addObject("accountnotactivate",
+					"Your email ID not verified .Please verify it in order to compelete signup process");
+		}
+
+		model.setViewName("/userpanel/login");
+		return model;
+
+	}
+
 	@RequestMapping(value = "/logout")
 	public String LogOut(HttpServletRequest request, HttpServletResponse response) {
 

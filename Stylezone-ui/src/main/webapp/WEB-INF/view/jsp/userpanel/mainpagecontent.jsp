@@ -48,7 +48,7 @@
 			<div class="col-sm-9 padding-right">
 				<div class="features_items">
 					<!--features_items-->
-					<h2 class="title text-center"></h2>
+					<h2 class="title text-center">Latest Products</h2>
 					<div class="product_list"></div>
 				</div>
 

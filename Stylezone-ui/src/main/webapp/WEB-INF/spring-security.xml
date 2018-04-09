@@ -34,6 +34,7 @@
 	<security:http security="none" pattern="/user/forgotPassword" />
 	<security:http security="none" pattern="/getMenu" />
 	<security:http security="none" pattern="/getProductList" />
+	<security:http security="none" pattern="/getProducts/**" />
 
 	<security:http auto-config="true">
 		<security:access-denied-handler ref="customAccessDeniedHandler" />
