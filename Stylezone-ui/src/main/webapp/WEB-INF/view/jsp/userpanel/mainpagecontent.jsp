@@ -69,8 +69,6 @@
 				</h4>
 				<p class="product_name"></p>
 				<p class="product_description"></p>
-				<a href="#" class="btn btn-default add-to-cart"><i
-					class="fa fa-shopping-cart"></i>Add to cart</a>
 			</div>
 
 		</div>

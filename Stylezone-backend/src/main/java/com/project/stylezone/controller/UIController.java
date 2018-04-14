@@ -100,6 +100,35 @@ public class UIController {
 		return model;
 
 	}
+	
+	
+	@RequestMapping(value = "/getProducts/show/{typeid}", method = RequestMethod.GET)
+	public ModelAndView getProductsDetails(@PathVariable String typeid) {
+		ModelAndView model = new ModelAndView();
+	
+		Product fetchAProduct = stockService.fetchAProduct(Integer.parseInt(typeid));
+		ProductWrapper wrapper=new ProductWrapper();
+		wrapper.setProduct(fetchAProduct);
+		
+		if(fetchAProduct.getProductDetails().getGender()=='M')
+		{
+			wrapper.setProductDetailsMale(stockService.fetchMaleAttr(fetchAProduct.getProductDetails().getProductDetailsId()));
+		}else
+		{
+			wrapper.setProductDetailFemaleAttr(stockService.fetchFemale(fetchAProduct.getProductDetails().getProductDetailsId()));
+		}
+		
+		
+		
+		
+	
+		model.setViewName("/userpanel/product-details");
+		model.addObject("product", wrapper);
+		
+		return model;
+
+	}
+	
 
 	private List<ProductWrapper> extractThePassType(List<ProductWrapper> wrapper, String type, String typeid) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// TODO Auto-generated method stub

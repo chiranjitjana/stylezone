@@ -70,5 +70,6 @@ var user={
 
 var website={
 		"fetchMenu":adminPanel.root+"/getMenu",
-		"fetchHomePageLatest":adminPanel.root+"/getProductList"
+		"fetchHomePageLatest":adminPanel.root+"/getProductList",
+		"fetchProducts":adminPanel.root+"/getProducts/show/"
 }

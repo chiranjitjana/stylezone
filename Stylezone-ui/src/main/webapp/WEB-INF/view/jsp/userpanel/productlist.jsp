@@ -24,8 +24,8 @@
 							</h4>
 							<p class="product_name">${product.product.productDetails.productTitle}</p>
 							<p class="product_description">${product.product.productDetails.productDescription}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i
-								class="fa fa-shopping-cart"></i>Add to cart</a>
+							<%-- <a href="#" class="btn btn-default add-to-cart" productid="${product.product.productId}"><i
+								class="fa fa-shopping-cart"></i>Add to cart</a> --%>
 						</div>
 
 					</div>
@@ -36,8 +36,9 @@
 </section>
 <script>
 	$(".product-template").click(function(){
-		alert($(this).attr("id"));
+		 window.location=website.fetchProducts+$(this).attr("id")
 	});
+
 
 </script>
 
