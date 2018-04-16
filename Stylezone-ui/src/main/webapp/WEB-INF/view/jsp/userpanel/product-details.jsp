@@ -15,7 +15,7 @@
 					<div class="cols">
 						<div class="left-col">
 							<div class="thumbs">
-								<a class="thumb-image active"
+								<a class="thumb-image active "
 									href="${product.product.productDetails.avt2}" data-index="0">
 									<span><img
 										src="../../FileServlet?path=${product.product.productDetails.avt2}"
@@ -48,16 +48,17 @@
 						</div>
 						<div class="right-col">
 							<h1 productName="name">${product.product.productDetails.productTitle}</h1>
+							<input type="text" class="hide productId" value="${product.product.productId}">
 							<div>
 								<div class="price-shipping">
-									<div class="price" id="price-preview">&#x20B9;${product.product.productDetails.rentPrice}</div>
+									<div class="price" id="price-preview">&#x20B9;<span class="price-info-txt">${product.product.productDetails.rentPrice}</span> <span class="durationfor"></span></div>
 								</div>
 
 								<div class="price-shipping">
 									<div class="" id="price-preview">
 										REFUNDABLE DEPOSIT
 										<h4 style="color: #989698;">
-											&#x20B9;${product.product.productDetails.depositePercentage}</h4>
+											&#x20B9;<span class="refundable_amt">${product.product.productDetails.depositePercentage}</span></h4>
 									</div>
 								</div>
 
@@ -227,11 +228,11 @@
 											test="${product.product.productDetails.duration4 eq 'Y'.charAt(0)}">
 											<div class="swatch clearfix" data-option-index="0">
 												<div class="">4 Days</div>
-												<div data-value="M"
+												<div data-value="M" id="duration4"
 													class="swatch-element color blue available">
-													<input id="swatch-0-m" type="radio" name="option-0"
+													<input  type="radio" 
 														value="M" /> <label for="swatch-0-m"
-														style="border-color: #fdb45e"> <img
+														style="border-color: #fdb45e" checked> <img
 														class="crossed-out"
 														src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
 														<span style="background-color: #fdb45e"></span>
@@ -244,9 +245,9 @@
 											test="${product.product.productDetails.duration6 eq 'Y'.charAt(0)}">
 											<div class="swatch clearfix" data-option-index="1">
 												<div class="">6 Days</div>
-												<div data-value="M"
+												<div data-value="M" id="duration6"
 													class="swatch-element color blue available">
-													<input id="swatch-0-m" type="radio" name="option-0"
+													<input  type="radio" 
 														value="M" /> <label for="swatch-0-m"
 														style="border-color: #fdb45e"> <img
 														class="crossed-out"
@@ -261,9 +262,9 @@
 											test="${product.product.productDetails.duration8 eq 'Y'.charAt(0)}">
 											<div class="swatch clearfix" data-option-index="2">
 												<div class="">8 Days</div>
-												<div data-value="M"
+												<div data-value="M" id="duration8"
 													class="swatch-element color blue available">
-													<input id="swatch-0-m" type="radio" name="option-0"
+													<input id="duration8" type="radio"
 														value="M" /> <label for="swatch-0-m"
 														style="border-color: #fdb45e"> <img
 														class="crossed-out"
@@ -287,7 +288,7 @@
 										class="deliveryDateInput" id="deliveryDateInput"
 										class="col-sm-12">
 										<span class="glyphicon glyphicon-calendar"
-											style="color: #086fcf;"></span> <input type="text"
+											style="color: #086fcf;"></span> <input type="text" class="deliveryDP"
 											id="datepicker" placeholder="Select Delivery Date"
 											style="border: none">
 									</div>
@@ -405,6 +406,11 @@
 	transform: scale(.5);
 }
 
+.durationfor
+{
+	font-size: 18px;
+	font-family: monospace;
+}
 
 </style>
 
@@ -431,15 +437,81 @@
 
 
 	<script>
+	
+	var intitialPrice=$(".price-info-txt").text();
+	
+	
+	
 		$(document).ready(function() {
-			$("#datepicker").datepicker({
-				dateFormat : "dd/mm/yy",
+		 	$("#datepicker").datepicker({
+				dateFormat : "dd-mm-yy",
 				minDate : 0
+			}); 
+			
+		 	
+		 
+		
+		if ($('#duration4').length) {
+						$("#duration4").find("input[type='radio']").prop(
+								"checked", true);
+						
+						$(".durationfor").text(" for 4 Days");
+					} else if ($('#duration6').length) {
+						$("#duration6").find("input[type='radio']").prop(
+								"checked", true);
+						
+						$(".durationfor").text(" for 6 Days");
+					} else {
+						$("#duration8").find("input[type='radio']").prop(
+								"checked", true);
+						
+						$(".durationfor").text(" for 8 Days");
+					}
+				});
+
+		$(".thumbs .thumb-image").click(function() {
+			var value = $(this).find("img").attr("src");
+			var path = "background-image: url(" + value + ")";
+			$(".big").find("#big-image").removeAttr("style");
+			$(".big").find("#big-image").attr("style", path);
+			$(".thumbs").find(".thumb-image").each(function() {
+				$(this).removeClass("active");
 			});
+
+			$(this).addClass("active");
+		});
+
+		$("#duration8").click(function() {
+
+			/* 	alert("8"); */
+			$(".price-info-txt").text(parseInt(intitialPrice)+1000);
+			$(".durationfor").text(" for 8 Days");
+			$("#duration8").find("input[type='radio']").prop("checked", true);
+			$("#duration4").find("input[type='radio']").prop("checked", false);
+			$("#duration6").find("input[type='radio']").prop("checked", false);
+		});
+
+		$("#duration6").click(function() {
+			/* alert("6"); */
+			$(".price-info-txt").text(parseInt(intitialPrice)+500);
+			$(".durationfor").text(" for 6 Days");
+			$("#duration6").find("input[type='radio']").prop("checked", true);
+			$("#duration4").find("input[type='radio']").prop("checked", false);
+			$("#duration8").find("input[type='radio']").prop("checked", false);
+		});
+
+		$("#duration4").click(function() {
+
+			/* 		alert("4"); */
+			$(".price-info-txt").text(parseInt(intitialPrice));
+			$(".durationfor").text(" for 4 Days");
+			$("#duration4").find("input[type='radio']").prop("checked", true);
+			$("#duration6").find("input[type='radio']").prop("checked", false);
+			$("#duration8").find("input[type='radio']").prop("checked", false);
 		});
 
 		$("#AddToCart").click(function() {
-			alert("cart");
+			UIWebsite.AddtoCart();
 		});
 
 		function deliveryDate() {

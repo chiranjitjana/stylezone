@@ -16,6 +16,7 @@
 		UIWebsite.loadMenMenu("M");
 		UIWebsite.loadMenMenu("F");
 		UIWebsite.loadProductListLatestHome();
+		UIWebsite.fetchCart();
 	});
 </script>
 

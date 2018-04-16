@@ -5,17 +5,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.stylezone.AppConstant;
+import com.project.stylezone.SessionController;
 import com.project.stylezone.models.Brand;
 import com.project.stylezone.models.Category;
 import com.project.stylezone.models.Color;
@@ -23,6 +27,8 @@ import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.Product;
 import com.project.stylezone.models.ProductListView;
 import com.project.stylezone.models.ProductWrapper;
+import com.project.stylezone.models.SessionCart;
+import com.project.stylezone.models.SessionProduct;
 import com.project.stylezone.service.StocksService;
 
 @Controller
@@ -106,6 +112,19 @@ public class WebSiteUIDataController {
 	}
 	
 	
+	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> addProductToCart(@RequestBody SessionProduct product,HttpServletRequest httpRequest) {
+		SessionController.addSessionProduct(product, httpRequest);
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Object object=SessionController.getProductList(httpRequest);
+		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
+	}
 	
-
+	
+	@RequestMapping(value = "/fetchCart", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> fetchProductToCart(HttpServletRequest httpRequest) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Object object=SessionController.getProductList(httpRequest);
+		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
+	}
 }

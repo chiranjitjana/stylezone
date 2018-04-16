@@ -148,8 +148,9 @@ UIWebsite.callbackLatestProductHome = function(responseData) {
 	var dataList = [];
 	for (var x = 0; x < data.length; x++) {
 		var product = $(".homepage .product-template").clone();
-		product.attr("productId",data[x].product.productId);
-		product.attr('onclick', 'UIWebsite.handleProductClick('+data[x].product.productId+')');
+		product.attr("productId", data[x].product.productId);
+		product.attr('onclick', 'UIWebsite.handleProductClick('
+				+ data[x].product.productId + ')');
 		product.removeClass("hide");
 		product.find(".product_avt").attr("src",
 				path + data[x].product.productDetails.avt1);
@@ -176,11 +177,86 @@ UIWebsite.callbackLatestProductHome = function(responseData) {
 		dataList.push(product);
 
 	}
-	container.append(dataList);
+
+	var arrays = [], size = 3;
+
+	while (dataList.length > 0) {
+		arrays.push(dataList.splice(0, size));
+	}
+
+	for (var i = 0; i < arrays.length; i++) {
+
+		var wrapper = $("<div></div>").append(arrays[i]);
+		wrapper.addClass("row");
+		arrays[i] = wrapper;
+	}
+
+	container.append(arrays);
 
 }
 
-UIWebsite.handleProductClick=function(productId)
-{
-	alert(productId);
+UIWebsite.handleProductClick = function(productId) {
+	window.location = website.fetchProducts + productId;
+
+}
+
+UIWebsite.AddtoCart = function() {
+
+	if (new RegExp(UIutiles.getRegex("emptystring")).test($(".deliveryDP")
+			.val())) {
+
+		$(".deliveryDP").addClass("error");
+	} else {
+
+		$(".deliveryDP").removeClass("error");
+		var duration;
+
+		if ($("#duration4").find("input[type='radio']").prop("checked") == true) {
+			duration = 4;
+
+		} else if ($("#duration6").find("input[type='radio']").prop("checked")) {
+			duration = 6;
+
+		} else if ($("#duration8").find("input[type='radio']").prop("checked") == true) {
+			duration = 8;
+		}
+
+		var data = {};
+		data.productId = $(".product-detail").find(".productId").val();
+		data.startDate = $(".deliveryDP").val();
+		data.duration = duration;
+		data.rentPrice = parseInt($(".price-info-txt").text());
+		data.deposite = parseInt($(".refundable_amt").text());
+		data.totalPrice = parseInt(data.rentPrice) + parseInt(data.deposite);
+
+		var requestObject = {};
+		requestObject.container = null;
+		requestObject.data = JSON.stringify(data);
+
+		ServiceController.addTocart(requestObject);
+	}
+
+}
+
+UIWebsite.addToCartCallback = function(responseData) {
+
+	console.log(responseData);
+	alert("here i am");
+	UIWebsite.fetchCart();
+}
+
+UIWebsite.fetchCart = function() {
+	var data = {};
+	var requestObject = {};
+	requestObject.container = "cartcontainer";
+	requestObject.data = null
+	ServiceController.fetchcart(requestObject);
+}
+
+UIWebsite.fetchCartCallback = function(responseData) {
+
+	// console.log(responseData);
+	var data = responseData.data;
+	$(".cartcount").text(data.length);
+
 }

@@ -33,6 +33,8 @@
 	<security:http security="none" pattern="/register/user" />
 	<security:http security="none" pattern="/user/forgotPassword" />
 	<security:http security="none" pattern="/getMenu" />
+	<security:http security="none" pattern="/addToCart" />
+	<security:http security="none" pattern="/fetchCart" />
 	<security:http security="none" pattern="/getProductList" />
 	<security:http security="none" pattern="/getProducts/**" />
 

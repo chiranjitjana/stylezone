@@ -261,3 +261,30 @@ ServiceController.deleteProduct=function(requestObject)
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object)
 }
+
+
+/************addToCart*********************/
+ServiceController.addTocart=function(requestObject) {
+	var object = {};
+	object.url = website.addToCart;
+	object.methodtype = methodType.POST;
+	object.data =requestObject.data;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIWebsite.addToCartCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+
+
+ServiceController.fetchcart=function(requestObject) {
+	var object = {};
+	object.url = website.fetchCart;
+	object.methodtype = methodType.GET;
+	object.data =null;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIWebsite.fetchCartCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}

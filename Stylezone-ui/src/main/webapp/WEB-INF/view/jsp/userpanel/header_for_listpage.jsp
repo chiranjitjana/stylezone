@@ -167,7 +167,7 @@
 							%>
 
 							<!--<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
-							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i>Cart(4)</a></li>
+							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i>Cart(<span class="cartcount">0</span>)</a></li>
 
 							<%
 								if (request.getSession().getAttribute("role")!= "ROLE_User") {
