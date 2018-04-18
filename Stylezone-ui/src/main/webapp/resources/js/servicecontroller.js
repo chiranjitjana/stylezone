@@ -277,6 +277,7 @@ ServiceController.addTocart=function(requestObject) {
 }
 
 
+
 ServiceController.fetchcart=function(requestObject) {
 	var object = {};
 	object.url = website.fetchCart;
@@ -285,6 +286,48 @@ ServiceController.fetchcart=function(requestObject) {
 	object.container = requestObject.container;
 	object.contenttype = contenttype.application_json;
 	object.callbackFunction = UIWebsite.fetchCartCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+
+
+
+ServiceController.RemoveFromCart=function(requestObject) {
+	var object = {};
+	object.url = website.removeFromCart;
+	object.methodtype = methodType.POST;
+	object.data =requestObject.data;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIWebsite.RemoveFromCartCallBack;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+
+/******************User address********************/
+ServiceController.addAddress=function(requestObject) {
+	var object = {};
+	object.url = user.saveAddress;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIWebsite.addAddress;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+
+
+ServiceController.deleteAddress=function(requestObject) {
+	var object = {};
+	object.url = user.deleteAddress;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIWebsite.deleteAddCallBack;
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object);
 }

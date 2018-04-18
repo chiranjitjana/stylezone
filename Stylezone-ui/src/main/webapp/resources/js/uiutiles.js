@@ -159,3 +159,17 @@ UIutiles.handleReponse = function(responseData) {
 
 }
 
+UIutiles.resetForm=function(container)
+{
+	$(container).find("input[type='text'],select").each(function(){
+		if($(this).attr("type")=="text"){
+			$(this).val("");
+		}else
+			{
+			$(this).val(-1);
+			}
+		
+	});
+	
+}
+

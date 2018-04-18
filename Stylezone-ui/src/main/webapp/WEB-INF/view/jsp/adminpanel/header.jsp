@@ -9,9 +9,9 @@
 <link href="resources/css/custom_style.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/jquery.dataTables.min.css">
 <script src="resources/js/jquery.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <script src="resources/js/jquery.dataTables.min.js"></script>
-<script src="resources/js/bootstrap.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 

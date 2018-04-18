@@ -1,12 +1,16 @@
 package com.project.stylezone.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.project.stylezone.models.Address;
 import com.project.stylezone.models.OTP;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
+import com.project.stylezone.repository.AdressRepo;
 import com.project.stylezone.repository.AuthenticationVerifierRepo;
 import com.project.stylezone.repository.OTPRepo;
 import com.project.stylezone.repository.UserLoginInfoRepo;
@@ -26,6 +30,10 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
 	OTPRepo otpRepo;
+	
+	
+	@Autowired
+	AdressRepo adressRepo;
 
 	public UserDetails findUserDetailsByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -67,6 +75,21 @@ public class UserDaoImpl implements UserDao {
 	public void deleteOTPforUser(OTP otp) {
 		// TODO Auto-generated method stub
 		 otpRepo.delete(otp);
+	}
+
+	public Address saveAddress(Address address) {
+		// TODO Auto-generated method stub
+		return adressRepo.save(address);
+	}
+
+	public List<Address> fetchAllAddress(Integer userId) {
+		// TODO Auto-generated method stub
+		return adressRepo.findByUserId(userId);
+	}
+
+	public void deleteAdrress(Integer addId) {
+		// TODO Auto-generated method stub
+		adressRepo.delete(addId);
 	}
 
 

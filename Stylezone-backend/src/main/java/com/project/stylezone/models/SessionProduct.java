@@ -8,6 +8,14 @@ public class SessionProduct {
 
 	private Integer productId;
 	
+	private String productTitle;
+	
+	
+	private String avt;
+	
+	private String customFitting;
+	
+	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date startDate;
 	
@@ -65,6 +73,38 @@ public class SessionProduct {
 
 	public void setTotalPrice(Integer totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	
+	
+	
+	
+	
+	public String getAvt() {
+		return avt;
+	}
+
+	public void setAvt(String avt) {
+		this.avt = avt;
+	}
+
+	public String getCustomFitting() {
+		return customFitting;
+	}
+
+	public void setCustomFitting(String customFitting) {
+		this.customFitting = customFitting;
+	}
+
+	
+	
+	
+	public String getProductTitle() {
+		return productTitle;
+	}
+
+	public void setProductTitle(String productTitle) {
+		this.productTitle = productTitle;
 	}
 
 	@Override

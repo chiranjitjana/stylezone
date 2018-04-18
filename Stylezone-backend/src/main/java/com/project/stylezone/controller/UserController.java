@@ -1,11 +1,14 @@
 package com.project.stylezone.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.stylezone.AppConstant;
+import com.project.stylezone.models.Address;
 import com.project.stylezone.models.OTP;
+import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.notification.EmailObject;
 import com.project.stylezone.notification.EmailSenderObject;
@@ -129,5 +134,67 @@ public class UserController {
 		}
 		
 		return AppConstant.convertToReponseEntity(null, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/user/save/adddress", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> saveAddress(@RequestBody Address address)
+	{
+		address.setUserId(getLoggedInUserDetails().getUserId());
+		address.setCreatedDate(AppConstant.getCurrentDateTime());
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Address saveAddress = userService.saveAddress(address);
+		if(saveAddress!=null) {
+			responseHeaders.add(AppConstant.message, "Address Created");
+			
+		}else
+		{
+			responseHeaders.add(AppConstant.message, "Unexpected Error Occored");
+		}
+		
+		return AppConstant.convertToReponseEntity(saveAddress, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/user/fetch/address", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> fetchAllMyAddress()
+	{
+		
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Address> addList = userService.fetchAllAddress(getLoggedInUserDetails().getUserId());
+		if (addList.size() <=0) {
+			responseHeaders.add(AppConstant.message, "No Address Available");
+		} else {
+			responseHeaders.add(AppConstant.message, addList.size() + " available in stock");
+		}
+		return AppConstant.convertToReponseEntity(addList, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/user/delete/address", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteAddress(@RequestParam(name="addId") Integer addId)
+	{
+		
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		userService.deleteAdrress(addId);
+		
+		List<Address> addList = userService.fetchAllAddress(getLoggedInUserDetails().getUserId());
+		if (addList.size() <=0) {
+			responseHeaders.add(AppConstant.message, "No Address Available");
+		} else {
+			responseHeaders.add(AppConstant.message, addList.size() + " available in stock");
+		}
+		
+		return AppConstant.convertToReponseEntity(addList, responseHeaders, HttpStatus.OK);
+	}
+	
+
+
+	
+	
+	private UserDetails getLoggedInUserDetails() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = userService.findUserDetailsByEmail(auth.getName());
+		return userDetails;
 	}
 }

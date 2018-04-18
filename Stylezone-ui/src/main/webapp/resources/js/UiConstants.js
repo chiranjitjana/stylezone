@@ -64,7 +64,10 @@ var adminPanelButtonAction={
 var user={
 		"forgotPass":adminPanel.root+"/user/forgotPassword",
 		"verifyOtpPass":adminPanel.root+"/user/verifyForgotPassOtp",
-		"changePassword":adminPanel.root+"/user/changePassword"
+		"changePassword":adminPanel.root+"/user/changePassword",
+		"saveAddress":adminPanel.root+"/user/save/adddress",
+		"fectchAllAddress":adminPanel.root+"/user/fetch/address",
+		"deleteAddress":adminPanel.root+"/user/delete/address"
 		
 }
 
@@ -73,5 +76,6 @@ var website={
 		"fetchHomePageLatest":adminPanel.root+"/getProductList",
 		"fetchProducts":adminPanel.root+"/getProducts/show/",
 		"addToCart":adminPanel.root+"/addToCart",
-		"fetchCart":adminPanel.root+"/fetchCart"
+		"fetchCart":adminPanel.root+"/fetchCart",
+		"removeFromCart":adminPanel.root+"/removeFromCart"
 }

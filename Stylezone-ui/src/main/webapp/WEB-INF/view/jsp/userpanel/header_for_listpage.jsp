@@ -13,12 +13,27 @@
 <link href="../../resources/css/responsive.css" rel="stylesheet">
 <link href="../../resources/css/custom_style.css" rel="stylesheet">
 <script src="../../resources/js/jquery.js"></script>
+<script src="../../resources/js/jquery.dataTables.min.js"></script>
 <script src="../../resources/js/price-range.js"></script>
 <script src="../../resources/js/jquery.scrollUp.min.js"></script>
 <script src="../../resources/js/bootstrap.min.js"></script>
 <script src="../../resources/js/jquery.prettyPhoto.js"></script>
 <script src="../../resources/js/main.js"></script>
+<link rel="stylesheet"
+		href="../../resources/jquery-ui-1.12.1.custom/jquery-ui.css" />
+	<script src="../../resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+	<style>
+#ui-datepicker-div {
+	z-index: 101 !important;
+}
+</style>
 <script src="../../resources/js/uiusers.js"></script>
+<link rel="stylesheet" href="../../resources/css/jquery.dataTables.min.css">
+
+
+
+
 <style>
 .navbar a:hover, .dropdown:hover .dropbtn {
 	background-color: red;
@@ -167,7 +182,7 @@
 							%>
 
 							<!--<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
-							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i>Cart(<span class="cartcount">0</span>)</a></li>
+							<li><a href="/Stylezone-ui/cart"><i class="fa fa-shopping-cart"></i>Cart(<span class="cartcount">0</span>)</a></li>
 
 							<%
 								if (request.getSession().getAttribute("role")!= "ROLE_User") {

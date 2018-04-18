@@ -67,6 +67,11 @@ public class UIController {
 	public String getMyAccount() {
 		return "/userpanel/useraccount";
 	}
+	
+	@RequestMapping(value = "/myaccount/show/checkout")
+	public String checkOut() {
+		return "/userpanel/checkout";
+	}
 
 	@RequestMapping(value = "/getProducts/{type}/{typeid}", method = RequestMethod.GET)
 	public ModelAndView getProductsCat(@PathVariable String type,@PathVariable String typeid) {

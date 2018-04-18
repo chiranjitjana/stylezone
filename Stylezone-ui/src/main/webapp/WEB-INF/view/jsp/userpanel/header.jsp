@@ -18,7 +18,16 @@
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/jquery.prettyPhoto.js"></script>
 <script src="resources/js/main.js"></script>
+<link rel="stylesheet"
+		href="resources/jquery-ui-1.12.1.custom/jquery-ui.css" />
+	<script src="resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
 <script src="resources/js/uiusers.js"></script>
+<link rel="stylesheet" href="resources/css/jquery.dataTables.min.css">
+<script src="resources/js/jquery.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="resources/js/jquery.dataTables.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
 <style>
 .navbar a:hover, .dropdown:hover .dropbtn {
 	background-color: red;

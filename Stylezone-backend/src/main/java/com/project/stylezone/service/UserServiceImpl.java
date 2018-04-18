@@ -1,22 +1,23 @@
 package com.project.stylezone.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.stylezone.dao.UserDao;
+import com.project.stylezone.models.Address;
 import com.project.stylezone.models.OTP;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
-	
-	
-	
+
 	public UserDetails findUserDetailsByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userDao.findUserDetailsByEmail(email);
@@ -54,12 +55,22 @@ public class UserServiceImpl implements UserService{
 
 	public void deleteOTPforUser(OTP otp) {
 		// TODO Auto-generated method stub
-		 userDao.deleteOTPforUser(otp);
+		userDao.deleteOTPforUser(otp);
 	}
 
-	
-	
-	
-	
+	public Address saveAddress(Address address) {
+		// TODO Auto-generated method stub
+		return userDao.saveAddress(address);
+	}
+
+	public List<Address> fetchAllAddress(Integer userId) {
+		// TODO Auto-generated method stub
+		return userDao.fetchAllAddress(userId);
+	}
+
+	public void deleteAdrress(Integer addId) {
+		// TODO Auto-generated method stub
+		userDao.deleteAdrress(addId);
+	}
 
 }

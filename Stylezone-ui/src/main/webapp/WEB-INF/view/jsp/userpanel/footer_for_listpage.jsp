@@ -8,6 +8,16 @@
 	<script src="../../resources/js/uicontroller.js"></script>
 	<script src="../../resources/js/uiconstants.js"></script>
 	<script src="../../resources/js/ajaxhandler.js"></script>
+	<script src="../../resources/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet"
+		href="../../resources/jquery-ui-1.12.1.custom/jquery-ui.css" />
+	<script src="../../resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+	<style>
+#ui-datepicker-div {
+	z-index: 101 !important;
+}
+</style>
 	<script src="../../resources/js/uiusers.js"></script>
 	<script src="../../resources/js/uiutiles.js"></script>
 

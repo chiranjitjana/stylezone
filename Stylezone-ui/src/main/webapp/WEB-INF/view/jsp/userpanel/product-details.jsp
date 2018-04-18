@@ -27,7 +27,7 @@
 										alt="${product.product.productDetails.productTitle}"></span>
 								</a> <a class="thumb-image"
 									href="${product.product.productDetails.avt1}" data-index="2">
-									<span><img
+									<span><img class="avt1"
 										src="../../FileServlet?path=${product.product.productDetails.avt1}"
 										alt="${product.product.productDetails.productTitle}"></span>
 								</a>
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 						<div class="right-col">
-							<h1 productName="name">${product.product.productDetails.productTitle}</h1>
+							<h1 class="productTitle">${product.product.productDetails.productTitle}</h1>
 							<input type="text" class="hide productId" value="${product.product.productId}">
 							<div>
 								<div class="price-shipping">
@@ -200,7 +200,7 @@
 
 									</div>
 									<c:if test="${product.product.productDetails.customFitting==1}">
-										<div class="col-sm-8" data-toggle="modal"
+										<div class="col-sm-8 customFittingAvailable" data-toggle="modal"
 											data-target="#customFittingInfo"
 											style="margin-top: 30px; border: 1px solid #086fcf; border-radius: 10px;">
 
@@ -301,7 +301,7 @@
 									<form id="AddToCartForm" class="">
 										<div class="btn-and-quantity-wrap">
 											<div class="btn-and-quantity">
-												<div id="AddToCart" quickbeam="add-to-cart">
+												<div id="AddToCart" quickbeam="add-to-cart" class="addpro${product.product.productId}">
 													<span id="AddToCartText">Add to Cart</span>
 												</div>
 											</div>
@@ -412,6 +412,13 @@
 	font-family: monospace;
 }
 
+
+.disable
+{
+	background-color:#AAB7B8!important;
+	-webkit-border-radius: 25px!important;
+    border-radius: 25px!important;
+}
 </style>
 
 
@@ -511,7 +518,10 @@
 		});
 
 		$("#AddToCart").click(function() {
-			UIWebsite.AddtoCart();
+			if(!$(this).hasClass("disable"))
+				UIWebsite.AddtoCart();
+			else
+				alert("Product is Already present in cart");
 		});
 
 		function deliveryDate() {

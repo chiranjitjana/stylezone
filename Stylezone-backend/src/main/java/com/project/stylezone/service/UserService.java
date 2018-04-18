@@ -1,6 +1,9 @@
 package com.project.stylezone.service;
 
 
+import java.util.List;
+
+import com.project.stylezone.models.Address;
 import com.project.stylezone.models.OTP;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
@@ -19,4 +22,7 @@ public interface UserService {
 	
 	void deleteOTPforUser(OTP otp);
 
+	Address saveAddress(Address address);
+	List<Address> fetchAllAddress(Integer userId);
+	void deleteAdrress(Integer addId);
 }

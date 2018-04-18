@@ -1,6 +1,7 @@
 package com.project.stylezone;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,22 +28,56 @@ public class SessionController {
 	}
 	
 	
-	public static void addSessionProduct(SessionProduct product,HttpServletRequest request) {
+	public static boolean addSessionProduct(SessionProduct product,HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		
+		boolean ret=false;
 		SessionCart cart = getCart(request);
 		List<SessionProduct> products = cart.getProducts();
 		
-		if(!products.contains(product)) {
+		if(SessionController.checkProductExists(products,product)) {
 			products.add(product);
 			cart.setProducts(products);
 			request.getSession().setAttribute("Cart", cart);
+			ret=true;
 		}
 	
+		return ret;
 		
 	}
 
+	private static boolean checkProductExists(List<SessionProduct> products, SessionProduct product) {
+		// TODO Auto-generated method stub
+		
+		for (SessionProduct sessionProduct : products) {
+			if(sessionProduct.getProductId()==product.getProductId()) {
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+
+
 	public static List<SessionProduct> getProductList(HttpServletRequest request){
 		return getCart(request).getProducts();
+	}
+
+
+	public static Object removeProduct(Integer porductID, HttpServletRequest httpRequest) {
+		// TODO Auto-generated method stub
+		
+		List<SessionProduct> products = getCart(httpRequest).getProducts();
+		
+		for(int x=0;x<products.size();x++) {
+			if(products.get(x).getProductId()==porductID)
+			{
+				products.remove(x);
+				break;
+			}
+		}
+		SessionCart cart = getCart(httpRequest);
+		cart.setProducts(products);
+		return products;
 	}
 }

@@ -9,8 +9,8 @@
 }
 
 .active {
-    color: #ffffff;
-    
+    color: #fe980f!important;
+    background-color: #f5f5f5!important;
 }
 
 
@@ -38,7 +38,7 @@ a:hover {
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a href="/" class="active">My Profile</a>
+								<a class="active" containerId="myprofile">My Profile</a>
 							</h4>
 						</div>
 					</div>
@@ -46,21 +46,21 @@ a:hover {
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a href="/">All Orders  (20)</a>
+								<a  containerId="orders">All Orders  (20)</a>
 							</h4>
 						</div>
 					</div>
-					<div class="panel panel-default marigin-bottom">
+					<!-- <div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a href="/">Payment Option (Paytm Only)</a>
+								<a  containerId="payment">Payment Option (Paytm Only)</a>
 							</h4>
 						</div>
-					</div>
+					</div> -->
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a href="/">Delivery Address (5)</a>
+								<a  class="addressMenu" containerId="delivery_address">Delivery Address (5)</a>
 							</h4>
 						</div>
 					</div>
@@ -68,18 +68,18 @@ a:hover {
 			</div>
 			<div class="col-sm-9 padding-right">
 				<div class="features_items">
-					<div class="myprofile">
+					<div class="myprofile containerItem">
 						<jsp:include page="userprofile.jsp"></jsp:include>
 					</div>
-					<div class="orders hide">
+					<div class="orders hide containerItem">
 					
 					</div>
-					<div class="payment hide">
+					<div class="payment hide containerItem">
 					
 					</div>
 					
-					<div class="delivery_address hide">
-					
+					<div class="delivery_address hide containerItem">
+						<jsp:include page="deliveryadds.jsp"></jsp:include>
 					</div>
 				
 				</div>
@@ -91,3 +91,19 @@ a:hover {
 	</div>
 </section>
 <jsp:include page="footer.jsp"></jsp:include>
+<script>
+	$(".left-sidebar").find("a").click(function(){
+		
+		$(".features_items .containerItem").each(function(){
+			$(this).addClass("hide");
+		});
+		
+		$(".left-sidebar a").each(function(){
+			$(this).removeClass("active");
+		});
+		
+		$("."+$(this).attr("containerId")).removeClass("hide");
+		$(this).addClass("active");
+	});
+
+</script>

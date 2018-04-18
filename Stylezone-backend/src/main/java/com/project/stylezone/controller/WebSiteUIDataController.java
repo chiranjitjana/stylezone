@@ -114,8 +114,16 @@ public class WebSiteUIDataController {
 	
 	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> addProductToCart(@RequestBody SessionProduct product,HttpServletRequest httpRequest) {
-		SessionController.addSessionProduct(product, httpRequest);
+		boolean addSessionProduct = SessionController.addSessionProduct(product, httpRequest);
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		
+		if(addSessionProduct==true) {
+			responseHeaders.add(AppConstant.message, "Product Added to Cart");
+		}
+		else
+		{
+			responseHeaders.add(AppConstant.message, "Product Already Present in Cart");
+		}
 		Object object=SessionController.getProductList(httpRequest);
 		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
 	}
@@ -127,4 +135,15 @@ public class WebSiteUIDataController {
 		Object object=SessionController.getProductList(httpRequest);
 		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/removeFromCart", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> removeFromCart(@RequestParam(name = "productID") Integer porductID,HttpServletRequest httpRequest) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<SessionProduct> productList = SessionController.getProductList(httpRequest);
+		Object object = SessionController.removeProduct(porductID,httpRequest);
+		responseHeaders.add(AppConstant.message, "Product Removed from cart");
+
+		return new ResponseEntity<Object>(object, responseHeaders, HttpStatus.OK);
+	}
+	
 }
