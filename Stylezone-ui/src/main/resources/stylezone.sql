@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2018 at 10:17 PM
+-- Generation Time: Apr 18, 2018 at 09:14 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -25,6 +25,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `address`
+--
+
+CREATE TABLE `address` (
+  `add_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `line_one` varchar(140) DEFAULT NULL,
+  `line_two` varchar(140) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `postcode` varchar(8) DEFAULT NULL,
+  `created_date` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `address`
+--
+
+INSERT INTO `address` (`add_id`, `user_id`, `line_one`, `line_two`, `city`, `state`, `postcode`, `created_date`) VALUES
+(9, 27, 'abc3', 'xyz', 'cdn', 'Maharashtra', '488796', '2018-04-18 09:24 PM'),
+(10, 27, 'fffffffffff1', 'jjd', 'mus', 'Andhra Pradesh', '5', '2018-04-18 09:18 PM');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `brand`
 --
 
@@ -40,11 +65,11 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`b_id`, `brand_name`, `created_by`, `created_date`) VALUES
-(43, 'ppppp', 16, '2018-03-20 01:18 AM'),
-(44, 'dggggggg', 16, '2018-03-20 01:18 AM'),
-(45, 'mmm', 2, '2018-03-22 01:12 AM'),
-(50, 'keu', 28, '2018-03-31 02:54 PM'),
-(51, 'Doremon', 28, '2018-03-31 02:56 PM');
+(1, 'Levi\'s', 28, '2018-04-08 03:22 PM'),
+(2, 'Park Avenue', 28, '2018-04-08 03:23 PM'),
+(3, 'Allen Solly', 28, '2018-04-08 03:23 PM'),
+(4, 'Provogue', 28, '2018-04-08 03:23 PM'),
+(5, 'M&S', 28, '2018-04-08 03:24 PM');
 
 -- --------------------------------------------------------
 
@@ -82,7 +107,9 @@ CREATE TABLE `cart_items_table` (
   `cart_id` int(11) DEFAULT NULL,
   `p_id` int(11) DEFAULT NULL,
   `rental_price` decimal(10,2) DEFAULT NULL,
-  `deposite_per` int(11) DEFAULT NULL
+  `deposite_per` int(11) DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -103,10 +130,16 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`cat_id`, `cat_name`, `created_by`, `created_date`) VALUES
-(5, 'sffffffffffffffffffffff', 2, '2018-03-17 08:52 PM'),
-(6, 'gddddddd', 16, '2018-03-20 01:18 AM'),
-(7, 'Fashion', 28, '2018-03-31 01:28 PM'),
-(9, 'chiri', 28, '2018-03-31 02:36 PM');
+(4, 'Suits and Tuxedos', 28, '2018-04-08 03:32 PM'),
+(5, 'Blazers', 28, '2018-04-08 03:32 PM'),
+(6, 'Indo Western', 28, '2018-04-08 03:32 PM'),
+(7, 'Plain Sherwanis', 28, '2018-04-08 03:33 PM'),
+(8, 'Lehengas', 28, '2018-04-08 03:33 PM'),
+(9, 'Anarkalis', 28, '2018-04-08 03:33 PM'),
+(10, 'Sarees', 28, '2018-04-08 03:33 PM'),
+(11, 'Kurta Sets', 28, '2018-04-08 03:34 PM'),
+(12, 'Saree Gowns', 28, '2018-04-08 03:34 PM'),
+(13, 'CROP TOP AND SKIRT SET', 28, '2018-04-08 03:55 PM');
 
 -- --------------------------------------------------------
 
@@ -140,13 +173,13 @@ CREATE TABLE `colors` (
 --
 
 INSERT INTO `colors` (`color_id`, `color_name`, `color_code`, `created_by`, `created_date`) VALUES
-(14, 'red', '780904', 2, '2018-03-19 09:36 PM'),
-(15, 'Green', '33FF3D', 2, '2018-03-17 08:57 PM'),
-(16, 'Pink', 'FF82D3', 2, '2018-03-17 08:57 PM'),
-(17, 'dggggggg', '4B2B78', 2, '2018-03-19 09:36 PM'),
-(18, 'gdddddddd', 'AFFF59', 16, '2018-03-20 01:18 AM'),
-(19, 'Pink', 'FF5CD6', 28, '2018-03-31 01:27 PM'),
-(20, 'Blue', '6E54FF', 28, '2018-03-31 02:09 PM');
+(1, 'Green', '008000', 28, '2018-04-08 03:24 PM'),
+(2, 'Teal', '008080', 28, '2018-04-08 03:25 PM'),
+(3, 'Aqua', '00FFFF', 28, '2018-04-08 03:25 PM'),
+(4, 'Yellow', 'FFC300', 28, '2018-04-08 03:26 PM'),
+(5, 'Red', 'FF0F0F', 28, '2018-04-08 03:26 PM'),
+(6, 'Pink', 'FF3072', 28, '2018-04-08 03:52 PM'),
+(7, 'Yellow', 'FFFC54', 28, '2018-04-17 12:08 AM');
 
 -- --------------------------------------------------------
 
@@ -206,8 +239,8 @@ INSERT INTO `login_info` (`user_id`, `last_login`) VALUES
 (24, '2018-03-24 02:29 PM'),
 (25, '2018-03-24 02:30 PM'),
 (26, '2018-03-24 02:32 PM'),
-(27, '2018-03-31 12:30 PM'),
-(28, '2018-03-31 01:26 PM');
+(27, '2018-04-18 09:24 PM'),
+(28, '2018-04-18 09:22 PM');
 
 -- --------------------------------------------------------
 
@@ -242,11 +275,12 @@ CREATE TABLE `occasion` (
 --
 
 INSERT INTO `occasion` (`oca_id`, `oca_name`, `created_by`, `created_date`) VALUES
-(4, 'zzzzzzzzz', 2, '2018-03-17 07:35 PM'),
-(6, 'xvvvvvvvvvvvv', 2, '2018-03-17 07:35 PM'),
-(7, 'zzzzzzzzzvv', 16, '2018-03-20 01:18 AM'),
-(8, 'Shadi', 28, '2018-03-31 01:27 PM'),
-(9, 'Sagai', 28, '2018-03-31 02:56 PM');
+(1, 'Mehendi Ceremony', 28, '2018-04-08 03:28 PM'),
+(2, 'Pre Wedding Ceremonies', 28, '2018-04-08 03:28 PM'),
+(3, 'Engagement Ceremony', 28, '2018-04-08 03:28 PM'),
+(4, 'Sangeet Ceremony', 28, '2018-04-08 03:29 PM'),
+(5, 'Vidai Ceremony', 28, '2018-04-08 03:29 PM'),
+(6, 'Reception Ceremony', 28, '2018-04-08 03:29 PM');
 
 -- --------------------------------------------------------
 
@@ -302,6 +336,13 @@ CREATE TABLE `otp` (
   `expiry_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `otp`
+--
+
+INSERT INTO `otp` (`otp_id`, `user_id`, `otp`, `created_date`, `expiry_date`) VALUES
+(1, 27, '87255', '2018-04-12 00:10:45', '2018-04-12 00:20:45');
+
 -- --------------------------------------------------------
 
 --
@@ -323,8 +364,11 @@ CREATE TABLE `product_details_female_attributes` (
 --
 
 INSERT INTO `product_details_female_attributes` (`attr_id`, `p_details_id`, `size`, `bust`, `waist`, `hip`, `height`) VALUES
-(1, 2, '40', '20', '30', '10', '6.1'),
-(2, 3, '40', '20', '30', '10', '6.1');
+(2, 1, '32', '33', '28', '42', '42'),
+(3, 2, '30', '32', '20', '30', '40'),
+(4, 4, '32', '35', '36', '38', '40'),
+(5, 5, '32', '42', '32', '32', '40'),
+(6, 6, '32', '30', '35', '38', '60');
 
 -- --------------------------------------------------------
 
@@ -344,7 +388,7 @@ CREATE TABLE `product_details_male_attributes` (
 --
 
 INSERT INTO `product_details_male_attributes` (`attr_id`, `p_details_id`, `top_size`, `bottom_size`) VALUES
-(1, 1, '10', '20');
+(2, 7, '32', '32');
 
 -- --------------------------------------------------------
 
@@ -373,9 +417,12 @@ CREATE TABLE `product_details_table` (
 --
 
 INSERT INTO `product_details_table` (`p_details_id`, `title`, `description`, `custom_fiting_available`, `pr_img1`, `pr_img2`, `pr_img3`, `gender_type`, `rent_price`, `deposite_per`, `duration4`, `duration6`, `duration8`) VALUES
-(1, 'SAREE', 'DFFD', 1, NULL, NULL, NULL, 'M', 300, 10, 'Y', 'Y', 'Y'),
-(2, 'Soma Saree', 'DFFD', 1, NULL, NULL, NULL, 'F', 300, 10, 'Y', 'Y', 'Y'),
-(3, 'Saree dd', 'DFFD', 1, NULL, NULL, NULL, 'F', 300, 10, 'Y', 'Y', 'Y');
+(1, 'DOREE', 'Red And Gold Lehenga Set', 1, 'D://upload//180408034159459ba7b55746cc34aa68818abf49e9d6ec8.jpg', 'D://upload//1804080341594598c176d429dfd4a25ba6b27b2be0494cf.jpg', 'D://upload//18040803415945984330f6f1f1249f385621880a0b73b5c.jpg', 'F', 2299, 17500, 'Y', 'Y', 'Y'),
+(2, 'AJD', 'Blue And Peach Lehenga Set', 2, 'D://upload//180408034454454300de26ba99446a985de5ea9ff1e8469.jpg', 'D://upload//1804080344544547010236f259249c483046ad5a3387393.jpg', 'D://upload//18040803445445430e27b331a2f4abdada20b3a861c887c.jpg', 'F', 2450, 17000, 'Y', 'Y', 'N'),
+(4, 'ABHILASHA', 'Peach Embriodered Gown with Drape', 1, 'D://upload//1804080354284287304b23c83f94d799bbc745592a864bd.jpg', 'D://upload//180408035428428a577bb3cb58548a7a7c3a7122a356f9f.jpg', 'D://upload//180408035428428afcf3bdbda4846eea6dd5e45598a6955.jpg', 'F', 4500, 15000, 'N', 'Y', 'N'),
+(5, 'BENAZIR LABEL', 'Yellow And Wine Embroidered Crop Top And Skirt', 2, 'D://upload//18040803580545e11b4db87475498988a9613fefcdaec2.jpg', 'D://upload//18040803580545f933a67f746a4eb0b628f355dd83f7b4.jpg', 'D://upload//1804080358054526c3ecc9e22046c78f3a05ae34b1f3c5.jpg', 'F', 2299, 56000, 'Y', 'Y', 'N'),
+(6, 'ZAYAH', 'Pink And Red Ombre Shaded Sari', 2, 'D://upload//18041512081341385ec3e72df9e4f0fba2e529390fa7099.jpg', 'D://upload//180415120813413f71aee3f24ca41fcb6d2acceae8804a0.jpg', 'D://upload//180415120813413c021825713214e33a7c888de0bd6792a.jpg', 'F', 2500, 14000, 'N', 'Y', 'N'),
+(7, 'Teal Blazers', 'For men', 2, 'D://upload//180415010544444def29bc91b6841bca99adb4bb7b78e0e.jpg', 'D://upload//1804150105444441d083ff4691f4a3687b59ed0f2abcbcc.jpg', 'D://upload//180415010544444505b49b19617489dbaf175cc8eccea3b.jpg', 'M', 4000, 14000, 'Y', 'Y', 'N');
 
 -- --------------------------------------------------------
 
@@ -434,9 +481,12 @@ CREATE TABLE `product_table` (
 --
 
 INSERT INTO `product_table` (`p_id`, `b_id`, `cat_id`, `color_id`, `oca_id`, `isinstock`, `create_date`, `create_by`, `p_details_id`) VALUES
-(1, 51, 7, 19, 8, 1, '2018-04-03', 28, 1),
-(2, 51, 7, 19, 8, 1, '2018-04-03', 28, 2),
-(3, 51, 7, 19, 8, 1, '2018-04-03', 28, 3);
+(1, 5, 8, 5, 4, 1, '2018-04-08', 28, 1),
+(2, 2, 8, 3, 1, 1, '2018-04-08', 28, 2),
+(4, 2, 12, 6, 6, 1, '2018-04-08', 28, 4),
+(5, 5, 13, 6, 5, 1, '2018-04-08', 28, 5),
+(6, 3, 10, 6, 3, 1, '2018-04-15', 28, 6),
+(7, 2, 5, 2, 6, 1, '2018-04-15', 28, 7);
 
 -- --------------------------------------------------------
 
@@ -473,14 +523,6 @@ CREATE TABLE `users_info` (
   `user_id` int(11) NOT NULL,
   `address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `users_info`
---
-
-INSERT INTO `users_info` (`user_id`, `address`) VALUES
-(1, 'Ghatkopar, Mumbai'),
-(3, 'Thane, Mumbai');
 
 -- --------------------------------------------------------
 
@@ -576,6 +618,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`add_id`);
 
 --
 -- Indexes for table `brand`
@@ -690,10 +738,15 @@ ALTER TABLE `users_role`
 --
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cart`
 --
@@ -708,12 +761,12 @@ ALTER TABLE `cart_items_table`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `custom_fitting_appointment`
 --
@@ -728,7 +781,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `occasion`
 --
 ALTER TABLE `occasion`
-  MODIFY `oca_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `oca_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `order_table`
 --
@@ -738,22 +791,22 @@ ALTER TABLE `order_table`
 -- AUTO_INCREMENT for table `otp`
 --
 ALTER TABLE `otp`
-  MODIFY `otp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `otp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `product_details_female_attributes`
 --
 ALTER TABLE `product_details_female_attributes`
-  MODIFY `attr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `attr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `product_details_male_attributes`
 --
 ALTER TABLE `product_details_male_attributes`
-  MODIFY `attr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `attr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `product_details_table`
 --
 ALTER TABLE `product_details_table`
-  MODIFY `p_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `p_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `product_review_table`
 --
@@ -763,7 +816,7 @@ ALTER TABLE `product_review_table`
 -- AUTO_INCREMENT for table `product_table`
 --
 ALTER TABLE `product_table`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `users`
 --
