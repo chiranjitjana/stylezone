@@ -464,6 +464,8 @@ UIWebsite.loadMyAddressList = (function() {
 																.fnSettings()
 																.fnRecordsTotal()
 														+ ")");
+								
+								$(".delivery_add_count").text( this.fnSettings().fnRecordsTotal());
 							}
 
 						});
@@ -497,8 +499,41 @@ UIWebsite.ShowDatePicker=function(id,startdt,duration){
 	
 }
 
+/*************************load address list to ***********************/
 
+UIWebsite.loadAddressList=function()
+{
+	ServiceController.loadAddressList();
+}
 
+UIWebsite.loadAddressListCallBak=function(responseData)
+{
+	console.log(responseData)
+	var data=responseData.data;
+	
+	var list=[];
+	
 
+		if (data.length >0) {
+		for (var x = 0; x < data.length; x++) {
+			var addressdiv = $(".delivery_address").find(".address_template")
+					.clone();
+			addressdiv.removeClass("hide");
+			addressdiv.find(".address").html(
+					data[x].line1 + ", " + data[x].line2 + "<br/>"
+							+ data[x].city + "," + data[x].state + " ,"
+							+ data[x].postcode);
+
+			list.push(addressdiv)
+		}
+
+		$(".delivery_address").append(list);
+	} else {
+		$(".delivery_address").addClass("hide");
+	}
+	
+	
+
+}
 
 

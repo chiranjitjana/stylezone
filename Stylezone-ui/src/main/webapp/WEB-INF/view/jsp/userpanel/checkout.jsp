@@ -7,17 +7,42 @@
 		</div>
 		<!--/breadcrums-->
 
-		<div class="step-one">
-			<h5 class="heading">Select Delivery Address</h5>
-		</div>
-		<div class="checkout-options">
-			
-		</div>
-	
+		<div class="">
+			<h4>Select Delivery Address</h4>
+			<div class="delivery_address col-sm-8">
 
-	
+				<div class="well hide address_template"
+					style="padding:5px; background-color: #f5f5f5; border: 1px solid #e3e3e3;">
+					<div class="row" style="height:50px;">
+						<div class="col-sm-2">
+							<input type="radio" name="deliveryAddoption"
+								style="height: 50px; width: 25px; float: left;">
+						</div>
+						<div class="col-sm-10">
+							<div class="heading">
+								<h5 style="color: #807e7e;">
+									<span class="address"></span>
+								</h5>
+
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="rq_address">
+				<center><H4>Please Create Delivery Address in My account selection first</H4></center>
+			</div>
+
+		</div>
+</div>
+<div class="container">
+
 		<div class="review-payment">
 			<h2>Review & Payment</h2>
+
+
 		</div>
 
 		<div class="table-responsive cart_info">
@@ -153,6 +178,14 @@
 <!--/#do_action-->
 <jsp:include page="footer_for_listpage.jsp"></jsp:include>
 <style>
+.btn span.glyphicon {
+	opacity: 0;
+}
+
+.btn.active span.glyphicon {
+	opacity: 1;
+}
+
 .navbar a:hover, .dropdown:hover .dropbtn {
 	background-color: red;
 }
@@ -232,12 +265,12 @@
 </style>
 
 <script>
-<script>
+
 $(".header-bottom").show();
 $(document).ready(function() {
 	UIcontroller.updateUi("myprofile");
 	UIWebsite.fetchCart();
+	UIWebsite.loadAddressList();
 });	
 
-</script>
 </script>

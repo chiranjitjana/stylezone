@@ -60,7 +60,7 @@ a:hover {
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a  class="addressMenu" containerId="delivery_address">Delivery Address (5)</a>
+								<a  class="addressMenu" containerId="delivery_address">Delivery Address (<span class="delivery_add_count"></span>)</a>
 							</h4>
 						</div>
 					</div>

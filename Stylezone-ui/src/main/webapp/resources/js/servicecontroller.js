@@ -331,3 +331,21 @@ ServiceController.deleteAddress=function(requestObject) {
 	object.callbackFuntionParameter = null;
 	AjaxHandler.makeAjaxCall(object);
 }
+
+
+/*************load user address list*********************/
+
+ServiceController.loadAddressList=function()
+{
+	var object = {};
+	object.url = user.fectchAllAddress;
+	object.methodtype = methodType.GET;
+	object.data = null;
+	object.datatype = datatype.json;
+	object.container = null;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIWebsite.loadAddressListCallBak;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+
+}

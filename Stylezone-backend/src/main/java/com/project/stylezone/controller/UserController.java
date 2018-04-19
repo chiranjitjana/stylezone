@@ -182,7 +182,7 @@ public class UserController {
 		if (addList.size() <=0) {
 			responseHeaders.add(AppConstant.message, "No Address Available");
 		} else {
-			responseHeaders.add(AppConstant.message, addList.size() + " available in stock");
+			responseHeaders.add(AppConstant.message, addList.size() + " address available");
 		}
 		
 		return AppConstant.convertToReponseEntity(addList, responseHeaders, HttpStatus.OK);
