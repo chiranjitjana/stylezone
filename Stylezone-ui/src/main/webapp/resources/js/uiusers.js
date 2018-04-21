@@ -334,6 +334,11 @@ UIWebsite.fetchCartCallback = function(responseData) {
 		$(".emptycart").removeClass("hide");
 
 	}
+	
+	
+	if($(".checkoutpage").length){
+		UIWebsite.HandleCheckOutPage(data);
+	}
 
 }
 
@@ -510,6 +515,12 @@ UIWebsite.loadAddressListCallBak = function(responseData) {
 		for (var x = 0; x < data.length; x++) {
 			var addressdiv = $(".delivery_address").find(".address_template")
 					.clone();
+			addressdiv.find(".addressradiobtn").attr("id","add"+data[x].addId);
+			addressdiv.find(".addressradiobtn").attr("addressId",data[x].addId);
+			if(x==0){
+				addressdiv.find(".addressradiobtn").prop("checked",true);
+			}
+			
 			addressdiv.removeClass("hide");
 			addressdiv.find(".address").html(
 					data[x].line1 + ", " + data[x].line2 + "<br/>"
@@ -603,7 +614,156 @@ UIWebsite.UpdateCustomFittingAppntDateCallback = function(responseData) {
 		message.text("Appointment Date for Custom Fitting not Available");
 	}
 	
+}
 
+
+/***************************Handle Checkout page**********************/
+UIWebsite.HandleCheckOutPage=function(data){
+	if (data.length > 0) {
+		$(".checkoutpage .cart_wrapper").removeClass("hide");
+		$("checkoutpage .emptycart").addClass("hide");
+		var tbody = $(".checkoutpage .product_detaills");
+		var tr_costinfo=$(".cost_info").clone();
+		
+		
+		tbody.find("tr").not(":first").remove();
+		var dataToPush = [];
+		var rental = 0;
+		var deposite = 0;
+		for (var x = 0; x < data.length; x++) {
+			var tr = tbody.find(".tr").clone();
+			tr.removeClass("hide");
+			tr.attr("productId", data[x].productId);
+			tr.find(".avt").attr("src", "../../"+data[x].avt);
+			tr.find(".productTiltle").text(data[x].productTitle);
+			tr.find(".startDate").text(data[x].startDate);
+			tr.find(".duration").text(data[x].duration + " Days");
+			tr.find(".rental_price").text(data[x].rentPrice);
+			tr.find(".refundable_price").text(data[x].deposite);
+			tr.find(".product_total_price").text(data[x].totalPrice);
+			tr.find(".cart_quantity_delete").attr("productId",
+					data[x].productId);
+
+			if (data[x].customFitting == "Y") {
+				var calendar = $('<input/>');
+				calendar.attr("id", "appointDate" + data[x].productId)
+				calendar.attr("type", "text");
+				calendar.val(data[x].customFittingAppointmentDate);
+				calendar.prop("disabled",true);
+				calendar.attr("placeholder", "Fitting Appointment");
+
+				tr.find(".customFittingCalendar").append(calendar);
+
+			}
+
+			tr.find(".cart_quantity_delete").attr("onClick",
+					"UIWebsite.RemoveFromCart(" + data[x].productId + ")");
+
+			rental = rental + data[x].rentPrice;
+			deposite = deposite + data[x].deposite;
+			dataToPush.push(tr);
+		}
+		
+		dataToPush.push(tr_costinfo);
+	
+		
+		tbody.append(dataToPush);
+
+		$(".checkoutpage .total_rental_cost").text(rental);
+		$(".checkoutpage .total_refunable_cost").text(deposite);
+		$(".checkoutpage .total_rental_refundable").text(rental + deposite);
+	}
+}
+
+/************************Validate Card Info*****************************/
+UIWebsite.ValidateCard=function()
+{
+	var flag=false;
+	var name=$("#cc-name");
+	var card_number=$("#cc-number");
+	var expireMonth=$(".monthExp");
+	var expireYear=$(".yearExp");
+	var cvv=$("#cc-cvv");
+	
+	flag= UIWebsite.requiredCheckValidator(name,flag);
+	flag=UIWebsite.requiredCheckValidator(card_number,flag);
+	flag=UIWebsite.requiredCheckValidator(cvv,flag);
+	flag=UIWebsite.requiredCheckValidator(expireMonth,flag);
+	flag=UIWebsite.requiredCheckValidator(expireYear,flag);
 	
 	
+	
+	if(flag==false){
+		if(!UIWebsite.validateCardNumber(card_number.val(),flag)){
+			card_number.addClass("error");
+			card_number.attr("title","Card number is not valid");
+			card_number.tooltip();
+			if(flag==false)
+			flag=true;
+		}else
+		{
+			card_number.removeClass("error");
+		}
+	}
+	
+	
+	
+	return !flag;
+}
+
+
+
+UIWebsite.validateCardNumber=function(number,flag) {
+    return luhnCheck(number);
+}
+
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
+}
+
+
+
+UIWebsite.requiredCheckValidator=function(data,flag){
+	
+	if(data.attr("type")=="text" || data.attr("type")=="number"){
+	if(new RegExp(UIutiles.getRegex("emptystring")).test(data.val())){
+			data.addClass("error");
+			data.tooltip();
+			if(flag==false){
+				flag=true;
+			}
+		}else
+		{
+			data.removeClass("error");
+			
+		}
+	}
+	else
+	{
+		if(data.val()==="-1"){
+			data.addClass("error");
+			data.tooltip();
+			if(flag==false){
+				flag=true;
+			}
+		}
+		else
+		{
+			data.removeClass("error");
+			
+		}
+	}
+	
+	return flag;
 }

@@ -1,13 +1,15 @@
 <jsp:include page="header_for_listpage.jsp"></jsp:include>
 
+
 <section id="cart_items">
 	<div class="container">
+		
+		<!--/breadcrums-->
+
+		<div class="cart_wrapper">
 		<div class="breadcrumbs">
 			<h4>Check out</h4>
 		</div>
-		<!--/breadcrums-->
-
-		<div class="">
 			<h4>Select Delivery Address</h4>
 			<div class="delivery_address col-sm-8">
 
@@ -15,7 +17,7 @@
 					style="padding:5px; background-color: #f5f5f5; border: 1px solid #e3e3e3;">
 					<div class="row" style="height:50px;">
 						<div class="col-sm-2">
-							<input type="radio" name="deliveryAddoption"
+							<input type="radio" name="deliveryAddoption" class="addressradiobtn"
 								style="height: 50px; width: 25px; float: left;">
 						</div>
 						<div class="col-sm-10">
@@ -37,7 +39,7 @@
 
 		</div>
 </div>
-<div class="container checkoutpage">
+<div class="container checkoutpage cart_wrapper">
 
 		<div class="review-payment">
 			<h2>Review & Payment</h2>
@@ -60,8 +62,8 @@
 						</tr>
 					
 				</thead>
-				<tbody>
-				<tr class="tr hide product_detaials">
+				<tbody class="product_detaills">
+				<tr class="tr hide">
 							<td class="cart_product"><a href=""><img class="avt"
 									src="resources/images/home/product/1st.jpg" height="110"
 									width="110" alt=""></a></td>
@@ -101,25 +103,28 @@
 						<td colspan="2">
 							<table class="table table-condensed total-result">
 								<tr>
-									<td>Cart Sub Total</td>
-									<td>$59</td>
+									<td>Total Rental Cost</td>
+									<td><span>&#8377;<span
+									class="total_rental_cost"></span></td>
 								</tr>
 								<tr>
-									<td>Exo Tax</td>
-									<td>$2</td>
+									<td>Total Refundable Cost</td>
+									<td><span>&#8377;<span
+									class="total_refunable_cost"></span></td>
 								</tr>
-								<tr class="shipping-cost">
+								<!-- <tr class="shipping-cost">
 									<td>Shipping Cost</td>
 									<td>Free</td>
-								</tr>
+								</tr> -->
 								<tr>
 									<td>Total</td>
-									<td><span>$61</span></td>
+									<td><span>&#8377;<span
+									class="total_rental_refundable"></span></span></td>
 								</tr>
 							</table>
 						</td>
 					</tr>
-					<tr class="cost_info">
+					<tr class="cost_info paynow">
 						<td colspan="6">&nbsp;</td>
 						<td colspan="2">
 							<Button class="btn btn-primary" data-toggle="modal" data-target="#payNOw">Pay Now</Button>
@@ -129,6 +134,13 @@
 			</table>
 		</div>
 	</div>
+	<div class="emptycart">
+		<div class="container">
+			<center><h3>No Product Available in Your Cart!!</h3></center>
+		</div>
+	
+	</div>
+	
 </section>
 
 
@@ -143,8 +155,11 @@
         <h4 class="modal-title">Pay Now</h4>
       </div>
       <div class="modal-body">
-        <form class="needs-validation" novalidate="">
-            
+       
+        <form class="needs-validation">
+           <div class="payment_status row hide col-sm-12" style="    padding-bottom: 20px;">
+            	<span class="payment_status_msg"></span>
+            </div>
 
             <h4 class="mb-3">Payment</h4>
 			
@@ -160,40 +175,90 @@
             </div>
             <hr/>
             <div class="row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-12">
                 <label for="cc-name">Name on card</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                <input type="text" 
+              
+                class="form-control" id="cc-name"  title="Please Provide Name Present on Card">
                 <small class="text-muted">Full name as displayed on card</small>
                 <div class="invalid-feedback hide">
                   Name on card is required
                 </div>
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-12">
                 <label for="cc-number">Credit card number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                <input type="number" 
+                  onKeyPress="return check(event,value)" onInput="checkLength(16,this)"
+                class="form-control" id="cc-number" placeholder="Procide 16 Digit card number" required="" title="Please Provide Card Number">
                 <div class="invalid-feedback hide">
                   Credit card number is required
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-3 mb-3">
-                <label for="cc-expiration">Expiration</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                <div class="invalid-feedback hide">
+              <div class="col-md-12 mb-12">
+               <div class="col-md-12" style="margin-left:0px!important;padding-left: 0px;important">
+              	<label for="cc-number col-md-12">Expiration Date</label>
+              </div>
+               <select id="exMonth" title="select a month" class="col-md-6 mb-6 monthExp" style="
+    			border: 1px solid #cccccc;background: #fff" title="Please select month">
+								<option value="-1">Enter month</option>
+								<option value="01">January</option>
+								<option value="02">February</option>
+								<option value="03">March</option>
+								<option value="04">April</option>
+								<option value="05">May</option>
+								<option value="06">June</option>
+								<option value="07">July</option>
+								<option value="08">August</option>
+								<option value="09">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+				</select> <select id="exYear" title="select a year" class="col-md-6 mb-6 yearExp" style="
+    border: 1px solid #cccccc;background: #fff" title="Please Select year">
+								<option value="-1">Enter year</option>
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+								<option value="2022">2022</option>
+								<option value="2023">2023</option>
+								<option value="2024">2024</option>
+								<option value="2025">2025</option>
+								<option value="2026">2026</option>
+								<option value="2027">2027</option>
+								<option value="2028">2028</option>
+								<option value="2029">2029</option>
+								<option value="2030">2030</option>
+								<option value="2031">2031</option>
+							</select>
+
+
+							<div class="invalid-feedback hide">
                   Expiration date required
                 </div>
               </div>
-              <div class="col-md-3 mb-3">
+              <div class="col-md-4 mb-4">
                 <label for="cc-expiration">CVV</label>
-                <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                <div class="invalid-feedback hide">
-                  Security code required
-                </div>
+                <input type="number" class="form-control" id="cc-cvv"  onKeyPress="return check(event,value)" onInput="checkLength(3,this)" 
+                 placeholder="" required="" title="Please Provide Valid CVV Number">
+                
               </div>
+           
             </div>
+             <div class="row col-md-12 mb-4">
+                <label for="cc-expiration" style="margin-left: 15px;">Save this Card Details for future purchase</label>
+                <input type="checkbox" class="form-control pull-left" style="height: 15px;
+    width: 15px;">
+              </div>
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            <button class="btn btn-primary btn-lg btn-block paynowbtn" type="button">Continue</button>
           </form>
       </div>
     </div>
@@ -296,6 +361,19 @@
 </style>
 
 <script>
+function checkLength(len,ele){
+	  var fieldLength = ele.value.length;
+	  if(fieldLength <= len){
+	    return true;
+	  }
+	  else
+	  {
+	    var str = ele.value;
+	    str = str.substring(0, str.length - 1);
+	    ele.value = str;
+	  }
+	}
+
 
 $(".header-bottom").show();
 $(document).ready(function() {
@@ -303,5 +381,20 @@ $(document).ready(function() {
 	UIWebsite.fetchCart();
 	UIWebsite.loadAddressList();
 });	
+
+$(".paynowbtn").click(function(){
+	if(UIWebsite.ValidateCard()){
+		$(".payment_status").addClass("hide");
+		$(".payment_status_msg").addClass("alert alert-danger");
+		$(".payment_status_msg").text("Please Provide Complete Card Details .");
+		UIWebsite.makeCheckout();
+	}else
+		{
+			$(".payment_status").removeClass("hide");
+			$(".payment_status_msg").addClass("alert alert-danger");
+			$(".payment_status_msg").text("Please Provide Complete Card Details .");
+		
+		}
+});
 
 </script>

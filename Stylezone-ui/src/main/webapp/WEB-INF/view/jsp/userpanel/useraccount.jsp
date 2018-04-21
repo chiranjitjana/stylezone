@@ -50,13 +50,13 @@ a:hover {
 							</h4>
 						</div>
 					</div>
-					<!-- <div class="panel panel-default marigin-bottom">
+					 <div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a  containerId="payment">Payment Option (Paytm Only)</a>
+								<a  containerId="payment">My Cards (0)</a>
 							</h4>
 						</div>
-					</div> -->
+					</div>
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
