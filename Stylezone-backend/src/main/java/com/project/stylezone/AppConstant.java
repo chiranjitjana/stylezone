@@ -1,7 +1,12 @@
 package com.project.stylezone;
 
+import java.io.IOException;
 import java.security.SecureRandom;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,34 @@ public class AppConstant {
 
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd ");
 		return sdf.format(dt);
+
+	}
+	
+	
+	public static Date getFormatedDateDDMMYY(Date dt) {
+		SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+		String format = myFormat.format(dt);
+		try {
+			return myFormat.parse(format);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	public static Date getDateFromStringDDMMYY(String date) {
+
+		SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+		 try {
+			return myFormat.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 
@@ -83,4 +116,9 @@ public class AppConstant {
 		return ft.format(dNow)+UUID.randomUUID().toString().replace("-", "");
 	}
 
+	
+	public static long betweenDates(Date firstDate, Date secondDate) throws IOException
+	{
+	    return ChronoUnit.DAYS.between(firstDate.toInstant(), secondDate.toInstant());
+	}
 }

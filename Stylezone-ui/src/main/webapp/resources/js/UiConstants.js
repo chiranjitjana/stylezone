@@ -67,7 +67,8 @@ var user={
 		"changePassword":adminPanel.root+"/user/changePassword",
 		"saveAddress":adminPanel.root+"/user/save/adddress",
 		"fectchAllAddress":adminPanel.root+"/user/fetch/address",
-		"deleteAddress":adminPanel.root+"/user/delete/address"
+		"deleteAddress":adminPanel.root+"/user/delete/address",
+		"updateAppointmentDate":adminPanel.root+"/user/update/appointmentdate"
 		
 }
 
@@ -77,5 +78,6 @@ var website={
 		"fetchProducts":adminPanel.root+"/getProducts/show/",
 		"addToCart":adminPanel.root+"/addToCart",
 		"fetchCart":adminPanel.root+"/fetchCart",
-		"removeFromCart":adminPanel.root+"/removeFromCart"
+		"removeFromCart":adminPanel.root+"/removeFromCart",
+		
 }

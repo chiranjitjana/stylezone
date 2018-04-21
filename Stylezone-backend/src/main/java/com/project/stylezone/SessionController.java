@@ -1,11 +1,11 @@
 package com.project.stylezone;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.project.stylezone.models.Cart;
 import com.project.stylezone.models.SessionCart;
 import com.project.stylezone.models.SessionProduct;
 
@@ -79,5 +79,13 @@ public class SessionController {
 		SessionCart cart = getCart(httpRequest);
 		cart.setProducts(products);
 		return products;
+	}
+
+
+	public static void updateCartProductAppointmentDate(SessionCart cart,
+			HttpServletRequest httpRequest) {
+		// TODO Auto-generated method stub
+		httpRequest.getSession().setAttribute("Cart", cart);
+	
 	}
 }

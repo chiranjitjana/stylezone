@@ -1,7 +1,12 @@
 package com.project.stylezone.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.stylezone.AppConstant;
+import com.project.stylezone.SessionController;
 import com.project.stylezone.models.Address;
+import com.project.stylezone.models.AppointmentList;
+import com.project.stylezone.models.CustomFittingAppointMent;
 import com.project.stylezone.models.OTP;
+import com.project.stylezone.models.SessionCart;
+import com.project.stylezone.models.SessionProduct;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.Users;
 import com.project.stylezone.notification.EmailObject;
@@ -189,7 +199,74 @@ public class UserController {
 	}
 	
 
+	@RequestMapping(value = "/user/update/appointmentdate", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> deleteAddress(@RequestBody AppointmentList appList,HttpServletRequest httpRequest)
+	{
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		
+		Object obj=new Object();
+		List<Integer> productIds= new ArrayList<Integer>();
+		
+		if(appList.getAppointmentList().size()>0) {
+			 SessionCart cart = SessionController.getCart(httpRequest);
+			 boolean setFlag=false;
+			
+				List<CustomFittingAppointMent> appointmentList = appList.getAppointmentList();
+				for (CustomFittingAppointMent customFittingAppointMent : appointmentList) {
+					for (SessionProduct sessionProduct :cart.getProducts()) {
+					if(sessionProduct.getProductId()==customFittingAppointMent.getProductId()) {
+					    if(checkDeliveryDateAndCustomFittingDateDifference(customFittingAppointMent, sessionProduct)) {
+					    	sessionProduct.setCustomFittingAppointmentDate(customFittingAppointMent.getAppointMentDate());
+					    }
+					    else
+					    {
+					    	productIds.add(customFittingAppointMent.getProductId());
+					    	if(setFlag==false) {
+						    	responseHeaders.add(AppConstant.message, "Product Appointment Dates are not available");
+						    	setFlag=true;
+					    	}
+					    }
+						
+					}
+					
+				}
+				
+			}
+				
+			SessionController.updateCartProductAppointmentDate(cart,httpRequest);
+		}
+		
+		
+		return AppConstant.convertToReponseEntity(productIds, responseHeaders, HttpStatus.OK);
+	}
 
+
+	private boolean checkDeliveryDateAndCustomFittingDateDifference(CustomFittingAppointMent customFittingAppointMent,
+			SessionProduct sessionProduct) {
+
+			Date productRentStart = AppConstant.getFormatedDateDDMMYY(sessionProduct.getStartDate());
+			Date  appointMentDate = AppConstant.getDateFromStringDDMMYY(customFittingAppointMent.getAppointMentDate());
+		
+			
+			long difference = productRentStart.getTime() - appointMentDate.getTime();
+		       float daysBetween = (difference / (1000*60*60*24));
+	               /* You can also convert the milliseconds to days using this method
+	                * float daysBetween = 
+	                *         TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS)
+	                */
+			
+		
+		if(daysBetween<1) {
+			return false;
+		}else
+		{
+			return true;
+		}
+	}
+	
+	
+	
+	
 	
 	
 	private UserDetails getLoggedInUserDetails() {

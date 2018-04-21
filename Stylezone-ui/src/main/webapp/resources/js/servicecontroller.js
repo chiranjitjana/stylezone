@@ -349,3 +349,18 @@ ServiceController.loadAddressList=function()
 	AjaxHandler.makeAjaxCall(object);
 
 }
+
+/****************update custom fitting appointment date****************/
+ServiceController.updateCustomFitting=function(requestObject){
+	var object = {};
+	object.url = user.updateAppointmentDate;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIWebsite.UpdateCustomFittingAppntDateCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+}
+

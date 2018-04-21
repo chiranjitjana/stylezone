@@ -15,6 +15,8 @@ public class SessionProduct {
 	
 	private String customFitting;
 	
+	private String customFittingAppointmentDate;
+	
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date startDate;
@@ -105,6 +107,17 @@ public class SessionProduct {
 
 	public void setProductTitle(String productTitle) {
 		this.productTitle = productTitle;
+	}
+
+	
+	
+	
+	public String getCustomFittingAppointmentDate() {
+		return customFittingAppointmentDate;
+	}
+
+	public void setCustomFittingAppointmentDate(String customFittingAppointmentDate) {
+		this.customFittingAppointmentDate = customFittingAppointmentDate;
 	}
 
 	@Override

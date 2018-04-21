@@ -292,6 +292,7 @@ UIWebsite.fetchCartCallback = function(responseData) {
 		for (var x = 0; x < data.length; x++) {
 			var tr = tbody.find(".tr").clone();
 			tr.removeClass("hide");
+			tr.attr("productId", data[x].productId);
 			tr.find(".avt").attr("src", data[x].avt);
 			tr.find(".productTiltle").text(data[x].productTitle);
 			tr.find(".startDate").text(data[x].startDate);
@@ -301,22 +302,21 @@ UIWebsite.fetchCartCallback = function(responseData) {
 			tr.find(".product_total_price").text(data[x].totalPrice);
 			tr.find(".cart_quantity_delete").attr("productId",
 					data[x].productId);
-			
-			if(data[x].customFitting=="Y"){
-			var calendar=$('<input/>');
-			calendar.attr("id","appointDate"+data[x].productId)
-			
-			
-			calendar.attr("onClick","UIWebsite.ShowDatePicker("+data[x].productId+",'"+data[x].startDate+"',"+data[x].duration +")");
-			calendar.attr("type","text");
-			calendar.attr("placeholder","Fitting Appointment");
-			
-			
-			tr.find(".customFittingCalendar").append(calendar);
-			
-				
+
+			if (data[x].customFitting == "Y") {
+				var calendar = $('<input/>');
+				calendar.attr("id", "appointDate" + data[x].productId)
+
+				calendar.attr("onClick", "UIWebsite.ShowDatePicker("
+						+ data[x].productId + ",'" + data[x].startDate + "',"
+						+ data[x].duration + ")");
+				calendar.attr("type", "text");
+				calendar.attr("placeholder", "Fitting Appointment");
+
+				tr.find(".customFittingCalendar").append(calendar);
+
 			}
-			
+
 			tr.find(".cart_quantity_delete").attr("onClick",
 					"UIWebsite.RemoveFromCart(" + data[x].productId + ")");
 
@@ -325,7 +325,7 @@ UIWebsite.fetchCartCallback = function(responseData) {
 			dataToPush.push(tr);
 		}
 		tbody.append(dataToPush);
-		
+
 		$(".total_rental_cost").text(rental);
 		$(".total_refunable_cost").text(deposite);
 		$(".total_rental_refundable").text(rental + deposite);
@@ -368,7 +368,7 @@ UIWebsite.createAddress = function() {
 UIWebsite.addAddress = function(responseData) {
 	UIutiles.handleReponse(responseData);
 
-	if (responseData.message== "Address Created") {
+	if (responseData.message == "Address Created") {
 		setTimeout(function() {
 			$('#addressModal').modal('hide');
 		}, 3000);
@@ -378,37 +378,33 @@ UIWebsite.addAddress = function(responseData) {
 
 }
 
-/*********Delete Address************************************/
-UIWebsite.deleteAddress=function()
-{
+/** *******Delete Address*********************************** */
+UIWebsite.deleteAddress = function() {
 	var dataVAL = $("#deleteAddress .addId").val();
-	
+
 	var data = {
-			"addId" : parseInt(dataVAL)
-		};
-	
-	var postData={};
-	postData.addId=data;
-	
+		"addId" : parseInt(dataVAL)
+	};
+
+	var postData = {};
+	postData.addId = data;
+
 	var requestObject = {};
 	requestObject.container = "addressfrom";
 	requestObject.data = data;
 	ServiceController.deleteAddress(requestObject);
 }
 
-
 UIWebsite.deleteAddCallBack = function(responseData) {
 	UIWebsite.loadMyAddressList.getInstance().ajax.reload();
 	UIutiles.handleReponse(responseData);
 	setTimeout(function() {
-			$('#deleteAddress').modal('hide');
+		$('#deleteAddress').modal('hide');
 	}, 3000);
-	
-
 
 }
 
-/**********************fetching address list******************/
+/** ********************fetching address list***************** */
 UIWebsite.loadMyAddressList = (function() {
 	var instance;
 	function createInstance() {
@@ -438,8 +434,7 @@ UIWebsite.loadMyAddressList = (function() {
 									{
 										"data" : "postcode"
 									},
-									
-									
+
 									{
 										"targets" : -1,
 										"data" : null,
@@ -456,7 +451,7 @@ UIWebsite.loadMyAddressList = (function() {
 							} ],
 							'info' : true,
 							"fnDrawCallback" : function() {
-								
+
 								$(".delivery_address .addlistcount")
 										.text(
 												"("
@@ -464,8 +459,9 @@ UIWebsite.loadMyAddressList = (function() {
 																.fnSettings()
 																.fnRecordsTotal()
 														+ ")");
-								
-								$(".delivery_add_count").text( this.fnSettings().fnRecordsTotal());
+
+								$(".delivery_add_count").text(
+										this.fnSettings().fnRecordsTotal());
 							}
 
 						});
@@ -482,39 +478,35 @@ UIWebsite.loadMyAddressList = (function() {
 	};
 })();
 
-/**********************appoinment date calendar******************/
-UIWebsite.ShowDatePicker=function(id,startdt,duration){
-	//console.log("startdate "+startdt);
-	
+/** ********************appoinment date calendar***************** */
+UIWebsite.ShowDatePicker = function(id, startdt, duration) {
+	// console.log("startdate "+startdt);
+
 	alert("Please Select Appointment Date");
-	
-	$( "#appointDate"+id ).datepicker(
-			{
-				dateFormat : "dd-mm-yy",
-				minDate : 0,
-				maxDate:startdt
-			}	
-	);
-	
-	
+
+	$("#appointDate" + id).datepicker({
+		dateFormat : "dd-mm-yy",
+		minDate : 0,
+		maxDate : startdt
+	});
+
 }
 
-/*************************load address list to ***********************/
+/** ***********************load address list to ********************** */
 
-UIWebsite.loadAddressList=function()
-{
+UIWebsite.loadAddressList = function() {
 	ServiceController.loadAddressList();
 }
 
-UIWebsite.loadAddressListCallBak=function(responseData)
-{
+UIWebsite.loadAddressListCallBak = function(responseData) {
 	console.log(responseData)
-	var data=responseData.data;
-	
-	var list=[];
-	
+	var data = responseData.data;
 
-		if (data.length >0) {
+	var list = [];
+
+	if (data.length > 0) {
+		$(".rq_address").addClass("hide");
+		$(".delivery_address").addClass("show");
 		for (var x = 0; x < data.length; x++) {
 			var addressdiv = $(".delivery_address").find(".address_template")
 					.clone();
@@ -529,11 +521,89 @@ UIWebsite.loadAddressListCallBak=function(responseData)
 
 		$(".delivery_address").append(list);
 	} else {
+		$(".rq_address").addClass("show");
 		$(".delivery_address").addClass("hide");
 	}
+}
+
+/** *******************CustomFitting Appointment Update**************** */
+UIWebsite.UpdateCustomFittingAppntDate = function() {
+	var tbody = $(".cart_wrapper").find(".cart_table_body");
+	var dateList = [];
+
+	tbody.find("tr").each(
+			function() {
+
+				if ($(this).attr("productid") != undefined) {
+
+					var fittingDate = $(this).find(
+							"#appointDate" + $(this).attr("productid")).val();
+					if (fittingDate != undefined
+							&& !(new RegExp(UIutiles.getRegex("emptystring"))
+									.test(fittingDate))) {
+						var date = {};
+						date.productId = parseInt($(this).attr("productid"));
+						date.appointMentDate = fittingDate;
+						dateList.push(date);
+
+					}
+
+				}
+			});
+
+	var tempList={"appointmentList":dateList};
 	
-	
+	var requestObject ={}
+	requestObject.container = null;
+	requestObject.data = JSON.stringify(tempList);
+	ServiceController.updateCustomFitting(requestObject);
 
 }
 
+UIWebsite.UpdateCustomFittingAppntDateCallback = function(responseData) {
 
+	var flag=0;
+	var message = $(".cart_wrapper").find(".message");
+	message.addClass("hide");
+	if(responseData.message="Product Appointment Dates are not available"){
+		var data=responseData.data;
+		
+		var tbody = $(".cart_wrapper").find(".cart_table_body");
+		tbody.find("tr").each(function(){
+		
+				$(this).removeClass("appointmentDateNotValid");
+			
+		});
+		
+		
+		
+		for(var x=0;x<data.length;x++){
+			flag=0;
+			
+			tbody.find("tr").each(function(){
+				if($(this).attr("productid")==data[x]){
+					if(flag==0)
+					flag=1;
+					$(this).addClass("appointmentDateNotValid");
+				}
+			});
+		}
+		
+	}
+	
+	
+	if(flag==0){
+		window.location.href = "/Stylezone-ui/myaccount/show/checkout";
+	}
+	else
+	{
+
+		message.addClass("alert alert-danger");
+		message.removeClass("hide");
+		message.text("Appointment Date for Custom Fitting not Available");
+	}
+	
+
+	
+	
+}

@@ -7,6 +7,8 @@
 		<div class="container">
 			<div class="breadcrumbs">
 				<h3>My Cart</h3>
+				<div class="message">
+				</div>
 			</div>
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed cart_table">
@@ -80,7 +82,7 @@
 							<li>Total <span>&#8377;<span
 									class="total_rental_refundable"></span></span></li>
 						</ul>
-						<a class="btn btn-default check_out" href="/Stylezone-ui/myaccount/show/checkout">Check Out</a>
+						<a class="btn btn-default check_out">Go to Check Out page</a>
 					</div>
 				</div>
 			</div>
@@ -109,6 +111,12 @@
 }
 </style>
 <style>
+.appointmentDateNotValid{
+    border: 2px solid red!important;
+ 
+}
+
+
 .navbar a:hover, .dropdown:hover .dropbtn {
 	background-color: red;
 }
@@ -193,5 +201,9 @@
 		UIcontroller.updateUi("myprofile");
 		UIWebsite.fetchCart();
 	});	
+	
+	$(".check_out").click(function(){
+		UIWebsite.UpdateCustomFittingAppntDate();
+	});
 	
 </script>
