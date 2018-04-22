@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2018 at 09:14 PM
+-- Generation Time: Apr 22, 2018 at 12:31 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -44,8 +44,8 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`add_id`, `user_id`, `line_one`, `line_two`, `city`, `state`, `postcode`, `created_date`) VALUES
-(9, 27, 'abc3', 'xyz', 'cdn', 'Maharashtra', '488796', '2018-04-18 09:24 PM'),
-(10, 27, 'fffffffffff1', 'jjd', 'mus', 'Andhra Pradesh', '5', '2018-04-18 09:18 PM');
+(1, 27, 'Room no 2,smt kamla devi chawl', 'Parsiwadi,Ghatkopar (West)', 'Mumbai', 'Maharashtra', '400086', '2018-04-21 10:12 AM'),
+(2, 27, 'Mum', 'jsnjsd', 'jnfj', 'Andhra Pradesh', '789641', '2018-04-21 08:53 PM');
 
 -- --------------------------------------------------------
 
@@ -83,6 +83,23 @@ CREATE TABLE `brand_list` (
 ,`created_date` varchar(20)
 ,`user_name` varchar(30)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `card_details`
+--
+
+CREATE TABLE `card_details` (
+  `card_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name_on_card` varchar(100) NOT NULL,
+  `card_number` varchar(18) NOT NULL,
+  `epiry_month` int(11) NOT NULL,
+  `epiry_year` int(11) NOT NULL,
+  `cvv` int(11) NOT NULL,
+  `card_type` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -239,7 +256,7 @@ INSERT INTO `login_info` (`user_id`, `last_login`) VALUES
 (24, '2018-03-24 02:29 PM'),
 (25, '2018-03-24 02:30 PM'),
 (26, '2018-03-24 02:32 PM'),
-(27, '2018-04-18 09:24 PM'),
+(27, '2018-04-21 10:44 PM'),
 (28, '2018-04-18 09:22 PM');
 
 -- --------------------------------------------------------
@@ -298,29 +315,70 @@ CREATE TABLE `occasionview` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_item_table`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `order_item_table` (
-  `order_id` int(11) DEFAULT NULL,
-  `p_id` int(11) DEFAULT NULL,
-  `rental_price` decimal(10,2) DEFAULT NULL,
-  `deposite_per` int(11) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL
+CREATE TABLE `orders` (
+  `order_id` varchar(40) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rent_total` varchar(10) NOT NULL,
+  `deposite_total` varchar(10) NOT NULL,
+  `total` varchar(10) NOT NULL,
+  `created_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `rent_total`, `deposite_total`, `total`, `created_date`) VALUES
+('0CB9765AEB524DE9951A8195A68425E3', 27, '5249', '34500', '39749', '2018-04-22'),
+('2981F25175AE406695E00E03FE1FC29F', 27, '6799', '32500', '39299', '2018-04-22'),
+('359F7717636E438BA9022DCAD35BD867', 27, '2299', '17500', '19799', '2018-04-22'),
+('ACF10CD652E24F82A3D772C283397520', 27, '2299', '17500', '19799', '2018-04-22'),
+('BE2690D84B1F4022A59463EF43795331', 27, '6799', '31500', '38299', '2018-04-22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_address`
+--
+
+CREATE TABLE `order_address` (
+  `add_id` int(11) NOT NULL,
+  `order_id` varchar(100) NOT NULL,
+  `address` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_table`
+-- Table structure for table `order_item`
 --
 
-CREATE TABLE `order_table` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `create_date` date DEFAULT NULL
+CREATE TABLE `order_item` (
+  `order_item_id` int(11) NOT NULL,
+  `order_id` varchar(40) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `custom_fitting_available` varchar(3) DEFAULT NULL,
+  `custom_fitting_app_date` date DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `duration` int(11) NOT NULL,
+  `rent_price` int(11) NOT NULL,
+  `deposite_price` int(11) NOT NULL,
+  `total_price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_item`
+--
+
+INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `custom_fitting_available`, `custom_fitting_app_date`, `start_date`, `end_date`, `duration`, `rent_price`, `deposite_price`, `total_price`) VALUES
+(1, 'BE2690D84B1F4022A59463EF43795331', 1, 'Y', '2018-04-24', '2018-04-25', '2018-04-29', 4, 2299, 17500, 19799),
+(2, 'BE2690D84B1F4022A59463EF43795331', 7, 'N', NULL, '2018-04-24', '2018-04-30', 6, 4500, 14000, 18500),
+(3, '0CB9765AEB524DE9951A8195A68425E3', 1, 'Y', '2018-04-24', '2018-04-25', '2018-04-29', 4, 2299, 17500, 19799),
+(4, '0CB9765AEB524DE9951A8195A68425E3', 2, 'N', NULL, '2018-04-30', '2018-05-06', 6, 2950, 17000, 19950);
 
 -- --------------------------------------------------------
 
@@ -632,6 +690,12 @@ ALTER TABLE `brand`
   ADD PRIMARY KEY (`b_id`);
 
 --
+-- Indexes for table `card_details`
+--
+ALTER TABLE `card_details`
+  ADD PRIMARY KEY (`card_id`);
+
+--
 -- Indexes for table `cart`
 --
 ALTER TABLE `cart`
@@ -674,10 +738,22 @@ ALTER TABLE `occasion`
   ADD PRIMARY KEY (`oca_id`);
 
 --
--- Indexes for table `order_table`
+-- Indexes for table `orders`
 --
-ALTER TABLE `order_table`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_address`
+--
+ALTER TABLE `order_address`
+  ADD PRIMARY KEY (`add_id`);
+
+--
+-- Indexes for table `order_item`
+--
+ALTER TABLE `order_item`
+  ADD PRIMARY KEY (`order_item_id`);
 
 --
 -- Indexes for table `otp`
@@ -741,12 +817,17 @@ ALTER TABLE `users_role`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
   MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `card_details`
+--
+ALTER TABLE `card_details`
+  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cart`
 --
@@ -783,10 +864,15 @@ ALTER TABLE `notifications`
 ALTER TABLE `occasion`
   MODIFY `oca_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `order_table`
+-- AUTO_INCREMENT for table `order_address`
 --
-ALTER TABLE `order_table`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `order_address`
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `order_item`
+--
+ALTER TABLE `order_item`
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `otp`
 --
