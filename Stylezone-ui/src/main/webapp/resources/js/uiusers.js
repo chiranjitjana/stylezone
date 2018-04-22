@@ -522,6 +522,7 @@ UIWebsite.loadAddressListCallBak = function(responseData) {
 			}
 			
 			addressdiv.removeClass("hide");
+			addressdiv.find(".address").attr("id","addspan"+data[x].addId);
 			addressdiv.find(".address").html(
 					data[x].line1 + ", " + data[x].line2 + "<br/>"
 							+ data[x].city + "," + data[x].state + " ,"
@@ -766,4 +767,42 @@ UIWebsite.requiredCheckValidator=function(data,flag){
 	}
 	
 	return flag;
+}
+
+/***************************make checkout*****************/
+UIWebsite.makeCheckout=function()
+{
+	var tempAdd=$(".delivery_address").find("input[name='deliveryAddoption']:checked");
+	
+	var address={};
+	address.address=$(".delivery_address").find("#addspan"+tempAdd.attr("addressId")).text();
+	
+	
+	var tempCardContainer=$("#payNOw");
+	var cardDetails={};
+	cardDetails.cardType=tempCardContainer.find("input[name='paymentMethod']:checked").val();
+	cardDetails.nameOnCard=tempCardContainer.find("#cc-name").val();
+	cardDetails.cardNumber=tempCardContainer.find("#cc-number").val();
+	cardDetails.expiryMonth=tempCardContainer.find("#exMonth").val();
+	cardDetails.expiryYear=tempCardContainer.find("#exYear").val();
+	cardDetails.cvv=tempCardContainer.find("#cc-cvv").val();
+	
+	
+	
+	var tempData={};
+	tempData.address=address;
+	tempData.cardDetails=cardDetails;
+	
+	var requestObject = {};
+	requestObject.container = "paynowcontainer";
+	requestObject.data = JSON.stringify(tempData);
+	
+	console.log(requestObject);
+	
+	ServiceController.makeCheckout(requestObject)
+}
+
+UIWebsite.makeCheckoutCallback=function(responseData){
+	console.log(responseData);
+	alert("Order Placed");
 }

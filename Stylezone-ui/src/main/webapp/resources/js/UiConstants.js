@@ -68,8 +68,8 @@ var user={
 		"saveAddress":adminPanel.root+"/user/save/adddress",
 		"fectchAllAddress":adminPanel.root+"/user/fetch/address",
 		"deleteAddress":adminPanel.root+"/user/delete/address",
-		"updateAppointmentDate":adminPanel.root+"/user/update/appointmentdate"
-		
+		"updateAppointmentDate":adminPanel.root+"/user/update/appointmentdate",
+		"payNow":adminPanel.root+"/user/paynow"
 }
 
 var website={

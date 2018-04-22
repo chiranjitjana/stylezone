@@ -364,3 +364,17 @@ ServiceController.updateCustomFitting=function(requestObject){
 	AjaxHandler.makeAjaxCall(object);
 }
 
+/*****************Pay Now******************************************/
+ServiceController.makeCheckout=function(requestObject){
+	var object = {};
+	object.url = user.payNow;
+	object.methodtype = methodType.POST;
+	object.data = requestObject.data;
+	object.datatype = datatype.json;
+	object.container = requestObject.container;
+	object.contenttype = contenttype.application_json;
+	object.callbackFunction = UIWebsite.makeCheckoutCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+	
+}

@@ -121,4 +121,9 @@ public class AppConstant {
 	{
 	    return ChronoUnit.DAYS.between(firstDate.toInstant(), secondDate.toInstant());
 	}
+
+	public static String getUniqueUUID() {
+		// TODO Auto-generated method stub
+		return UUID.randomUUID().toString().replace("-", "").toUpperCase().toString();
+	}
 }

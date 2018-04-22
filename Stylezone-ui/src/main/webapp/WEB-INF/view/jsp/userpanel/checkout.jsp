@@ -156,7 +156,7 @@
       </div>
       <div class="modal-body">
        
-        <form class="needs-validation">
+        <form class="needs-validation paynowcontainer">
            <div class="payment_status row hide col-sm-12" style="    padding-bottom: 20px;">
             	<span class="payment_status_msg"></span>
             </div>
@@ -165,11 +165,11 @@
 			
             <div class="d-block my-3">
               <div class="custom-control custom-radio">
-                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="" value="credit">
                 <label class="custom-control-label" for="credit">Credit card</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="" value="debit">
                 <label class="custom-control-label" for="debit">Debit card</label>
               </div>
             </div>
@@ -179,7 +179,7 @@
                 <label for="cc-name">Name on card</label>
                 <input type="text" 
               
-                class="form-control" id="cc-name"  title="Please Provide Name Present on Card">
+                class="form-control" id="cc-name"  title="Please Provide Name Present on Card" placeholder="Please Provide Name Present on Card">
                 <small class="text-muted">Full name as displayed on card</small>
                 <div class="invalid-feedback hide">
                   Name on card is required
@@ -189,7 +189,7 @@
                 <label for="cc-number">Credit card number</label>
                 <input type="number" 
                   onKeyPress="return check(event,value)" onInput="checkLength(16,this)"
-                class="form-control" id="cc-number" placeholder="Procide 16 Digit card number" required="" title="Please Provide Card Number">
+                class="form-control" id="cc-number" placeholder="Provide 16 Digit card number" required="" title="Please Provide Card Number">
                 <div class="invalid-feedback hide">
                   Credit card number is required
                 </div>
@@ -218,11 +218,6 @@
 				</select> <select id="exYear" title="select a year" class="col-md-6 mb-6 yearExp" style="
     border: 1px solid #cccccc;background: #fff" title="Please Select year">
 								<option value="-1">Enter year</option>
-								<option value="2013">2013</option>
-								<option value="2014">2014</option>
-								<option value="2015">2015</option>
-								<option value="2016">2016</option>
-								<option value="2017">2017</option>
 								<option value="2018">2018</option>
 								<option value="2019">2019</option>
 								<option value="2020">2020</option>
@@ -247,7 +242,7 @@
               <div class="col-md-4 mb-4">
                 <label for="cc-expiration">CVV</label>
                 <input type="number" class="form-control" id="cc-cvv"  onKeyPress="return check(event,value)" onInput="checkLength(3,this)" 
-                 placeholder="" required="" title="Please Provide Valid CVV Number">
+               	 required="" title="Please Provide Valid CVV Number" placeholder="Please Provide  CVV">
                 
               </div>
            
@@ -258,7 +253,7 @@
     width: 15px;">
               </div>
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block paynowbtn" type="button">Continue</button>
+            <button class="btn btn-primary btn-lg btn-block paynowbtn" type="button">Pay</button>
           </form>
       </div>
     </div>

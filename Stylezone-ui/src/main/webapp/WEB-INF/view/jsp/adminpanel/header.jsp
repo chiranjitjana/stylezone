@@ -12,7 +12,7 @@
 <script src="resources/js/jquery.dataTables.min.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+ <script src="resources/js/bootstrap.min.js"></script> 
 
 
 <div class="row">

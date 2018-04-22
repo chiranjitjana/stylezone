@@ -238,9 +238,9 @@
 						</div>
 
 						<div class="form-group">
-							<label for="rent_deposite">Deposite % :</label> <input
+							<label for="rent_deposite">Deposite :</label> <input
 								type="number" class="form-control depositePercentage controle"
-								id="depositePercentage" placeholder="Enter Rent Deposite %"
+								id="depositePercentage" placeholder="Enter Rent Deposite "
 								parent="productDetails">
 						</div>
 
