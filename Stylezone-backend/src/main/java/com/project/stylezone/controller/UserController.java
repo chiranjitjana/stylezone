@@ -14,21 +14,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.stylezone.AppConstant;
 import com.project.stylezone.SessionController;
 import com.project.stylezone.models.Address;
 import com.project.stylezone.models.AppointmentList;
+import com.project.stylezone.models.CardDetails;
 import com.project.stylezone.models.CheckoutContainer;
 import com.project.stylezone.models.CustomFittingAppointMent;
 import com.project.stylezone.models.OTP;
+import com.project.stylezone.models.OrderAddress;
+import com.project.stylezone.models.OrderDetails;
+import com.project.stylezone.models.OrderProduct;
+import com.project.stylezone.models.OrderTracker;
 import com.project.stylezone.models.Orders;
 import com.project.stylezone.models.OrdersItem;
+import com.project.stylezone.models.Product;
 import com.project.stylezone.models.SessionCart;
 import com.project.stylezone.models.SessionProduct;
 import com.project.stylezone.models.UserDetails;
@@ -40,6 +48,7 @@ import com.project.stylezone.notification.NotificationType;
 import com.project.stylezone.notification.NotificationTypeEnum;
 import com.project.stylezone.notification.type.objects.ForgotPasswordObject;
 import com.project.stylezone.service.OrdersService;
+import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
 
 @Controller
@@ -50,6 +59,9 @@ public class UserController {
 
 	@Autowired
 	OrdersService ordersService;
+	
+	@Autowired
+	StocksService stockService;
 
 	@RequestMapping(value = "/user/forgotPassword", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> sendOTP(@RequestBody OTP otp) {
@@ -255,7 +267,7 @@ public class UserController {
 		String uniqueUUID = AppConstant.getUniqueUUID();
 		Orders order = new Orders();
 		order.setOrderId(uniqueUUID);
-		order.setCreatedDate(new Date());
+		order.setCreatedDate(AppConstant.getCurrentDateTime());
 		order.setUserId(getLoggedInUserDetails().getUserId());
 		long rentPrice = 0;
 		long desposite = 0;
@@ -272,10 +284,10 @@ public class UserController {
 
 			item.setDuration(sessionProduct.getDuration());
 			item.setCustomFitting(sessionProduct.getCustomFitting());
-			
-			if(sessionProduct.getCustomFittingAppointmentDate()!=null) {
-			item.setCustomFittingAppointmentDate(
-					AppConstant.getDateFromStringDDMMYY(sessionProduct.getCustomFittingAppointmentDate()));
+
+			if (sessionProduct.getCustomFittingAppointmentDate() != null) {
+				item.setCustomFittingAppointmentDate(
+						AppConstant.getDateFromStringDDMMYY(sessionProduct.getCustomFittingAppointmentDate()));
 			}
 			item.setStartDate(sessionProduct.getStartDate());
 			item.setEndDate(getEndDate(sessionProduct));
@@ -289,17 +301,95 @@ public class UserController {
 		order.setDepositeTotal(desposite);
 		order.setTotal(total);
 
-		
 		// save Order Items
 		List<OrdersItem> saveOrderItems = ordersService.saveOrderItems(orderItemList);
 		// saving orders
 		Orders saveOrder = ordersService.saveOrder(order);
 
-		
+		OrderAddress address = container.getAddress();
+		address.setOrderId(saveOrder.getOrderId());
+		ordersService.saveOrderAddress(address);
+
+		CardDetails cardDetails = container.getCardDetails();
+		cardDetails.setOrderId(saveOrder.getOrderId());
+		ordersService.saveCardDetailsforOrder(cardDetails);
+
+		OrderTracker tracker = new OrderTracker();
+		tracker.setOrderId(saveOrder.getOrderId());
+		tracker.setOrderStatus(1);
+		tracker.setCreatedDate(AppConstant.getCurrentDateTime());
+		ordersService.saveOrUpdateOrderTracker(tracker);
 
 		responseHeaders.add(AppConstant.message, saveOrderItems.size() + " products purchased done");
 
+		// send Email Notification
+		// SendPurchaseNotification(saveOrder);
+
+		SessionController.reInintCart(httpRequest);
 		return AppConstant.convertToReponseEntity(saveOrder, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/user/orderDetails/{orderId}", method = RequestMethod.GET)
+	public ModelAndView getOrderDetails(@PathVariable String orderId) {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("/userpanel/order_details");
+
+		Orders order = ordersService.findOrderByOrderID(orderId);
+		Users userDetails = userService.findUserByUserId(order.getUserId());
+		OrderAddress address = ordersService.findOrderAddByOrderID(orderId);
+		List<OrdersItem> orderItemList = ordersService.findOrderItemsByOrderID(orderId);
+
+		List<OrderProduct> tempOrderProductList = new ArrayList<OrderProduct>();
+
+		for (OrdersItem orderProduct : orderItemList) {
+			OrderProduct ord = new OrderProduct();
+			Product fetchAProduct = stockService.fetchAProduct(orderProduct.getProductId());
+			if (orderProduct.getCustomFittingAppointmentDate() != null) {
+				ord.setCustomFittingAppointmentDate(
+						AppConstant.getFormatedDate(orderProduct.getCustomFittingAppointmentDate()));
+			}
+			else
+			{
+				ord.setCustomFittingAppointmentDate("Not Available");
+			}
+			
+			ord.setDuration(orderProduct.getDuration());
+			ord.setRentPrice(orderProduct.getRentPrice());
+			ord.setDeposite(orderProduct.getDeposite());
+			ord.setTotalPrice(orderProduct.getTotalPrice());
+			ord.setStartDate(AppConstant.getFormatedDate(orderProduct.getStartDate()));
+			ord.setEndDate(AppConstant.getFormatedDate(orderProduct.getEndDate()));
+			ord.setProductTitle(fetchAProduct.getProductDetails().getProductTitle());
+			ord.setProductAvt(fetchAProduct.getProductDetails().getAvt1());
+			
+			tempOrderProductList.add(ord);
+		}
+
+		List<OrderTracker> tracker = ordersService.fetchOrderTracker(orderId);
+
+		OrderDetails orderDetails = new OrderDetails();
+		orderDetails.setOrderId(order.getOrderId());
+		orderDetails.setRentTotal(order.getRentTotal());
+		orderDetails.setDepositeTotal(order.getDepositeTotal());
+		orderDetails.setTotal(order.getTotal());
+		orderDetails.setCreatedDate(order.getCreatedDate());
+		orderDetails.setProductCount(orderItemList.size());
+
+		orderDetails.setUsername(userDetails.getUserName());
+		orderDetails.setUseremail(userDetails.getUserEmail());
+		orderDetails.setUserphone(userDetails.getUserMobileNo());
+		orderDetails.setAddress(address.getAddress());
+
+		modelView.addObject("orderDetails", orderDetails);
+		modelView.addObject("orderProductList", tempOrderProductList);
+		modelView.addObject("orderTracker", tracker);
+		return modelView;
+	}
+
+	private void SendPurchaseNotification(Orders saveOrder) {
+		// TODO Auto-generated method stub
+		NotificationType notificationObject = NotificationObjectFactory
+				.getNotificationObject(NotificationTypeEnum.FORGOTEPASSWORD);
 	}
 
 	private Date getEndDate(SessionProduct sessionProduct) {

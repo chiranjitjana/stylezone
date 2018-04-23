@@ -18,8 +18,8 @@ public class CardDetails {
 	private int cardId;
 	
 	
-	@Column(name = "user_id")
-	private int userId;
+	@Column(name = "order_id")
+	private String orderId;
 	
 	
 	@Column(name = "card_type")
@@ -53,13 +53,25 @@ public class CardDetails {
 	}
 
 
-	public int getUserId() {
-		return userId;
+	
+
+	public String getOrderId() {
+		return orderId;
 	}
 
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+
+	public String getCardType() {
+		return cardType;
+	}
+
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
 	}
 
 

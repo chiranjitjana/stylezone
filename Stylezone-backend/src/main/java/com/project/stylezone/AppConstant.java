@@ -34,7 +34,15 @@ public class AppConstant {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm a");
 		return sdf.format(dt);
 	}
+	
+	
 
+	public static String getFormatedtDateTime(Date dt) {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm a");
+		return sdf.format(dt);
+	}
+
+	
 	public static String getFormatedDate(Date dt) {
 
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd ");

@@ -6,4 +6,6 @@ import com.project.stylezone.models.Orders;
 
 public interface OdersRepo extends CrudRepository<Orders, String>{
 
+	Orders findByOrderId(String orderId);
+	
 }

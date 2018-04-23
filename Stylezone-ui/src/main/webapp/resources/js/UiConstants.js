@@ -69,7 +69,8 @@ var user={
 		"fectchAllAddress":adminPanel.root+"/user/fetch/address",
 		"deleteAddress":adminPanel.root+"/user/delete/address",
 		"updateAppointmentDate":adminPanel.root+"/user/update/appointmentdate",
-		"payNow":adminPanel.root+"/user/paynow"
+		"payNow":adminPanel.root+"/user/paynow",
+		"orderDetail":adminPanel.root+"/user/orderDetails"
 }
 
 var website={

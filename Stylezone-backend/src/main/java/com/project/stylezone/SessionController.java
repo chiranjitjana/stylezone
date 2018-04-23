@@ -88,4 +88,12 @@ public class SessionController {
 		httpRequest.getSession().setAttribute("Cart", cart);
 	
 	}
+
+
+	public static void reInintCart(HttpServletRequest httpRequest) {
+		// TODO Auto-generated method stub
+		SessionCart cart = getCart(httpRequest);
+		cart=null;
+		updateCartProductAppointmentDate(cart,httpRequest);
+	}
 }

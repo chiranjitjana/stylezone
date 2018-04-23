@@ -804,5 +804,19 @@ UIWebsite.makeCheckout=function()
 
 UIWebsite.makeCheckoutCallback=function(responseData){
 	console.log(responseData);
-	alert("Order Placed");
+	
+	var data=responseData.data;
+	
+	var OrderId=data.orderId;
+	if(OrderId!=undefined){
+	$("#payNOw").modal("hide");
+	$("#OrderAck").removeClass("hide");
+	$("#OrderAck").modal("show");
+	}
+	setTimeout(function(){
+		if(OrderId!=undefined)
+			window.location.href = user.orderDetail+"/"+OrderId;
+	
+	}, 3000);
+	
 }

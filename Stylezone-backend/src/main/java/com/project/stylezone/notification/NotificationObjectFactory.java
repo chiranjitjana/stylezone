@@ -13,6 +13,8 @@ public class NotificationObjectFactory {
 			break;
 		case FORGOTEPASSWORD:
 			notiType=new UserForgotPassNotiType();
+		case ORDERPURCHASED:
+			notiType=new OrderPurchasedNotiType();
 
 		}
 		
