@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2018 at 10:36 PM
+-- Generation Time: Apr 24, 2018 at 10:44 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -44,7 +44,7 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`add_id`, `user_id`, `line_one`, `line_two`, `city`, `state`, `postcode`, `created_date`) VALUES
-(1, 27, 'Room no 2,smt kamla devi chawl', 'Parsiwadi,Ghatkopar (West)', 'Mumbai', 'Maharashtra', '400086', '2018-04-21 10:12 AM'),
+(1, 27, 'Room no 2,smt kamla devi chawl', 'Parsiwadi,Ghatkopar (West)', 'Mumbai', 'Maharashtra', '400086', '2018-04-24 11:29 PM'),
 (2, 27, 'Mum', 'jsnjsd', 'jnfj', 'Andhra Pradesh', '789641', '2018-04-21 08:53 PM');
 
 -- --------------------------------------------------------
@@ -118,7 +118,10 @@ INSERT INTO `card_details` (`card_id`, `order_id`, `name_on_card`, `card_number`
 (10, '94CAEB7403CD49B389013043268A89EC', 'sfsf', '4242424242424242', 11, 2031, 345, 'credit'),
 (11, '82F56F37514D4EDAB0323D3461297873', 'adddddd', '4242424242424242', 11, 2027, 234, 'credit'),
 (12, '22B12F53262343FB8858C41A2D2E9337', 'Chiranjit Jana', '4242424242424242', 10, 2028, 789, 'credit'),
-(13, 'E766226DAC784B0B96FC3A8E0F4173AB', 'Chiranjit Jana', '4716764066722800', 1, 2018, 789, 'credit');
+(13, 'E766226DAC784B0B96FC3A8E0F4173AB', 'Chiranjit Jana', '4716764066722800', 1, 2018, 789, 'credit'),
+(14, '7EB5E7012DE64978AB77B151606ABCBF', 'fssf', '4242424242424242', 11, 2030, 345, 'credit'),
+(15, 'AE8DB9BA529F444A901125FDEEF85B1D', 'sfffffff', '5380326807036304', 10, 2029, 234, 'credit'),
+(16, 'EE080F987F654AB288AACC0295108452', 'Chiranjit Jana', '4024007140583765', 1, 2018, 789, 'credit');
 
 -- --------------------------------------------------------
 
@@ -272,11 +275,11 @@ INSERT INTO `login_info` (`user_id`, `last_login`) VALUES
 (21, '2018-03-24 12:47 PM'),
 (22, '2018-03-24 01:53 PM'),
 (23, '2018-03-24 01:56 PM'),
-(24, '2018-03-24 02:29 PM'),
+(24, '2018-04-25 12:35 AM'),
 (25, '2018-03-24 02:30 PM'),
 (26, '2018-03-24 02:32 PM'),
-(27, '2018-04-24 12:39 AM'),
-(28, '2018-04-18 09:22 PM');
+(27, '2018-04-25 12:28 AM'),
+(28, '2018-04-25 12:25 AM');
 
 -- --------------------------------------------------------
 
@@ -338,37 +341,22 @@ CREATE TABLE `occasionview` (
 --
 
 CREATE TABLE `orders` (
-  `order_id` varchar(40) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rent_total` varchar(10) NOT NULL,
   `deposite_total` varchar(10) NOT NULL,
   `total` varchar(10) NOT NULL,
-  `created_date` varchar(30) DEFAULT NULL
+  `created_date` varchar(30) DEFAULT NULL,
+  `order_number` int(11) NOT NULL,
+  `order_id` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `rent_total`, `deposite_total`, `total`, `created_date`) VALUES
-('0CB9765AEB524DE9951A8195A68425E3', 27, '5249', '34500', '39749', '2018-04-22'),
-('22B12F53262343FB8858C41A2D2E9337', 27, '4000', '14000', '18000', '2018-04-24'),
-('2981F25175AE406695E00E03FE1FC29F', 27, '6799', '32500', '39299', '2018-04-22'),
-('359F7717636E438BA9022DCAD35BD867', 27, '2299', '17500', '19799', '2018-04-22'),
-('494BC01D5B194C5E985C0E6CF45E0369', 27, '2500', '14000', '16500', '2018-04-23'),
-('63F5176B0A7145B3AEE794CB0980D420', 27, '4500', '15000', '19500', '2018-04-23'),
-('82F56F37514D4EDAB0323D3461297873', 27, '4000', '14000', '18000', '2018-04-23'),
-('88541F363932400292F3F520E3F8D461', 27, '2299', '17500', '19799', '2018-04-23'),
-('94CAEB7403CD49B389013043268A89EC', 27, '2299', '17500', '19799', '2018-04-23'),
-('99A6F0B820304F69A12E682AE73980AB', 27, '2500', '14000', '16500', '2018-04-23'),
-('ACF10CD652E24F82A3D772C283397520', 27, '2299', '17500', '19799', '2018-04-22'),
-('BD62E552BF9D4F27BAACE9F90696043A', 27, '6799', '32500', '39299', '2018-04-22'),
-('BE2690D84B1F4022A59463EF43795331', 27, '6799', '31500', '38299', '2018-04-22'),
-('DCEE314FAFAD4F1281573B0216B4215E', 27, '4500', '15000', '19500', '2018-04-23'),
-('E6C956A0033A44B0A49F8F3FA43F4590', 27, '4598', '73500', '78098', '2018-04-23'),
-('E766226DAC784B0B96FC3A8E0F4173AB', 27, '6299', '31500', '37799', '2018-04-24'),
-('E986BAFEB65C4A889420FAFA7AF4A2D1', 27, '2450', '17000', '19450', '2018-04-23'),
-('F3997B9780CC4BD5A5FE259812AD0983', 27, '4000', '14000', '18000', '2018-04-23');
+INSERT INTO `orders` (`user_id`, `rent_total`, `deposite_total`, `total`, `created_date`, `order_number`, `order_id`) VALUES
+(27, '2799', '17500', '20299', '2018-04-24 10:53 PM', 1, 'AE8DB9BA529F444A901125FDEEF85B1D'),
+(27, '9749', '49500', '59249', '2018-04-24 11:23 PM', 2, 'EE080F987F654AB288AACC0295108452');
 
 -- --------------------------------------------------------
 
@@ -388,7 +376,8 @@ CREATE TABLE `ordertracker` (
 --
 
 INSERT INTO `ordertracker` (`tracker_id`, `order_id`, `order_status`, `created_date`) VALUES
-(1, 'E766226DAC784B0B96FC3A8E0F4173AB', 1, '2018-04-24 01:40 AM');
+(1, 'AE8DB9BA529F444A901125FDEEF85B1D', 1, '2018-04-24 10:53 PM'),
+(2, 'EE080F987F654AB288AACC0295108452', 1, '2018-04-24 11:23 PM');
 
 -- --------------------------------------------------------
 
@@ -407,19 +396,8 @@ CREATE TABLE `order_address` (
 --
 
 INSERT INTO `order_address` (`add_id`, `order_id`, `address`) VALUES
-(1, 'BD62E552BF9D4F27BAACE9F90696043A', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(2, '99A6F0B820304F69A12E682AE73980AB', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(3, 'E6C956A0033A44B0A49F8F3FA43F4590', 'Mum, jsnjsdjnfj,Andhra Pradesh ,789641'),
-(4, '63F5176B0A7145B3AEE794CB0980D420', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(5, 'DCEE314FAFAD4F1281573B0216B4215E', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(6, '88541F363932400292F3F520E3F8D461', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(7, 'F3997B9780CC4BD5A5FE259812AD0983', 'Mum, jsnjsdjnfj,Andhra Pradesh ,789641'),
-(8, 'E986BAFEB65C4A889420FAFA7AF4A2D1', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(9, '494BC01D5B194C5E985C0E6CF45E0369', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(10, '94CAEB7403CD49B389013043268A89EC', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(11, '82F56F37514D4EDAB0323D3461297873', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
-(12, '22B12F53262343FB8858C41A2D2E9337', 'Mum, jsnjsdjnfj,Andhra Pradesh ,789641'),
-(13, 'E766226DAC784B0B96FC3A8E0F4173AB', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086');
+(1, 'AE8DB9BA529F444A901125FDEEF85B1D', 'Room no 2,smt kamla devi chawl, Parsiwadi,Ghatkopar (West)Mumbai,Maharashtra ,400086'),
+(2, 'EE080F987F654AB288AACC0295108452', 'Mum, jsnjsdjnfj,Andhra Pradesh ,789641');
 
 -- --------------------------------------------------------
 
@@ -446,26 +424,10 @@ CREATE TABLE `order_item` (
 --
 
 INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `custom_fitting_available`, `custom_fitting_app_date`, `start_date`, `end_date`, `duration`, `rent_price`, `deposite_price`, `total_price`) VALUES
-(1, 'BE2690D84B1F4022A59463EF43795331', 1, 'Y', '2018-04-24', '2018-04-25', '2018-04-29', 4, 2299, 17500, 19799),
-(2, 'BE2690D84B1F4022A59463EF43795331', 7, 'N', NULL, '2018-04-24', '2018-04-30', 6, 4500, 14000, 18500),
-(3, '0CB9765AEB524DE9951A8195A68425E3', 1, 'Y', '2018-04-24', '2018-04-25', '2018-04-29', 4, 2299, 17500, 19799),
-(4, '0CB9765AEB524DE9951A8195A68425E3', 2, 'N', NULL, '2018-04-30', '2018-05-06', 6, 2950, 17000, 19950),
-(5, 'BD62E552BF9D4F27BAACE9F90696043A', 1, 'Y', '2018-04-24', '2018-04-25', '2018-04-29', 4, 2299, 17500, 19799),
-(6, 'BD62E552BF9D4F27BAACE9F90696043A', 4, 'Y', '2018-04-25', '2018-04-27', '2018-05-03', 6, 4500, 15000, 19500),
-(7, '99A6F0B820304F69A12E682AE73980AB', 6, 'N', NULL, '2018-04-26', '2018-05-02', 6, 2500, 14000, 16500),
-(8, 'E6C956A0033A44B0A49F8F3FA43F4590', 5, 'N', NULL, '2018-04-27', '2018-05-01', 4, 2299, 56000, 58299),
-(9, 'E6C956A0033A44B0A49F8F3FA43F4590', 1, 'Y', '2018-04-26', '2018-04-27', '2018-05-01', 4, 2299, 17500, 19799),
-(10, '63F5176B0A7145B3AEE794CB0980D420', 4, 'Y', NULL, '2018-04-26', '2018-05-02', 6, 4500, 15000, 19500),
-(11, 'DCEE314FAFAD4F1281573B0216B4215E', 4, 'Y', NULL, '2018-04-25', '2018-05-01', 6, 4500, 15000, 19500),
-(12, '88541F363932400292F3F520E3F8D461', 1, 'Y', NULL, '2018-04-26', '2018-04-30', 4, 2299, 17500, 19799),
-(13, 'F3997B9780CC4BD5A5FE259812AD0983', 7, 'N', NULL, '2018-04-26', '2018-04-30', 4, 4000, 14000, 18000),
-(14, 'E986BAFEB65C4A889420FAFA7AF4A2D1', 2, 'N', NULL, '2018-04-26', '2018-04-30', 4, 2450, 17000, 19450),
-(15, '494BC01D5B194C5E985C0E6CF45E0369', 6, 'N', NULL, '2018-04-27', '2018-05-03', 6, 2500, 14000, 16500),
-(16, '94CAEB7403CD49B389013043268A89EC', 1, 'Y', NULL, '2018-04-27', '2018-05-01', 4, 2299, 17500, 19799),
-(17, '82F56F37514D4EDAB0323D3461297873', 7, 'N', NULL, '2018-04-28', '2018-05-02', 4, 4000, 14000, 18000),
-(18, '22B12F53262343FB8858C41A2D2E9337', 7, 'N', NULL, '2018-04-26', '2018-04-30', 4, 4000, 14000, 18000),
-(19, 'E766226DAC784B0B96FC3A8E0F4173AB', 7, 'N', NULL, '2018-04-27', '2018-05-01', 4, 4000, 14000, 18000),
-(20, 'E766226DAC784B0B96FC3A8E0F4173AB', 1, 'Y', '2018-04-26', '2018-04-28', '2018-05-02', 4, 2299, 17500, 19799);
+(1, 'AE8DB9BA529F444A901125FDEEF85B1D', 1, 'Y', '2018-04-26', '2018-04-27', '2018-05-03', 6, 2799, 17500, 20299),
+(2, 'EE080F987F654AB288AACC0295108452', 1, 'Y', '2018-04-25', '2018-04-26', '2018-04-30', 4, 2299, 17500, 19799),
+(3, 'EE080F987F654AB288AACC0295108452', 2, 'N', NULL, '2018-04-27', '2018-05-03', 6, 2950, 17000, 19950),
+(4, 'EE080F987F654AB288AACC0295108452', 4, 'Y', NULL, '2018-04-27', '2018-05-03', 6, 4500, 15000, 19500);
 
 -- --------------------------------------------------------
 
@@ -654,7 +616,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_mobile_no`, `user_role`, `password`, `acc_status`) VALUES
-(24, 'Chiranjit Jana(Admin)', 'chiranjit.n.jana@gmail.com', '9664335225', 1, '12345', 1),
+(24, 'Chiranjit Jana(Super Admin)', 'chiranjit.n.jana@gmail.com', '9664335225', 3, '12345', 1),
 (27, 'chianjit jana', 'chiranjit.jana19@gmail.com', '9664335228', 2, '12345', 1),
 (28, 'chir', 'cjana02@gmail.com', '9664335226', 1, '12345', 1);
 
@@ -828,7 +790,7 @@ ALTER TABLE `occasion`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`);
+  ADD PRIMARY KEY (`order_number`);
 
 --
 -- Indexes for table `ordertracker`
@@ -920,7 +882,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `card_details`
 --
 ALTER TABLE `card_details`
-  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `cart`
 --
@@ -957,20 +919,25 @@ ALTER TABLE `notifications`
 ALTER TABLE `occasion`
   MODIFY `oca_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `ordertracker`
 --
 ALTER TABLE `ordertracker`
-  MODIFY `tracker_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `tracker_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `order_address`
 --
 ALTER TABLE `order_address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `otp`
 --
