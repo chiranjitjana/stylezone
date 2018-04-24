@@ -57,7 +57,13 @@ var adminPanelButtonAction={
 		"fecthAllProduct":baseUrlAdmin+"/product/all",
 		"deleteProduct":baseUrlAdmin+"/product/delete",
 		"fetchSingleProduct":baseUrlAdmin+"/product/fetch",
-		"fetchProductAttr":baseUrlAdmin+"/productDtls/fetch"
+		"fetchProductAttr":baseUrlAdmin+"/productDtls/fetch",
+		
+		
+		"orderAdminList":baseUrlAdmin+"/orders/fetchall",
+		"orderDetails":baseUrlAdmin+"/orderDetails",
+		"orderTrackerFetch":baseUrlAdmin+"/orderTracker/",
+		"updateOrderTracker":baseUrlAdmin+"/orderTracker/save/"
 }
 
 
@@ -70,7 +76,9 @@ var user={
 		"deleteAddress":adminPanel.root+"/user/delete/address",
 		"updateAppointmentDate":adminPanel.root+"/user/update/appointmentdate",
 		"payNow":adminPanel.root+"/user/paynow",
-		"orderDetail":adminPanel.root+"/user/orderDetails"
+		"orderDetail":adminPanel.root+"/user/orderDetails",
+		"orderList":adminPanel.root+"/user/fetch/orderList"
+		
 }
 
 var website={

@@ -262,11 +262,6 @@
 						</div>
 
 					</div>
-					<div class="row col-md-12 mb-4">
-						<label for="cc-expiration" style="margin-left: 15px;">Save
-							this Card Details for future purchase</label> <input type="checkbox"
-							class="form-control pull-left" style="height: 15px; width: 15px;">
-					</div>
 					<hr class="mb-4">
 					<button class="btn btn-primary btn-lg btn-block paynowbtn"
 						type="button">Pay</button>

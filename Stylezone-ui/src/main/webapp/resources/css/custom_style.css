@@ -115,18 +115,19 @@
 }
 
 /*orders*/
-#orders thead {
+/* #orders thead {
 	background-color: #FE980F;
-}
+} */
 
-#orders thead  tr th {
+/*  #orders thead  tr th {
 	color: #fff;
-}
+} */
 
+/*
 #orders_wrapper #orders_filter {
 	background-color: #FE980F;
 	color: #fff;
-}
+} */
 
 .modal-header {
 	background-color: #FE980F;

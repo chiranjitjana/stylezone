@@ -378,3 +378,35 @@ ServiceController.makeCheckout=function(requestObject){
 	AjaxHandler.makeAjaxCall(object);
 	
 }
+
+/***********************admin fetch order details*********************/
+ServiceController.fetchOrderDetails=function(requestObject)
+{
+	var object = {};
+	object.url = requestObject.url;
+	object.methodtype = methodType.GET;
+	object.data = null;
+	object.datatype = datatype.json;
+	object.container = null;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIcontroller.fetchOrderDetailsCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+
+}
+
+/****************fetch tracker list *****************************/
+ServiceController.trackerList=function(requestObject)
+{
+	var object = {};
+	object.url = requestObject.url;
+	object.methodtype = methodType.GET;
+	object.data = null;
+	object.datatype = datatype.json;
+	object.container = null;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIcontroller.fetchTrackerListCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+
+}

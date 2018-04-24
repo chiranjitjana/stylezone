@@ -22,6 +22,17 @@ a:hover {
     outline: none;
     text-decoration: none;
 }
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	color: white;
+	text-align: center;
+}
+
+
 </style>
 
 
@@ -46,17 +57,17 @@ a:hover {
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<a  containerId="orders">All Orders  (20)</a>
+								<a  containerId="orders">All Orders  (<span class="orders_list_count"></span>)</a>
 							</h4>
 						</div>
 					</div>
-					 <div class="panel panel-default marigin-bottom">
+					<!--  <div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a  containerId="payment">My Cards (0)</a>
 							</h4>
 						</div>
-					</div>
+					</div> -->
 					<div class="panel panel-default marigin-bottom">
 						<div class="panel-heading">
 							<h4 class="panel-title">
@@ -72,11 +83,11 @@ a:hover {
 						<jsp:include page="userprofile.jsp"></jsp:include>
 					</div>
 					<div class="orders hide containerItem">
-					
+					<jsp:include page="orderlist.jsp"></jsp:include>
 					</div>
-					<div class="payment hide containerItem">
+					<!-- <div class="payment hide containerItem">
 					
-					</div>
+					</div> -->
 					
 					<div class="delivery_address hide containerItem">
 						<jsp:include page="deliveryadds.jsp"></jsp:include>
@@ -90,7 +101,9 @@ a:hover {
 		</div>
 	</div>
 </section>
+<div class="footer">
 <jsp:include page="footer.jsp"></jsp:include>
+</div>
 <script>
 	$(".left-sidebar").find("a").click(function(){
 		

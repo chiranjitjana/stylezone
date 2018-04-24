@@ -8,14 +8,14 @@
 	<button type="button" class="btn normal_state col-sm-12"
 		sidebar="stock">Stock</button>
 	<br />
-	<button type="button" class="btn normal_state col-sm-12"
-		sidebar="report">Reports</button>
+	<!-- <button type="button" class="btn normal_state col-sm-12"
+		sidebar="report">Reports</button> -->
 	<br />
 	<button type="button" class="btn normal_state col-sm-12"
-		sidebar="notification">Notifications</button>
+		sidebar="notification">Contact Us Request</button>
 	<br />
-	<button type="button" class="btn normal_state col-sm-12"
-		sidebar="createstaff">Create Staff</button>
+	<button type="button" class="btn normal_state col-sm-12 hide approveStaff"
+		sidebar="createstaff">Approve Staff</button>
 </div>
 
 <script>

@@ -1,5 +1,6 @@
 package com.project.stylezone.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +25,13 @@ import com.project.stylezone.models.Color;
 import com.project.stylezone.models.ColorView;
 import com.project.stylezone.models.Occasion;
 import com.project.stylezone.models.OccasionView;
+import com.project.stylezone.models.OrderAddress;
+import com.project.stylezone.models.OrderDetails;
+import com.project.stylezone.models.OrderProduct;
+import com.project.stylezone.models.OrderTracker;
+import com.project.stylezone.models.Orders;
+import com.project.stylezone.models.OrdersItem;
+import com.project.stylezone.models.Product;
 import com.project.stylezone.models.UserDetails;
 import com.project.stylezone.models.UserLoginInfo;
 import com.project.stylezone.models.Users;
@@ -33,6 +42,7 @@ import com.project.stylezone.notification.NotificationType;
 import com.project.stylezone.notification.NotificationTypeEnum;
 import com.project.stylezone.notification.type.UserVerificationNotiType;
 import com.project.stylezone.notification.type.objects.AccountVerificationObject;
+import com.project.stylezone.service.OrdersService;
 import com.project.stylezone.service.StocksService;
 import com.project.stylezone.service.UserService;
 
@@ -45,6 +55,9 @@ public class AdminBackendServiceController {
 	@Autowired
 	StocksService stockService;
 
+	@Autowired
+	OrdersService ordersService;
+
 	@RequestMapping(value = "/register/user", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> createUser(@RequestBody Users user) {
 		UserDetails userDetails = userService.findUserDetailsByEmail(user.getUserEmail());
@@ -53,10 +66,10 @@ public class AdminBackendServiceController {
 		if (userDetails == null) {
 			user.setAccStatus(0);
 			saveUser = userService.saveUser(user);
-			UserLoginInfo object=new UserLoginInfo();
+			UserLoginInfo object = new UserLoginInfo();
 			object.setUserId(saveUser.getUserId());
 			object.setLastLogin(AppConstant.getCurrentDateTime());
-			userService.saveUserLastLogin( object );
+			userService.saveUserLastLogin(object);
 			// for admin
 			if (saveUser.getUserRole().getRoleId() == 1) {
 				responseHeaders.add(AppConstant.message, "Admin Created Successfully.Login to Open Account");
@@ -65,18 +78,20 @@ public class AdminBackendServiceController {
 						.getNotificationObject(NotificationTypeEnum.VERIFYACCOUNT);
 
 				AccountVerificationObject accountVerificationObject = new AccountVerificationObject();
-				accountVerificationObject.setHref(AppConstant.BASEURL+"activatedaccount?session="+saveUser.getUserId());
+				accountVerificationObject
+						.setHref(AppConstant.BASEURL + "activatedaccount?session=" + saveUser.getUserId());
 				accountVerificationObject.setHrefName("Verify Account");
-				accountVerificationObject.setMessageContent("In order to access your account please click on bellow link : -");
+				accountVerificationObject
+						.setMessageContent("In order to access your account please click on bellow link : -");
 				accountVerificationObject.setTitle("Account Verification");
-				
+
 				EmailObject emailObject = new EmailObject();
 				emailObject.setSubject("Verify Account");
 				emailObject.setReceiver(saveUser.getUserEmail());
 				emailObject.setHtmlEmailTemplate(notificationObject.getNotificationContent(accountVerificationObject));
 
 				EmailSenderObject.sendEmail(emailObject);
-				
+
 				responseHeaders.add(AppConstant.message, "User Created Successfully.Please your verify your email ID");
 			} else {
 				responseHeaders.add(AppConstant.message, "Unexpected User Regester type selected");
@@ -99,8 +114,7 @@ public class AdminBackendServiceController {
 		if (userDetails == null) {
 			responseHeaders.add(AppConstant.message, "No user found");
 		} else {
-			if(userDetails.getLastLogin()==null)
-			{
+			if (userDetails.getLastLogin() == null) {
 				userDetails.setLastLogin(AppConstant.getCurrentDateTime());
 			}
 			responseHeaders.add(AppConstant.message, "User found");
@@ -108,12 +122,12 @@ public class AdminBackendServiceController {
 
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/user/saveUser", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> saveAdmin(@RequestBody Users user) {
 		user.setAccStatus(1);
 		Users saveUser = userService.saveUser(user);
-		
+
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		UserDetails userDetails = userService.findUserDetailsByEmail(saveUser.getUserEmail());
 		if (userDetails == null) {
@@ -136,7 +150,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<BrandView> allBrands = stockService.getAllBrandwithCreatorName();
 
-		if (allBrands.size()<= 0) {
+		if (allBrands.size() <= 0) {
 			responseHeaders.add(AppConstant.message, "No Brands Available");
 		} else {
 			responseHeaders.add(AppConstant.message, allBrands.size() + " available in stock");
@@ -209,7 +223,7 @@ public class AdminBackendServiceController {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<ColorView> colorView = stockService.getAllColorswithCreatorName();
 
-		if (colorView.size() <=0) {
+		if (colorView.size() <= 0) {
 			responseHeaders.add(AppConstant.message, "No Color Available");
 		} else {
 			responseHeaders.add(AppConstant.message, colorView.size() + " available in stock");
@@ -421,4 +435,113 @@ public class AdminBackendServiceController {
 		return userDetails;
 	}
 
+	@RequestMapping(value = "/adminpanel/orders/fetchall", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> getAllOrders() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<Orders> orderList = ordersService.findAllOrdersNewToOld();
+
+		if (orderList.size() <= 0) {
+			responseHeaders.add(AppConstant.message, "No Order Available");
+		} else {
+			responseHeaders.add(AppConstant.message, orderList.size() + " order available");
+		}
+
+		return new ResponseEntity<Object>(orderList, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/orderDetails/{orderId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> getAllOrders(@PathVariable String orderId) {
+
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Orders order = ordersService.findOrderByOrderID(orderId);
+		OrderDetails orderDetails = new OrderDetails();
+		if (order == null) {
+			responseHeaders.add(AppConstant.message, "Order Not found");
+		} else {
+			responseHeaders.add(AppConstant.message, "Order Found");
+
+			Users userDetails = userService.findUserByUserId(order.getUserId());
+			OrderAddress address = ordersService.findOrderAddByOrderID(orderId);
+			List<OrdersItem> orderItemList = ordersService.findOrderItemsByOrderID(orderId);
+
+			List<OrderProduct> tempOrderProductList = new ArrayList<OrderProduct>();
+
+			for (OrdersItem orderProduct : orderItemList) {
+				OrderProduct ord = new OrderProduct();
+				Product fetchAProduct = stockService.fetchAProduct(orderProduct.getProductId());
+				if (orderProduct.getCustomFittingAppointmentDate() != null) {
+					ord.setCustomFittingAppointmentDate(
+							AppConstant.getFormatedDate(orderProduct.getCustomFittingAppointmentDate()));
+				} else {
+					ord.setCustomFittingAppointmentDate("Not Available");
+				}
+
+				ord.setDuration(orderProduct.getDuration());
+				ord.setRentPrice(orderProduct.getRentPrice());
+				ord.setDeposite(orderProduct.getDeposite());
+				ord.setTotalPrice(orderProduct.getTotalPrice());
+				ord.setStartDate(AppConstant.getFormatedDate(orderProduct.getStartDate()));
+				ord.setEndDate(AppConstant.getFormatedDate(orderProduct.getEndDate()));
+				ord.setProductTitle(fetchAProduct.getProductDetails().getProductTitle());
+				ord.setProductAvt(fetchAProduct.getProductDetails().getAvt1());
+
+				tempOrderProductList.add(ord);
+			}
+
+			List<OrderTracker> tracker = ordersService.fetchOrderTracker(orderId);
+
+			orderDetails.setOrderId(order.getOrderId());
+			orderDetails.setRentTotal(order.getRentTotal());
+			orderDetails.setDepositeTotal(order.getDepositeTotal());
+			orderDetails.setTotal(order.getTotal());
+			orderDetails.setCreatedDate(order.getCreatedDate());
+			orderDetails.setProductCount(orderItemList.size());
+
+			orderDetails.setUsername(userDetails.getUserName());
+			orderDetails.setUseremail(userDetails.getUserEmail());
+			orderDetails.setUserphone(userDetails.getUserMobileNo());
+			orderDetails.setAddress(address.getAddress());
+			
+			orderDetails.setTempOrderProductList(tempOrderProductList);
+			orderDetails.setTracker(tracker);
+		}
+
+		return new ResponseEntity<Object>(orderDetails, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/orderTracker/{orderId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		List<OrderTracker> fetchOrderTracker = ordersService.fetchOrderTracker(orderId);
+		if(fetchOrderTracker.size()>0) {
+			responseHeaders.add(AppConstant.message, "Tracker List Found");
+		}else
+		{
+			responseHeaders.add(AppConstant.message, "Tracker List not Found");
+		}
+		
+		return new ResponseEntity<Object>(fetchOrderTracker, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/adminpanel/orderTracker/save/{orderId}/{status}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId,@PathVariable int status) {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		OrderTracker tracker=new OrderTracker();
+		tracker.setOrderId(orderId);
+		tracker.setCreatedDate(AppConstant.getCurrentDateTimeDDMMYYY());
+		tracker.setOrderStatus(status);
+		ordersService.saveOrUpdateOrderTracker(tracker);
+		List<OrderTracker> trackerList = ordersService.fetchOrderTracker(orderId);
+		
+		if(trackerList.size()>0) {
+			responseHeaders.add(AppConstant.message, "Tracker List Found");
+		}else
+		{
+			responseHeaders.add(AppConstant.message, "Tracker List not Found");
+		}
+		return new ResponseEntity<Object>(trackerList, responseHeaders, HttpStatus.OK);
+	}
+	
+	
 }

@@ -24,4 +24,8 @@ public interface OrdersDao {
 	
 	OrderTracker saveOrUpdateOrderTracker(OrderTracker order);
 	List<OrderTracker> fetchOrderTracker(String orderId);
+	
+	
+	List<Orders> findAllOrdersByUserId(int userId);
+	List<Orders> findAllOrdersNewToOld();
 }

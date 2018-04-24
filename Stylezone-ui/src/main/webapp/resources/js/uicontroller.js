@@ -187,6 +187,10 @@ UIcontroller.updateUi = function(rootContainer) {
 
 // callback header
 UIcontroller.callBackHeaderInfo = function(responseData) {
+	if(responseData.data.roleName=="Superadmin"){
+		$(".sidebarcontainer").find(".approveStaff").removeClass("hide");
+	}
+	
 	UIutiles.bindReponseToUi(responseData.data, "#header");
 	UIutiles.bindReponseToUi(responseData.data, "." + responseData.container);
 }
@@ -686,3 +690,193 @@ UIcontroller.reInitForgotPassword=function()
 	$("#forgotpass .sendOTP").removeClass("hide");
 	
 }
+
+/*********************************fetch all order list for  admin panel********************/
+UIcontroller.loadAllOrdersList = (function() {
+	var instance;
+	function createInstance() {
+		var object = $('.adminorders  #ordersTableAdmin')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : adminPanelButtonAction.orderAdminList,
+								"dataSrc" : ""
+							},
+							"columns" : [
+									{
+										"data" : "orderId"
+									},
+									{
+										"data" : "createdDate"
+									},
+									{
+										"data" : "rentTotal",
+										 render : function(data, type, row) {
+								              return '<span>&#8377;'+data+'</span>'
+								          }   
+									},
+									{
+										"data" : "depositeTotal",
+											 render : function(data, type, row) {
+									              return '<span>&#8377;'+data+'</span>'
+									          }   
+									},
+									{
+										"data" : "total",
+											 render : function(data, type, row) {
+									              return '<span>&#8377;'+data+'</span>'
+									          }   
+									},
+									{
+										"targets" : -1,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-info update-status' >Update Status</button>"
+										
+										
+									},
+									{
+										"targets" : -2,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-info view-details' >View Details </button>"
+										
+										
+									}
+									],
+							'info' : true,
+							"fnDrawCallback" : function() {
+
+								$(".adminorders .orderListcount")
+										.text(
+												"("
+														+ this
+																.fnSettings()
+																.fnRecordsTotal()
+														+ ")");
+
+							}
+
+						});
+		return object;
+	}
+
+	return {
+		getInstance : function() {
+			if (!instance) {
+				instance = createInstance();
+			}
+			return instance;
+		}
+	};
+})();
+
+/*******************************order details in admin panel**********************/
+UIcontroller.fetchOrderDetails=function(orderId){
+	var requestObject = {};
+	requestObject.container = null;
+	requestObject.data = null;
+	requestObject.url=adminPanelButtonAction.orderDetails+"/"+orderId;
+	ServiceController.fetchOrderDetails(requestObject);
+	
+}
+
+UIcontroller.fetchOrderDetailsCallback=function(responseData){
+	
+	console.log(responseData);
+	UIcontroller.bindDataToModal("#viewOrderDetails",responseData.data);
+	
+	
+	
+	$('#viewOrderDetails').modal('show');
+}
+
+UIcontroller.bindDataToModal=function(root,data){
+	var root=$(root);
+	
+	root.find(".orderId").text(data.orderId);
+	root.find(".productCount").text(data.productCount);
+	root.find(".totalRent").text(data.rentTotal);
+	root.find(".totalDeposit").text(data.depositeTotal);
+	root.find(".totalOrderCost").text(data.total);
+	root.find(".deliveryAddress").val(data.address);
+	root.find(".userName").text(data.username);
+	root.find(".userEmail").text(data.useremail);
+	root.find(".userMobile").text(data.userphone);
+	root.find(".userMobile").text(data.userphone);
+	root.find(".orderDate").text(data.createdDate);
+	
+	
+	var productList=data.tempOrderProductList;
+	var tbody=root.find(".order_productList");
+	
+	var trs=[];
+	tbody.find("tr").not(":first").remove();
+	for(var x=0;x<productList.length;x++){
+		var localTR=root.find(".tr_order_info_template").clone();
+		localTR.removeClass("hide");
+		localTR.find(".productAvt").attr("src","FileServlet?path="+productList[x].productAvt);
+		localTR.find(".productTitle").text(productList[x].productTitle);
+		localTR.find(".productDuration").text(productList[x].duration);
+		localTR.find(".startDate").text(productList[x].startDate);
+		localTR.find(".endDate").text(productList[x].endDate);
+		localTR.find(".customFittingAppointmentDate").text(productList[x].customFittingAppointmentDate);
+		localTR.find(".rentCost").text(productList[x].rentPrice);
+		localTR.find(".depositCost").text(productList[x].deposite);
+		localTR.find(".totalCost").text(productList[x].totalPrice);
+		trs.push(localTR);
+	}
+	tbody.append(trs);
+	
+}
+
+UIcontroller.fetchOrderTrackerList=function(){
+	var data=[];
+	data.push({"orderStatus":-1,"title":"Select"})
+	data.push({"orderStatus":1,"title":"Order Request Accepted"})
+	data.push({"orderStatus":2,"title":"Order Packing in Progress"})
+	data.push({"orderStatus":3,"title":"Order Out for Delivery"})
+	data.push({"orderStatus":4,"title":"Order Delivered"})
+	data.push({"orderStatus":5,"title":"Order Return Back"})
+	data.push({"orderStatus":6,"title":"Order Deposit Amount Return"})
+	
+	return data;
+}
+
+/**************************fetch tracker list form db admin panel*********/
+UIcontroller.fetchAllTrackerListFromDBforOrder=function(orderID){
+	var requestObject = {};
+	requestObject.container = null;
+	requestObject.data = null;
+	requestObject.url=adminPanelButtonAction.orderTrackerFetch+orderID;
+	ServiceController.trackerList(requestObject);
+}
+
+UIcontroller.fetchTrackerListCallback=function(responseData){
+	console.log(responseData);
+	var selecttag=$("#updateStatus").find("#trackerstatus");
+	selecttag.empty();
+	var data=responseData.data;
+	
+	
+	var localArr=UIcontroller.fetchOrderTrackerList();
+
+	for(var x=0;x<localArr.length;x++){
+		for(var y=0;y<data.length;y++){
+			if(localArr[x].orderStatus==data[y].orderStatus){
+				localArr.splice(x,1);
+			}
+		}
+	}
+	var options=[];
+	for(var x=0;x<localArr.length;x++){
+		var option=$("<option></option>").text(localArr[x].title);
+		option.attr("value",localArr[x].orderStatus);
+		options.push(option);
+	}
+	selecttag.append(options);
+	
+	
+	$("#updateStatus").modal("show");
+}
+
+
+/************************update tracker for ***************************/

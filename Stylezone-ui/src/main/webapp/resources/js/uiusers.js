@@ -820,3 +820,82 @@ UIWebsite.makeCheckoutCallback=function(responseData){
 	}, 3000);
 	
 }
+
+/**********************************User Order List********************/
+UIWebsite.loadMyOrdersList = (function() {
+	var instance;
+	function createInstance() {
+		var object = $('.orders  #usersOrdersTable')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : user.orderList,
+								"dataSrc" : ""
+							},
+							"columns" : [
+									{
+										"data" : "orderId"
+									},
+									{
+										"data" : "createdDate"
+									},
+									{
+										"data" : "rentTotal",
+										 render : function(data, type, row) {
+								              return '<span>&#8377;'+data+'</span>'
+								          }   
+									},
+									{
+										"data" : "depositeTotal",
+											 render : function(data, type, row) {
+									              return '<span>&#8377;'+data+'</span>'
+									          }   
+									},
+									{
+										"data" : "total",
+											 render : function(data, type, row) {
+									              return '<span>&#8377;'+data+'</span>'
+									          }   
+									},
+									{
+										/*"targets" : -1,
+										"data" : null,
+										"defaultContent" : "<a class='btn btn-info update-btn' href="+user.orderDetail+"/"+targets[ 0 ]+">View Details </a>"*/
+										
+										"targets": -1,
+									    "data": "orderId",
+									    "render": function ( data, type, row, meta ) {
+									      return '<a  class="btn btn-info update-btn" href="'+user.orderDetail+"/"+data+'">View Details</a>';
+									    }
+									}
+									],
+							'info' : true,
+							"fnDrawCallback" : function() {
+
+								$(".orders .orderListcount")
+										.text(
+												"("
+														+ this
+																.fnSettings()
+																.fnRecordsTotal()
+														+ ")");
+
+								$(".orders_list_count").text(
+										this.fnSettings().fnRecordsTotal());
+							}
+
+						});
+		return object;
+	}
+
+	return {
+		getInstance : function() {
+			if (!instance) {
+				instance = createInstance();
+			}
+			return instance;
+		}
+	};
+})();
+
+

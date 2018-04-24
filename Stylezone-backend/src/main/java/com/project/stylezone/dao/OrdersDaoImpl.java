@@ -78,4 +78,14 @@ public class OrdersDaoImpl implements OrdersDao{
 		// TODO Auto-generated method stub
 		return orderTrackerRepo.findByOrderId(orderId);
 	}
+
+	public List<Orders> findAllOrdersByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return ordersRepo.findByUserId(userId);
+	}
+
+	public List<Orders> findAllOrdersNewToOld() {
+		// TODO Auto-generated method stub
+		return ordersRepo.findAllOrdersFromNewToOld();
+	}
 }

@@ -63,4 +63,14 @@ public class OrdersServiceImpl implements OrdersService{
 		return orderDao.fetchOrderTracker(orderId);
 	}
 
+	public List<Orders> findAllOrdersByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return orderDao.findAllOrdersByUserId(userId);
+	}
+
+	public List<Orders> findAllOrdersNewToOld() {
+		// TODO Auto-generated method stub
+		return orderDao.findAllOrdersNewToOld();
+	}
+
 }

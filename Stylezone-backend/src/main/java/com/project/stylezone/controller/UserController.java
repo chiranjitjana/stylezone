@@ -385,6 +385,44 @@ public class UserController {
 		modelView.addObject("orderTracker", tracker);
 		return modelView;
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/user/fetch/orderList", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> fetchOrderListByLoginUserid() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		
+		List<Orders> allOrders = ordersService.findAllOrdersByUserId(getLoggedInUserDetails().getUserId());
+		
+		if(allOrders.size()>0) {
+			responseHeaders.set(AppConstant.message,allOrders.size()+" Number Of Orders Available" );
+		}else
+		{
+			responseHeaders.set(AppConstant.message,"No order found" );
+		}
+		
+		
+		return AppConstant.convertToReponseEntity(allOrders, responseHeaders, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	private void SendPurchaseNotification(Orders saveOrder) {
 		// TODO Auto-generated method stub

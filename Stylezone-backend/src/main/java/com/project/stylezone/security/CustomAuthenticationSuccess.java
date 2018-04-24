@@ -75,7 +75,8 @@ public class CustomAuthenticationSuccess implements AuthenticationSuccessHandler
 			targetUrl = "/adminpanel";
 			request.getSession().setAttribute("role", "ROLE_Admin");
 		} else if (roles.contains("ROLE_Superadmin")) {
-			targetUrl = "/superadminpanel";
+			/*targetUrl = "/superadminpanel";*/
+			targetUrl = "/adminpanel";
 			request.getSession().setAttribute("role", "ROLE_Superadmin");
 		} else if (roles.contains("ROLE_User")) {
 			targetUrl = "/index";

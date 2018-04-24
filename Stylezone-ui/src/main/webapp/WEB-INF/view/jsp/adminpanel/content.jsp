@@ -2,7 +2,7 @@
 	<div class="myprofile">
 			<jsp:include page="contentpages/myprofile.jsp"></jsp:include>
 	</div>
-	<div class="orders hide">
+	<div class="orders hide adminorders">
 			<jsp:include page="contentpages/orders.jsp"></jsp:include>
 	</div>
 	<div class="stock hide">

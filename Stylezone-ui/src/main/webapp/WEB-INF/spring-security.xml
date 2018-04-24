@@ -39,13 +39,17 @@
 	<security:http security="none" pattern="/getProductList" />
 	<security:http security="none" pattern="/getProducts/**" />
 	
-	<security:http auto-config="true">
+	<security:http auto-config="true" use-expressions="true">
 	
 		<security:access-denied-handler ref="customAccessDeniedHandler" />
 		<security:intercept-url pattern="/adminpanel/**"
-			access="ROLE_Admin" />
+			access="hasAnyRole('ROLE_Admin','ROLE_Superadmin')" />
 		<security:intercept-url pattern="/myaccount/**"
 			access="ROLE_User" />
+		<security:intercept-url pattern="/user/fetch/orderList"
+			access="ROLE_User" />	
+			
+			
 		<security:form-login login-processing-url="/login"
 			login-page="/userlogin" default-target-url="/"
 			authentication-failure-handler-ref="authenticationFailureHandler"

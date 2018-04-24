@@ -35,6 +35,11 @@ public class AppConstant {
 		return sdf.format(dt);
 	}
 	
+	public static String getCurrentDateTimeDDMMYYY() {
+		java.util.Date dt = new java.util.Date();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm a");
+		return sdf.format(dt);
+	}
 	
 
 	public static String getFormatedtDateTime(Date dt) {

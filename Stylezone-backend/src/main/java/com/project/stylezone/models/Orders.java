@@ -1,9 +1,9 @@
 package com.project.stylezone.models;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,6 +12,10 @@ import javax.persistence.Table;
 public class Orders {
 
 	@Id
+	@Column(name = "order_number")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int orderNumber;
+
 	@Column(name = "order_id")
 	private String orderId;
 	
@@ -29,8 +33,8 @@ public class Orders {
 	
 	@Column(name = "created_date")
 	private String createdDate;
-
 	
+
 
 	public String getOrderId() {
 		return orderId;
@@ -78,6 +82,14 @@ public class Orders {
 
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public int getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	

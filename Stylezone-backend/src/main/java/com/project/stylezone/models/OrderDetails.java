@@ -1,5 +1,6 @@
 package com.project.stylezone.models;
 
+import java.util.List;
 
 public class OrderDetails {
 	private String orderId;
@@ -13,9 +14,26 @@ public class OrderDetails {
 	private int productCount;
 	private String username;
 	
+	private List<OrderTracker> tracker;
+	List<OrderProduct> tempOrderProductList;
 	
 	
 	
+	
+	
+	
+	public List<OrderTracker> getTracker() {
+		return tracker;
+	}
+	public void setTracker(List<OrderTracker> tracker) {
+		this.tracker = tracker;
+	}
+	public List<OrderProduct> getTempOrderProductList() {
+		return tempOrderProductList;
+	}
+	public void setTempOrderProductList(List<OrderProduct> tempOrderProductList) {
+		this.tempOrderProductList = tempOrderProductList;
+	}
 	public String getUsername() {
 		return username;
 	}
