@@ -826,6 +826,47 @@ UIcontroller.bindDataToModal=function(root,data){
 	}
 	tbody.append(trs);
 	
+	
+	var trackerList=data.tracker;
+	var localTrackerTemplate=UIcontroller.fetchOrderTrackerList();
+	localTrackerTemplate.splice(0,1);
+	
+	var orderTrackerList=[];
+	var root=$(".bs-wizard");
+	root.find(".bs-wizard-step").not(":first").remove();
+	for(var x=0;x<localTrackerTemplate.length;x++){
+		var template_tracker=root.find(".bs-wizard-step").clone();
+		template_tracker.addClass("trackerstep"+localTrackerTemplate[x].orderStatus);
+		template_tracker.removeClass("hide");
+		template_tracker.find(".statusInfo").text(localTrackerTemplate[x].title);
+		template_tracker.find(".statusUpdatedDate").text("...");
+		if(x==0){
+			template_tracker.addClass("complete");
+			template_tracker.find(".progress").attr("style","left: 50%; width: 50%;");
+		}else{
+			template_tracker.addClass("disabled");
+		}
+		
+		orderTrackerList.push(template_tracker);
+	}
+	root.append(orderTrackerList);
+	
+	
+	for(var x=0;x<trackerList.length;x++){
+		var step=root.find(".trackerstep"+trackerList[x].orderStatus);
+		step.find(".statusUpdatedDate").text(trackerList[x].createdDate);
+		
+		if(x==trackerList.length-1){
+			step.addClass("active_now");
+			step.removeClass("disabled");
+		}else
+		{
+			step.addClass("complete");
+			step.removeClass("disabled");
+		}
+	}
+	
+	
 }
 
 UIcontroller.fetchOrderTrackerList=function(){

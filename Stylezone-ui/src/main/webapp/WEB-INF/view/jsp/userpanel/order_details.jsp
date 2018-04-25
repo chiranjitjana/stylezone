@@ -35,7 +35,7 @@
 				<table class="table table-bordered">
 					<tr>
 						<th>Order Id</th>
-						<th>${orderDetails.orderId}</th>
+						<th><span class="userOrderId">${orderDetails.orderId}</span></th>
 					</tr>
 					<tr>
 						<th>Product Count</th>
@@ -104,24 +104,24 @@
 		</div>
 	</div>
 	
-	<div class="panel panel-info">
+	<div class="panel panel-info orderUserTracker">
 		<div class="panel-heading">Order Tracking</div>
 		<div class="panel-body">
-		<div class="container">
+		<div class="">
             <div class="row bs-wizard" style="border-bottom:0;">
                 
-                <div class="col-xs-3 bs-wizard-step complete">
-                  <div class="text-center bs-wizard-stepnum">27-03-2018 16:18</div>
+               <div class="col-xs-2 bs-wizard-step orderStatusDiv hide">
+                  <div class="text-center bs-wizard-stepnum statusUpdatedDate"></div>
 				  
                   <div class="progress">
 							<div class="progress-bar"></div>
 						</div>
                   <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Order Request Accepted </div>
+                  <div class="bs-wizard-info text-center statusInfo"></div>
                 </div>
                 
-                <div class="col-xs-3 bs-wizard-step complete">
-						<!-- complete -->
+               <!--  <div class="col-xs-3 bs-wizard-step complete">
+						complete
                   <div class="text-center bs-wizard-stepnum">27-03-2018 20:18</div>
                   <div class="progress">
 							<div class="progress-bar"></div>
@@ -131,7 +131,7 @@
                 </div>
                 
                 <div class="col-xs-3 bs-wizard-step active_now">
-						<!-- complete -->
+						complete
                   <div class="text-center bs-wizard-stepnum">28-03-2018 12:18</div>
                   <div class="progress">
 							<div class="progress-bar"></div>
@@ -141,14 +141,14 @@
                 </div>
                 
                 <div class="col-xs-3 bs-wizard-step disabled">
-						<!-- active -->
+						active
                   <div class="text-center bs-wizard-stepnum">...</div>
                   <div class="progress">
 							<div class="progress-bar"></div>
 						</div>
                   <a href="#" class="bs-wizard-dot"></a>
                   <div class="bs-wizard-info text-center">Order Delivered</div>
-                </div>
+                </div> -->
             </div>
         
 	</div>
@@ -222,3 +222,9 @@
 }
 
 </style>
+<script>
+	$(document).ready(function(){
+		var orderId=$(".userOrderId").text();
+		UIWebsite.fetchOrderDetails(orderId);
+	});
+</script>

@@ -449,7 +449,7 @@ public class AdminBackendServiceController {
 		return new ResponseEntity<Object>(orderList, responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/adminpanel/orderDetails/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderDetails/{orderId}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Object> getAllOrders(@PathVariable String orderId) {
 
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();

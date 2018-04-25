@@ -898,4 +898,80 @@ UIWebsite.loadMyOrdersList = (function() {
 	};
 })();
 
+/******************************************loading tracker list in user***************/
+UIWebsite.fetchOrderTrackerList=function(){
+	var data=[];
+	data.push({"orderStatus":-1,"title":"Select"})
+	data.push({"orderStatus":1,"title":"Order Request Accepted"})
+	data.push({"orderStatus":2,"title":"Order Packing in Progress"})
+	data.push({"orderStatus":3,"title":"Order Out for Delivery"})
+	data.push({"orderStatus":4,"title":"Order Delivered"})
+	data.push({"orderStatus":5,"title":"Order Return Back"})
+	data.push({"orderStatus":6,"title":"Order Deposit Amount Return"})
+	
+	return data;
+}
+
+UIWebsite.fetchOrderDetails=function(orderId){
+	var requestObject = {};
+	requestObject.container = null;
+	requestObject.data = null;
+	requestObject.url=adminPanelButtonAction.orderDetails+"/"+orderId;
+	ServiceController.fetchOrderDetailsUser(requestObject);
+	
+}
+
+UIWebsite.fetchOrderDetailsUserCallback=function(responseData){
+	
+	console.log(responseData);
+	UIWebsite.bindDataToModal(".orderUserTracker",responseData.data);
+
+}
+
+UIWebsite.bindDataToModal=function(root,data){
+	var root=$(root);
+
+	
+	var trackerList=data.tracker;
+	var localTrackerTemplate=UIcontroller.fetchOrderTrackerList();
+	localTrackerTemplate.splice(0,1);
+	
+	var orderTrackerList=[];
+	var root=$(".bs-wizard");
+	root.find(".bs-wizard-step").not(":first").remove();
+	for(var x=0;x<localTrackerTemplate.length;x++){
+		var template_tracker=root.find(".bs-wizard-step").clone();
+		template_tracker.addClass("trackerstep"+localTrackerTemplate[x].orderStatus);
+		template_tracker.removeClass("hide");
+		template_tracker.find(".statusInfo").text(localTrackerTemplate[x].title);
+		template_tracker.find(".statusUpdatedDate").text("...");
+		if(x==0){
+			template_tracker.addClass("complete");
+			template_tracker.find(".progress").attr("style","left: 50%; width: 50%;");
+		}else{
+			template_tracker.addClass("disabled");
+		}
+		
+		orderTrackerList.push(template_tracker);
+	}
+	root.append(orderTrackerList);
+	
+	
+	for(var x=0;x<trackerList.length;x++){
+		var step=root.find(".trackerstep"+trackerList[x].orderStatus);
+		step.find(".statusUpdatedDate").text(trackerList[x].createdDate);
+		
+		if(x==trackerList.length-1){
+			step.addClass("active_now");
+			step.removeClass("disabled");
+		}else
+		{
+			step.addClass("complete");
+			step.removeClass("disabled");
+		}
+	}
+	
+	
+}
+
 

@@ -76,9 +76,5 @@ label {
 <script>
 	$(document).ready(function() {
 		UIWebsite.loadMyOrdersList.getInstance().ajax.reload();
-		
-	/* 	$('#ordersTable').DataTable({
-			"pagingType" : "full_numbers"
-		}); */
 	});
 </script>

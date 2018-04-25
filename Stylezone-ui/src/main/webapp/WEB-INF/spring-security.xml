@@ -45,9 +45,9 @@
 		<security:intercept-url pattern="/adminpanel/**"
 			access="hasAnyRole('ROLE_Admin','ROLE_Superadmin')" />
 		<security:intercept-url pattern="/myaccount/**"
-			access="ROLE_User" />
+			access="hasRole('ROLE_User')" />
 		<security:intercept-url pattern="/user/fetch/orderList"
-			access="ROLE_User" />	
+			access="hasRole('ROLE_User')" />	
 			
 			
 		<security:form-login login-processing-url="/login"
