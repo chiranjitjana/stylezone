@@ -36,12 +36,18 @@
 				<h4 class="modal-title">Update Status</h4>
 			</div>
 			<div class="modal-body">
+					<div class="message  hide alert alert-dismissible col-sm-12"
+						role="alert">
+						<span class="text"></span>
+					</div>
+			
 				<div class="form-group">
 					<label for="sel1">Select Staus:</label> <select
 						class="form-control" id="trackerstatus">
 					</select>
+					<input type="text"  class="orderId hide">
 				</div>
-				<button type="button" class="btn btn-success">Submit</button>
+				<button type="button" class="btn btn-success updateOrderStatus">Submit</button>
 			</div>
 		</div>
 	</div>
@@ -74,6 +80,7 @@
 			
 			if ($(this).hasClass("update-status")) {
 				UIcontroller.fetchAllTrackerListFromDBforOrder(data.orderId);
+				$('#updateStatus').find(".orderId").val(data.orderId);
 				$('#updateStatus').modal('show');
 			}
 
@@ -83,4 +90,9 @@
 		});
 		
 	});
+	
+	$(".updateOrderStatus").click(function(){
+		UIcontroller.saveOrUpdateOrderTracker();
+	});
+	
 </script>

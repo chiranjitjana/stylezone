@@ -524,7 +524,7 @@ public class AdminBackendServiceController {
 	}
 	
 	
-	@RequestMapping(value = "/adminpanel/orderTracker/save/{orderId}/{status}", method = RequestMethod.GET)
+	@RequestMapping(value = "/adminpanel/orderTracker/save/{orderId}/{status}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId,@PathVariable int status) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		OrderTracker tracker=new OrderTracker();

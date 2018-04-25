@@ -874,9 +874,70 @@ UIcontroller.fetchTrackerListCallback=function(responseData){
 	}
 	selecttag.append(options);
 	
+	if(localArr.length==1)
+	$("#updateStatus").find(".updateOrderStatus").addClass("disabled");
+	else
+		$("#updateStatus").find(".updateOrderStatus").removeClass("disabled");
 	
 	$("#updateStatus").modal("show");
 }
 
 
 /************************update tracker for ***************************/
+UIcontroller.saveOrUpdateOrderTracker=function(){
+	var orderID=$('#updateStatus').find(".orderId").val()
+	var selecttag=$("#updateStatus").find("#trackerstatus");
+	var message= $("#updateStatus").find(".message");
+	if(selecttag.val()!=-1){
+		selecttag.removeClass("error");
+		message.addClass("hide");
+		var requestObject = {};
+		requestObject.container = null;
+		requestObject.data = null;
+		requestObject.url=adminPanelButtonAction.updateOrderTracker+orderID+"/"+selecttag.val();
+		
+		ServiceController.saveOrUpdateTracker(requestObject);
+	}
+	else{
+		selecttag.addClass("error");
+		message.removeClass("hide");
+		message.addClass("alert-danger");
+		message.text("Please select status");
+	}
+}
+
+UIcontroller.saveOrUpdateOrderTrackerCallback=function(responseData){
+	var selecttag=$("#updateStatus").find("#trackerstatus");
+	var message= $("#updateStatus").find(".message");
+	selecttag.empty();
+	var data=responseData.data;
+	
+	
+	var localArr=UIcontroller.fetchOrderTrackerList();
+
+	for(var x=0;x<localArr.length;x++){
+		for(var y=0;y<data.length;y++){
+			if(localArr[x].orderStatus==data[y].orderStatus){
+				localArr.splice(x,1);
+			}
+		}
+	}
+	var options=[];
+	for(var x=0;x<localArr.length;x++){
+		var option=$("<option></option>").text(localArr[x].title);
+		option.attr("value",localArr[x].orderStatus);
+		options.push(option);
+	}
+	selecttag.append(options);
+	
+	message.removeClass("hide");
+	message.removeClass("alert-danger");
+	message.addClass("alert-success");
+	message.text(responseData.message);
+	
+	if(localArr.length==1)
+		$("#updateStatus").find(".updateOrderStatus").addClass("disabled");
+	else
+		$("#updateStatus").find(".updateOrderStatus").removeClass("disabled");
+}
+

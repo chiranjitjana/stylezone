@@ -410,3 +410,19 @@ ServiceController.trackerList=function(requestObject)
 	AjaxHandler.makeAjaxCall(object);
 
 }
+/******************save or update tracker***********************/
+ServiceController.saveOrUpdateTracker=function(requestObject)
+{
+	var object = {};
+	object.url = requestObject.url;
+	object.methodtype = methodType.POST;
+	object.data = null;
+	object.datatype = datatype.json;
+	object.container = null;
+	object.contenttype = contenttype.url_encoding;
+	object.callbackFunction = UIcontroller.saveOrUpdateOrderTrackerCallback;
+	object.callbackFuntionParameter = null;
+	AjaxHandler.makeAjaxCall(object);
+
+}
+
