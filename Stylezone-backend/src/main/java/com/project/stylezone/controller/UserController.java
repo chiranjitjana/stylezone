@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.stylezone.AppConstant;
+
 import com.project.stylezone.SessionController;
 import com.project.stylezone.models.Address;
 import com.project.stylezone.models.AppointmentList;
@@ -323,7 +324,7 @@ public class UserController {
 		responseHeaders.add(AppConstant.message, saveOrderItems.size() + " products purchased done");
 
 		// send Email Notification
-		// SendPurchaseNotification(saveOrder);
+		 SendPurchaseNotification(saveOrder);
 
 		SessionController.reInintCart(httpRequest);
 		return AppConstant.convertToReponseEntity(saveOrder, responseHeaders, HttpStatus.OK);
@@ -425,9 +426,15 @@ public class UserController {
 	
 
 	private void SendPurchaseNotification(Orders saveOrder) {
-		// TODO Auto-generated method stub
-		NotificationType notificationObject = NotificationObjectFactory
-				.getNotificationObject(NotificationTypeEnum.FORGOTEPASSWORD);
+		EmailObject object=new EmailObject();
+		object.setReceiver(userService.findUserByUserId(saveOrder.getUserId()).getUserEmail());
+		object.setSubject("Order Details");
+		List<OrdersItem> findOrderItemsByOrderID = ordersService.findOrderItemsByOrderID(saveOrder.getOrderId());
+		Users findUserByUserId = userService.findUserByUserId(saveOrder.getUserId());
+		
+		object.setHtmlEmailTemplate("<H4>StyleZon.com</h4><br>Your Order has been placed Successfully <br/> Total Order Amount (Including deposit +Rent) :"+saveOrder.getTotal()+"<br/> Thank you to chooes Stylezone.com" );
+		
+		EmailSenderObject.sendEmail(object);
 	}
 
 	private Date getEndDate(SessionProduct sessionProduct) {
