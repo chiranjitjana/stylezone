@@ -16,6 +16,10 @@ public interface UserService {
 	Users saveUser(Users user); 
 	Users findUserByUserId(Integer id);
 	Users findUserByUserEmail(String email);
+	List<Users> findAllAdminUserByAccStatusInactive();
+	void deleteUser(Users user);
+	
+	
 	
 	OTP saveOTP(OTP save);
 	OTP findOTPByUser(Users user);

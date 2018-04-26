@@ -254,8 +254,9 @@ public class UIController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
 			updateLastLoginTime(auth);
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			
 		}
 		return "redirect:/userlogin";
 	}

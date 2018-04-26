@@ -73,4 +73,14 @@ public class UserServiceImpl implements UserService {
 		userDao.deleteAdrress(addId);
 	}
 
+	public List<Users> findAllAdminUserByAccStatusInactive() {
+		// TODO Auto-generated method stub
+		return userDao.findAllAdminUserByAccStatusInactive();
+	}
+
+	public void deleteUser(Users user) {
+		// TODO Auto-generated method stub
+		userDao.deleteUser(user);
+	}
+
 }

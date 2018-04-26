@@ -74,9 +74,7 @@
 			<div class="row">
 				<table class="table table-bordered">
 					<tr style="background-color: #c3af93">
-						<th><th>Product Name<th>Duration<
-		
-										/th><th>Start Date</th>
+						<th><th>Product Name<th>Duration</th><th>Start Date</th>
 						<th>End Date</th>
 						<th>Custom Fitting<br /> Appointment Date</th>
 						<th>Rent Cost</th>

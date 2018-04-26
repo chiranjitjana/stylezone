@@ -982,3 +982,118 @@ UIcontroller.saveOrUpdateOrderTrackerCallback=function(responseData){
 		$("#updateStatus").find(".updateOrderStatus").removeClass("disabled");
 }
 
+
+/*************************fetch all in active adim request*****************/
+UIcontroller.fetchAllInactiveAdminList=function(){
+	var requestObject = {};
+	requestObject.container = null;
+	requestObject.data = null;
+	ServiceController.fetchAllInactiveAdminList(requestObject);
+}
+
+UIcontroller.fetchAllInactiveAdminListCallback=function(responseData){
+	console.log("fetch all admin list");
+	
+	console.log(responseData);
+}
+
+/***********************single ton populate ******************/
+
+UIcontroller.loadAllInActiveAdminList = (function() {
+	var instance;
+	function createInstance() {
+		var object = $('.createstaff  #adminRequestTable')
+				.DataTable(
+						{
+							"ajax" : {
+								"url" : adminPanelButtonAction.fetchAllAdminInactivestatus,
+								"dataSrc" : ""
+							},
+							"columns" : [
+									{
+										"data" : "userId"
+									},
+									{
+										"data" : "userName"
+									},
+									{
+										"data" : "userEmail"
+										
+									},
+									{
+										"data" : "userMobileNo"
+										
+									},
+									{
+										"targets" : -1,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-info accept-request'>Accept Request</button>"
+										
+										
+									},
+									{
+										"targets" : -2,
+										"data" : null,
+										"defaultContent" : "<button class='btn btn-danger reject-request'>Reject Request </button>"
+										
+										
+									}
+									],
+									"columnDefs" : [ {
+										"targets" : [ 0 ],
+										"visible" : false
+									} ],
+							'info' : true,
+							"fnDrawCallback" : function() {
+
+								$(".createstaff .listAdminRequestCount")
+										.text(
+												"("
+														+ this
+																.fnSettings()
+																.fnRecordsTotal()
+														+ ")");
+
+							}
+
+						});
+		return object;
+	}
+
+	return {
+		getInstance : function() {
+			if (!instance) {
+				instance = createInstance();
+			}
+			return instance;
+		}
+	};
+})();
+
+
+/*********************Update request of admin approve***************/
+UIcontroller.UpdateRequest=function(type){
+	var requestObject = {};
+	requestObject.container = null;
+	requestObject.data = null;
+	
+	
+	
+	if(type=="accept"){
+		var userId=$("#acceptRQ").find(".userId").val();
+		requestObject.url=adminPanelButtonAction.acceptRequest+userId;
+	}else
+	{
+		var userId=$("#rejectRQ").find(".userId").val();
+		requestObject.url=adminPanelButtonAction.rejectRequest+userId;
+	}
+	
+	ServiceController.updateAdminUserRequest(requestObject);
+}
+
+UIcontroller.updateAdminUserRequestCallback=function(){
+	UIcontroller.loadAllInActiveAdminList.getInstance().ajax.reload();
+	$('#acceptRQ').modal('hide');
+	$('#rejectRQ').modal('hide');
+	
+}

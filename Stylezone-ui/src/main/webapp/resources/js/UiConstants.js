@@ -63,7 +63,12 @@ var adminPanelButtonAction={
 		"orderAdminList":baseUrlAdmin+"/orders/fetchall",
 		"orderDetails":adminPanel.root+"/orderDetails",
 		"orderTrackerFetch":baseUrlAdmin+"/orderTracker/",
-		"updateOrderTracker":baseUrlAdmin+"/orderTracker/save/"
+		"updateOrderTracker":baseUrlAdmin+"/orderTracker/save/",
+		
+		
+		"fetchAllAdminInactivestatus":baseUrlAdmin+"/user/all/admin",
+		"rejectRequest":baseUrlAdmin+"/user/reject/",
+		"acceptRequest":baseUrlAdmin+"/user/accept/"
 }
 
 

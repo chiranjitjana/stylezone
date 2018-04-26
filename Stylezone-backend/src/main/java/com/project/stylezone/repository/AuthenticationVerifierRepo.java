@@ -1,5 +1,7 @@
 package com.project.stylezone.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +14,7 @@ public interface AuthenticationVerifierRepo extends CrudRepository<Users,Integer
 	
 	Users findUserByUserId(Integer userId);
 	Users findUserByUserEmail(String email);
+	
+	@Query("select user from Users user where user.userRole=1 and user.accStatus=0")
+	List<Users> findAdminUserAccStusInactive();
 }

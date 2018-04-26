@@ -14,9 +14,10 @@ public interface UserDao {
 	UserDetails findUserDetailsByEmail(String email);
 	void saveUserLastLogin(UserLoginInfo userloginInfo);
 	Users saveUser(Users user);
-	
+	void deleteUser(Users user);
 	Users findUserByUserId(Integer id);
 	Users findUserByUserEmail(String email);
+	List<Users> findAllAdminUserByAccStatusInactive();
 	
 	OTP saveOTP(OTP save);
 	OTP findOTPByUser(Users user);

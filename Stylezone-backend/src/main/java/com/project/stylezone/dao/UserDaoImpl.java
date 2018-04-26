@@ -34,6 +34,10 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
 	AdressRepo adressRepo;
+	
+	
+	@Autowired
+	AuthenticationVerifierRepo authenticationVerifierRepo;
 
 	public UserDetails findUserDetailsByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -90,6 +94,16 @@ public class UserDaoImpl implements UserDao {
 	public void deleteAdrress(Integer addId) {
 		// TODO Auto-generated method stub
 		adressRepo.delete(addId);
+	}
+
+	public List<Users> findAllAdminUserByAccStatusInactive() {
+		// TODO Auto-generated method stub
+		return authenticationVerifierRepo.findAdminUserAccStusInactive();
+	}
+
+	public void deleteUser(Users user) {
+		// TODO Auto-generated method stub
+		authenticationVerifierRepo.delete(user);
 	}
 
 

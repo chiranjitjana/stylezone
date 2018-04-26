@@ -324,14 +324,14 @@
 
 							<!--<li><a href="404.html">404</a></li>-->
 
-							<li><a href="/Stylezone-ui/contactus">Contact Us</a></li>
+							<!-- <li><a href="/Stylezone-ui/contactus">Contact Us</a></li> -->
 						</ul>
 					</div>
 				</div>
 				<div class="col-sm-3">
-					<div class="search_box pull-right">
+					<!-- <div class="search_box pull-right">
 						<input type="text" placeholder="Search" />
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

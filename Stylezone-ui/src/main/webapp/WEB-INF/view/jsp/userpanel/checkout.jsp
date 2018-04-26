@@ -128,8 +128,14 @@
 					<tr class="cost_info paynow">
 						<td colspan="6">&nbsp;</td>
 						<td colspan="2">
-							<Button class="btn btn-primary" data-toggle="modal"
-								data-target="#payNOw">Pay Now</Button>
+					
+						
+						
+							<div>
+								<Button class="btn btn-primary makePayment" data-toggle="modal"
+									data-target="#payNOw">Select Payment Options</Button>
+							</div>
+						
 						</td>
 					</tr>
 				</tbody>
@@ -159,7 +165,14 @@
 				<h4 class="modal-title">Pay Now</h4>
 			</div>
 			<div class="modal-body">
-
+				
+					<h4 class="mb-3">Payment</h4>
+					<div>
+							<input type="radio" name="pymt_type" checked class="pymt_type" value="online">Online
+							<input type="radio" name="pymt_type" class="pymt_type" value="cod">COD(Cash on delivery)
+							
+					</div>
+				
 				<form class="needs-validation paynowcontainer">
 					<div class="payment_status row hide col-sm-12"
 						style="padding-bottom: 20px;">
@@ -263,9 +276,10 @@
 
 					</div>
 					<hr class="mb-4">
-					<button class="btn btn-primary btn-lg btn-block paynowbtn"
-						type="button">Pay</button>
+					
 				</form>
+				<button class="btn btn-primary btn-lg btn-block paynowbtn"
+						type="button">Pay</button>
 			</div>
 		</div>
 
@@ -407,10 +421,21 @@ $(document).ready(function() {
 	UIcontroller.updateUi("myprofile");
 	UIWebsite.fetchCart();
 	UIWebsite.loadAddressList();
+	
+	$(".pymt_type").change(function() {
+        if ($(this).val() == 'online') {
+        	$(".paynowcontainer").removeClass("hide");
+        }
+        else if ($(this).val() == 'cod') {
+        	$(".paynowcontainer").addClass("hide");
+
+        }
+    });
+	
 });	
 
 $(".paynowbtn").click(function(){
-	if(UIWebsite.ValidateCard()){
+	if(UIWebsite.ValidateCard() || $("input[name='pymt_type']:checked").val()=='cod'){
 		$(".payment_status").addClass("hide");
 		$(".payment_status_msg").addClass("alert alert-danger");
 		$(".payment_status_msg").text("Please Provide Complete Card Details .");
@@ -423,5 +448,8 @@ $(".paynowbtn").click(function(){
 		
 		}
 });
+
+
+
 
 </script>

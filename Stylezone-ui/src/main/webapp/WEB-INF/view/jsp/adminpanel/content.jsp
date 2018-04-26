@@ -8,4 +8,7 @@
 	<div class="stock hide">
 			<jsp:include page="contentpages/stocks.jsp"></jsp:include>
 	</div>
+	<div class="createstaff hide">
+			<jsp:include page="contentpages/adminrequest.jsp"></jsp:include>
+	</div>
 </div>

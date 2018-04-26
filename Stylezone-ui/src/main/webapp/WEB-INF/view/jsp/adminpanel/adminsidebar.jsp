@@ -11,8 +11,8 @@
 	<!-- <button type="button" class="btn normal_state col-sm-12"
 		sidebar="report">Reports</button> -->
 	<br />
-	<button type="button" class="btn normal_state col-sm-12"
-		sidebar="notification">Contact Us Request</button>
+	<!-- <button type="button" class="btn normal_state col-sm-12"
+		sidebar="notification">Contact Us Request</button> -->
 	<br />
 	<button type="button" class="btn normal_state col-sm-12 hide approveStaff"
 		sidebar="createstaff">Approve Staff</button>

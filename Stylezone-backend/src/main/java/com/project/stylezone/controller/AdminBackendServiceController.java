@@ -74,23 +74,7 @@ public class AdminBackendServiceController {
 			if (saveUser.getUserRole().getRoleId() == 1) {
 				responseHeaders.add(AppConstant.message, "Admin Created Successfully.Login to Open Account");
 			} else if (saveUser.getUserRole().getRoleId() == 2) {
-				NotificationType notificationObject = NotificationObjectFactory
-						.getNotificationObject(NotificationTypeEnum.VERIFYACCOUNT);
-
-				AccountVerificationObject accountVerificationObject = new AccountVerificationObject();
-				accountVerificationObject
-						.setHref(AppConstant.BASEURL + "activatedaccount?session=" + saveUser.getUserId());
-				accountVerificationObject.setHrefName("Verify Account");
-				accountVerificationObject
-						.setMessageContent("In order to access your account please click on bellow link : -");
-				accountVerificationObject.setTitle("Account Verification");
-
-				EmailObject emailObject = new EmailObject();
-				emailObject.setSubject("Verify Account");
-				emailObject.setReceiver(saveUser.getUserEmail());
-				emailObject.setHtmlEmailTemplate(notificationObject.getNotificationContent(accountVerificationObject));
-
-				EmailSenderObject.sendEmail(emailObject);
+				NotifyUserAccountVerification(saveUser);
 
 				responseHeaders.add(AppConstant.message, "User Created Successfully.Please your verify your email ID");
 			} else {
@@ -104,6 +88,26 @@ public class AdminBackendServiceController {
 
 		return AppConstant.convertToReponseEntity(saveUser, responseHeaders, HttpStatus.OK);
 
+	}
+
+	private void NotifyUserAccountVerification(Users saveUser) {
+		NotificationType notificationObject = NotificationObjectFactory
+				.getNotificationObject(NotificationTypeEnum.VERIFYACCOUNT);
+
+		AccountVerificationObject accountVerificationObject = new AccountVerificationObject();
+		accountVerificationObject
+				.setHref(AppConstant.BASEURL + "activatedaccount?session=" + saveUser.getUserId());
+		accountVerificationObject.setHrefName("Verify Account");
+		accountVerificationObject
+				.setMessageContent("In order to access your account please click on bellow link : -");
+		accountVerificationObject.setTitle("Account Verification");
+
+		EmailObject emailObject = new EmailObject();
+		emailObject.setSubject("Verify Account");
+		emailObject.setReceiver(saveUser.getUserEmail());
+		emailObject.setHtmlEmailTemplate(notificationObject.getNotificationContent(accountVerificationObject));
+
+		EmailSenderObject.sendEmail(emailObject);
 	}
 
 	@RequestMapping(value = "/user/getDetails", method = RequestMethod.GET)
@@ -121,6 +125,40 @@ public class AdminBackendServiceController {
 		}
 
 		return AppConstant.convertToReponseEntity(userDetails, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/user/all/admin", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Object> getAllAdminUserListAccuntStatusInACTIVE() {
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+
+		List<Users> allUsers = userService.findAllAdminUserByAccStatusInactive();
+
+		if (allUsers == null) {
+			responseHeaders.add(AppConstant.message, "No user found");
+		} else {
+			responseHeaders.add(AppConstant.message, allUsers.size() + " Number of admin request");
+		}
+
+		return AppConstant.convertToReponseEntity(allUsers, responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/adminpanel/user/{action}/{userID}", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> updateAdminStatus(@PathVariable String userID,
+			@PathVariable String action){
+		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
+		Users user = userService.findUserByUserId(Integer.parseInt(userID));
+		
+		
+		if(action.equals("accept")){
+			user.setAccStatus(1);
+			userService.saveUser(user);
+			NotifyUserAccountVerification(user);
+		}else if(action.equals("reject"))
+		{
+			userService.deleteUser(user);
+		}
+				
+		return AppConstant.convertToReponseEntity(userService.findAllAdminUserByAccStatusInactive(), responseHeaders, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/saveUser", method = RequestMethod.POST)
@@ -501,7 +539,7 @@ public class AdminBackendServiceController {
 			orderDetails.setUseremail(userDetails.getUserEmail());
 			orderDetails.setUserphone(userDetails.getUserMobileNo());
 			orderDetails.setAddress(address.getAddress());
-			
+
 			orderDetails.setTempOrderProductList(tempOrderProductList);
 			orderDetails.setTracker(tracker);
 		}
@@ -513,35 +551,31 @@ public class AdminBackendServiceController {
 	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
 		List<OrderTracker> fetchOrderTracker = ordersService.fetchOrderTracker(orderId);
-		if(fetchOrderTracker.size()>0) {
+		if (fetchOrderTracker.size() > 0) {
 			responseHeaders.add(AppConstant.message, "Tracker List Found");
-		}else
-		{
+		} else {
 			responseHeaders.add(AppConstant.message, "Tracker List not Found");
 		}
-		
+
 		return new ResponseEntity<Object>(fetchOrderTracker, responseHeaders, HttpStatus.OK);
 	}
-	
-	
+
 	@RequestMapping(value = "/adminpanel/orderTracker/save/{orderId}/{status}", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId,@PathVariable int status) {
+	public @ResponseBody ResponseEntity<Object> getOrderStatus(@PathVariable String orderId, @PathVariable int status) {
 		HttpHeaders responseHeaders = AppConstant.fetchHTTPHeaders();
-		OrderTracker tracker=new OrderTracker();
+		OrderTracker tracker = new OrderTracker();
 		tracker.setOrderId(orderId);
 		tracker.setCreatedDate(AppConstant.getCurrentDateTimeDDMMYYY());
 		tracker.setOrderStatus(status);
 		ordersService.saveOrUpdateOrderTracker(tracker);
 		List<OrderTracker> trackerList = ordersService.fetchOrderTracker(orderId);
-		
-		if(trackerList.size()>0) {
+
+		if (trackerList.size() > 0) {
 			responseHeaders.add(AppConstant.message, "Tracker List Found");
-		}else
-		{
+		} else {
 			responseHeaders.add(AppConstant.message, "Tracker List not Found");
 		}
 		return new ResponseEntity<Object>(trackerList, responseHeaders, HttpStatus.OK);
 	}
-	
-	
+
 }
